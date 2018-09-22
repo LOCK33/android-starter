@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Android Starter App</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="hello">Hello World!</string>
+</resources>
