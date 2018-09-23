@@ -6,27 +6,41 @@
     android:layout_height="match_parent"
     tools:context="net.bndy.ad.SplashActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="@string/hello"
-            android:textAllCaps="false"
-            android:textColor="@color/colorAccent"
-            android:textSize="36sp" />
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/login_google_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/sign_in_with_google"
-            android:textAllCaps="false" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/hello_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/hello"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textSize="36sp" />
+
+            <Button
+                android:id="@+id/login_google_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/sign_in_with_google"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/logout_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="@string/sign_out"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

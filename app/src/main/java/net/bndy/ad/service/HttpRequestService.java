@@ -155,4 +155,50 @@ public class HttpRequestService {
 
         this.requestQueue.add(request);
     }
+
+
+    public <T> void apiGet(Class<T> resultType, String url, final HttpResponseSuccessCallback<T> responseSuccess, final HttpResponseErrorCallback responseError) {
+        this.apiRequest(resultType, Request.Method.GET, url, null, responseSuccess, responseError);
+    }
+    public <T> void apiPost(Class<T> resultType, String url, Map<String, Object> postData, final  HttpResponseSuccessCallback<T> responseSuccess,  final HttpResponseErrorCallback responseError) {
+       this.apiRequest(resultType, Request.Method.POST, url, postData, responseSuccess, responseError);
+    }
+    public <T> void apiPut(Class<T> resultType, String url, Map<String, Object> postData, final  HttpResponseSuccessCallback<T> responseSuccess,  final HttpResponseErrorCallback responseError) {
+        this.apiRequest(resultType, Request.Method.PUT, url, postData, responseSuccess, responseError);
+    }
+    public <T> void apiDelete(Class<T> resultType, String url, final  HttpResponseSuccessCallback<T> responseSuccess,  final HttpResponseErrorCallback responseError) {
+        this.apiRequest(resultType, Request.Method.DELETE, url, null, responseSuccess, responseError);
+    }
+    public <T> void apiRequest(Class<T> resultType,
+                            int method,
+                            String url,
+                            Map<String, Object> requestData,
+                            final HttpResponseSuccessCallback<T> responseSuccess,
+                            final HttpResponseErrorCallback responseError) {
+        ApiRequest<T> request = new ApiRequest<T>(resultType, method, url, requestData, new Response.Listener<T>() {
+            @Override
+            public void onResponse(T responseBody) {
+                if (responseSuccess != null) {
+                    responseSuccess.onSuccessResponse(responseBody);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (responseError != null) {
+                    responseError.onErrorResponse(error);
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (requestOptions != null) {
+                    return requestOptions.getHeaders();
+                }
+                return super.getHeaders();
+            }
+        };
+
+        this.requestQueue.add(request);
+    }
 }

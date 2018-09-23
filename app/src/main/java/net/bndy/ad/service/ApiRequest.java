@@ -7,11 +7,15 @@ import com.android.volley.ParseError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
+import com.google.gson.Gson;
+
 
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 public class ApiRequest<T> extends JsonRequest<T> {
 
+    protected Class<T> resultType;
     /**
      * Creates a new request.
      *
@@ -23,17 +27,20 @@ public class ApiRequest<T> extends JsonRequest<T> {
      * @param errorListener Error listener, or null to ignore errors.
      */
     public ApiRequest(
+            Class<T> resultType,
             int method,
             String url,
-            @Nullable T requestData,
+            @Nullable Map<String, Object> requestData,
             Response.Listener<T> listener,
             @Nullable Response.ErrorListener errorListener) {
         super(
                 method,
                 url,
-                (requestData == null) ? null : requestData.toString(),  // TODO: serialize
+                (requestData == null) ? null : requestData.toString(), // TODO: convert to string
                 listener,
                 errorListener);
+
+        this.resultType = resultType;
     }
 
     @Override
@@ -43,7 +50,7 @@ public class ApiRequest<T> extends JsonRequest<T> {
                     new String(
                             response.data,
                             HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
-            T entity = null;    // TODO: deserialize
+            T entity = new Gson().fromJson(jsonString, resultType);
             return Response.success(entity, HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
