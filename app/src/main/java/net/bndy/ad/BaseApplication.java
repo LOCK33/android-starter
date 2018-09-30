@@ -1,0 +1,32 @@
+package net.bndy.ad;
+
+import android.app.Application;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+
+
+public class BaseApplication extends Application {
+
+    private ApplicationUtils applicationUtils;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        applicationUtils = new ApplicationUtils(this);
+        initLocale();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        initLocale();
+    }
+
+    private void initLocale() {
+        final Resources resources = getResources();
+        final Configuration configuration = resources.getConfiguration();
+        if (!configuration.locale.equals(applicationUtils.getLocale())) {
+            applicationUtils.setLocale(applicationUtils.getLocale());
+        }
+    }
+}

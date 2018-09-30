@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import net.bndy.ad.model.AppUser;
+import net.bndy.ad.model.AppUserInteface;
 import net.bndy.ad.service.HttpRequestOptions;
 import net.bndy.ad.service.HttpRequestService;
 import net.bndy.ad.service.HttpResponseErrorCallback;
@@ -27,7 +29,7 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OAuthLoginService<TUser> {
+public class OAuthLoginService<TUser extends AppUserInteface> {
 
     private static final String SHARED_PREFERENCES_NAME = "AuthStatePreference";
     private static final String AUTH_STATE = "AUTH_STATE";
@@ -53,8 +55,11 @@ public class OAuthLoginService<TUser> {
         return this;
     }
 
-    public TUser getUser() {
-        return user;
+    public AppUser getUser() {
+        if (user != null) {
+            return user.toAppUser();
+        }
+        return null;
     }
 
     public AuthorizationService getAuthorizationService() {
@@ -93,6 +98,7 @@ public class OAuthLoginService<TUser> {
 
     public void logout() {
         Log.i(this.logTag, "Logging out...");
+        this.user = null;
         this.clearAuthState();
     }
 

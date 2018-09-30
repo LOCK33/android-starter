@@ -2,7 +2,7 @@ package net.bndy.ad;
 
 import android.support.v7.app.AppCompatDelegate;
 
-public class Application extends android.app.Application {
+public class Application extends BaseApplication {
 
     public static final String LOG_TAG = "net.bndy.ad";
 

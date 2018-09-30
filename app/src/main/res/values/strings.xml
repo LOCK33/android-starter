@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Android Starter App</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_in_with_google">Sign in with</string>
     <string name="sign_out">Sign out</string>
     <string name="hello">Hello World!</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="sign_out_confirmation">Are you sure you want to log out?</string>
+    <string name="sign_out_success">You have logged out successfully.</string>
 </resources>

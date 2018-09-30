@@ -1,8 +1,8 @@
-package net.bndy.ad.domain;
+package net.bndy.ad.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GoogleUser {
+public class GoogleUser implements AppUserInteface {
 
     private String name;
     @SerializedName("given_name")
@@ -52,4 +52,15 @@ public class GoogleUser {
     }
 
     private String gender;
+
+    @Override
+    public AppUser toAppUser() {
+        AppUser appUser = new AppUser();
+        appUser.setAvatar(this.getPicture());
+        appUser.setName(this.getName());
+        if (this.getGender() != null && !this.getGender().isEmpty()) {
+            appUser.setMale("male".equals(this.getGender()));
+        }
+        return appUser;
+    }
 }
