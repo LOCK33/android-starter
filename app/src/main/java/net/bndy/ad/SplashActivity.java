@@ -15,7 +15,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import net.bndy.ad.framework.BaseActivity;
+import net.bndy.ad.framework.BaseScanActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.lib.oauth.OAuthLoginService;
@@ -24,20 +24,38 @@ import net.openid.appauth.AuthState;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseScanActivity {
 
     @BindView(R.id.logout_btn)
     Button btnLogout;
+    @OnClick(R.id.logout_btn)
+    void onLogout() {
+        logout();
+        refreshUI();
+    }
+
     @BindView(R.id.login_google_btn)
     Button btnLoginGoogle;
+    @OnClick(R.id.login_google_btn)
+    void onLoginWithGoogle() {
+        this.oAuthLoginService.doAuth(OAuthLoginService.GoogleConfiguration);
+    }
+
+    @BindView(R.id.login_face_btn)
+    Button btnLoginFace;
+    @OnClick(R.id.login_face_btn)
+    void onLoginWithFace() {
+        startScan();
+    }
+
     @BindView(R.id.hello_view)
     TextView viewHello;
     @BindView(R.id.user_img)
     CircularImageView userImg;
 
     private ActionBar actionBar;
-
     private OAuthLoginService oAuthLoginService;
 
     @Override
@@ -50,19 +68,6 @@ public class SplashActivity extends BaseActivity {
 
         actionBar = getSupportActionBar();
         oAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
-        btnLoginGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginWithGoogle();
-            }
-        });
-        btnLogout.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                logout();
-                refreshUI();
-            }
-        });
 
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -101,6 +106,11 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void scanCallback(String scanResult) {
+        applicationUtils.info(scanResult);
+    }
+
     private void refreshUI() {
         AuthState authState = this.oAuthLoginService.getAuthState();
         if (authState != null && authState.isAuthorized() && this.oAuthLoginService.getUser() != null) {
@@ -122,10 +132,6 @@ public class SplashActivity extends BaseActivity {
             this.viewHello.setText(R.string.hello);
             this.userImg.setImageResource(R.drawable.image_placeholder);
         }
-    }
-
-    private void loginWithGoogle() {
-        this.oAuthLoginService.doAuth(OAuthLoginService.GoogleConfiguration);
     }
 
     private void logout() {

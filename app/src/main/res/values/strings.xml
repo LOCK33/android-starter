@@ -9,4 +9,5 @@
     <string name="female">Female</string>
     <string name="sign_out_confirmation">Are you sure you want to log out?</string>
     <string name="sign_out_success">You have logged out successfully.</string>
+    <string name="sign_in_with_face">Sign in with Face</string>
 </resources>
