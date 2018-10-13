@@ -1,10 +1,11 @@
-package net.bndy.ad;
+package net.bndy.ad.sample;
 
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
 
+import net.bndy.ad.R;
 import net.bndy.ad.framework.BaseActivity;
 
 import org.xutils.view.annotation.ViewInject;

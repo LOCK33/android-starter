@@ -15,6 +15,8 @@ import net.bndy.ad.framework.BaseScanActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.lib.oauth.OAuthLoginService;
+import net.bndy.ad.sample.GenerateBarcodeActivity;
+import net.bndy.ad.sample.ScanBarcodeActivity;
 import net.bndy.ad.service.HttpResponseSuccessCallback;
 import net.openid.appauth.AuthState;
 

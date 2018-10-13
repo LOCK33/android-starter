@@ -1,7 +1,8 @@
-package net.bndy.ad;
+package net.bndy.ad.sample;
 
 import android.os.Bundle;
 
+import net.bndy.ad.R;
 import net.bndy.ad.framework.BaseScanActivity;
 
 public class ScanBarcodeActivity extends BaseScanActivity {
