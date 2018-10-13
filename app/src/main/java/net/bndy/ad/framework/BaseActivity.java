@@ -1,10 +1,16 @@
 package net.bndy.ad.framework;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import net.bndy.ad.ApplicationUtils;
 
@@ -76,5 +82,21 @@ public class BaseActivity extends AppCompatActivity {
     protected void registerForContextMenu(ContextMenuInfo contextMenuInfo) {
         viewsMappingWithContextMenu.put(contextMenuInfo.getTargetId(), contextMenuInfo);
         registerForContextMenu(findViewById(contextMenuInfo.getTargetId()));
+    }
+
+    protected Bitmap generateBarcode(BarcodeFormat barcodeFormat, int width, int height) {
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+        Bitmap bitmap = null;
+        try {
+            bitmap = barcodeEncoder.encodeBitmap("content", barcodeFormat, width, height);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    protected void startActivity(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
+        startActivity(intent);
     }
 }

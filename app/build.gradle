@@ -39,9 +39,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 //    // image loading library
 //    implementation 'com.squareup.picasso:picasso:2.71828'
+
     // scan qrcode
+//    implementation 'com.google.zxing:core:3.3.0'
+//    implementation 'com.google.zxing:android-integration:3.3.0'
+    // or
+    implementation('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
-    implementation 'com.google.zxing:android-integration:3.3.0'
 
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
 

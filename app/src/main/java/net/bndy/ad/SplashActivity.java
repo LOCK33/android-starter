@@ -42,17 +42,20 @@ public class SplashActivity extends BaseScanActivity {
         this.oAuthLoginService.doAuth(OAuthLoginService.GoogleConfiguration);
     }
 
-    @ViewInject(R.id.login_face_btn)
-    private Button btnLoginFace;
-    @Event(R.id.login_face_btn)
-    private void onLoginWithFace(View view) {
-        startScan();
+    @Event(R.id.scan_barcode_btn)
+    private void onScanBarcode(View view) {
+        startActivity(ScanBarcodeActivity.class);
     }
 
     @ViewInject(R.id.hello_view)
     TextView viewHello;
     @ViewInject(R.id.user_img)
     CircularImageView userImg;
+
+    @Event(R.id.generate_barcode_btn)
+    private void onGenerateBarcode(View view) {
+        startActivity(GenerateBarcodeActivity.class);
+    }
 
     private ActionBar actionBar;
     private OAuthLoginService oAuthLoginService;

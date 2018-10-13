@@ -6,10 +6,17 @@ import android.support.annotation.Nullable;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import net.bndy.ad.R;
+
 public abstract class BaseScanActivity extends BaseActivity {
 
     protected void startScan() {
-        IntentIntegrator integrator = new IntentIntegrator(this);
+        IntentIntegrator integrator = new IntentIntegrator(this)
+                .setCaptureActivity(CaptureActivity.class)
+                .setPrompt(getResources().getString(R.string.hint_for_scan_code))
+                .setCameraId(0)
+                .setBeepEnabled(false)
+                .setBarcodeImageEnabled(true);
         integrator.initiateScan();
     }
 
@@ -20,7 +27,7 @@ public abstract class BaseScanActivity extends BaseActivity {
             String result = scanResult.getContents();
             scanCallback(result);
         } else {
-            scanCallback(null);
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

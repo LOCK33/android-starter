@@ -6,10 +6,9 @@ import android.content.res.Resources;
 
 import net.bndy.ad.ApplicationUtils;
 
-
 public class BaseApplication extends Application {
 
-    private ApplicationUtils applicationUtils;
+    protected ApplicationUtils applicationUtils;
 
     @Override
     public void onCreate() {
