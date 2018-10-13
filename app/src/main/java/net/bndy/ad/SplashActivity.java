@@ -1,19 +1,15 @@
 package net.bndy.ad;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import net.bndy.ad.framework.BaseScanActivity;
 import net.bndy.ad.model.AppUser;
@@ -22,37 +18,40 @@ import net.bndy.ad.lib.oauth.OAuthLoginService;
 import net.bndy.ad.service.HttpResponseSuccessCallback;
 import net.openid.appauth.AuthState;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
+@ContentView(R.layout.activity_splash)
 public class SplashActivity extends BaseScanActivity {
 
-    @BindView(R.id.logout_btn)
-    Button btnLogout;
-    @OnClick(R.id.logout_btn)
-    void onLogout() {
+    @ViewInject(R.id.logout_btn)
+    private Button btnLogout;
+    @Event(R.id.logout_btn)
+    private void onLogout(View view) {
         logout();
         refreshUI();
     }
 
-    @BindView(R.id.login_google_btn)
-    Button btnLoginGoogle;
-    @OnClick(R.id.login_google_btn)
-    void onLoginWithGoogle() {
+    @ViewInject(R.id.login_google_btn)
+    private Button btnLoginGoogle;
+    @Event(R.id.login_google_btn)
+    private void onLoginWithGoogle(View view) {
+        Log.i(Application.LOG_TAG, "TTTTT");
         this.oAuthLoginService.doAuth(OAuthLoginService.GoogleConfiguration);
     }
 
-    @BindView(R.id.login_face_btn)
-    Button btnLoginFace;
-    @OnClick(R.id.login_face_btn)
-    void onLoginWithFace() {
+    @ViewInject(R.id.login_face_btn)
+    private Button btnLoginFace;
+    @Event(R.id.login_face_btn)
+    private void onLoginWithFace(View view) {
         startScan();
     }
 
-    @BindView(R.id.hello_view)
+    @ViewInject(R.id.hello_view)
     TextView viewHello;
-    @BindView(R.id.user_img)
+    @ViewInject(R.id.user_img)
     CircularImageView userImg;
 
     private ActionBar actionBar;
@@ -61,13 +60,11 @@ public class SplashActivity extends BaseScanActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //applicationUtils.setLocale(Locale.CHINA);  // set default locale,  must be before at setContentView method
-        setContentView(R.layout.activity_splash);
-        ButterKnife.bind(this);
+        applicationUtils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
+        x.view().inject(this);
+        oAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
 
         actionBar = getSupportActionBar();
-        oAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
 
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -83,23 +80,6 @@ public class SplashActivity extends BaseScanActivity {
                 @Override
                 public void onSuccessResponse(GoogleUser response) {
                     viewHello.setText(response.getName());
-                    Picasso.get().load(response.getPicture()).into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            Drawable drawable = new BitmapDrawable(getBaseContext().getResources(), bitmap);
-                            actionBar.setIcon(drawable);
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                        }
-                    });
                     refreshUI();
                 }
             }, null);
@@ -123,7 +103,7 @@ public class SplashActivity extends BaseScanActivity {
                     viewHello.setTextColor(getResources().getColor(R.color.colorPink));
                 }
             }
-            Picasso.get().load(user.getAvatar()).into(userImg);
+            x.image().bind(userImg, user.getAvatar());
             this.btnLoginGoogle.setVisibility(View.GONE);
             this.btnLogout.setVisibility(View.VISIBLE);
         } else {
