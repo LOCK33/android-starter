@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:state_enabled="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:left="@dimen/input_shadow"
+                        android:top="@dimen/input_shadow"
+                        android:right="@dimen/input_shadow"
+                        android:bottom="@dimen/input_shadow"/>
+                    <corners android:radius="@dimen/radius"></corners>
+                    <solid android:color="@color/colorPrimaryLight"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:left="@dimen/input_border"
+                        android:top="@dimen/input_border"
+                        android:right="@dimen/input_border"
+                        android:bottom="@dimen/input_border"/>
+                    <corners android:radius="@dimen/radius_sm"></corners>
+                    <solid android:color="@color/colorPrimaryDark"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:top="@dimen/input_padding_sm"
+                        android:bottom="@dimen/input_padding_sm"
+                        android:left="@dimen/input_padding"
+                        android:right="@dimen/input_padding"></padding>
+                    <corners android:radius="@dimen/radius_xs"></corners>
+                    <solid android:color="@android:color/white"></solid>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_enabled="false">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:left="@dimen/input_shadow"
+                        android:top="@dimen/input_shadow"
+                        android:right="@dimen/input_shadow"
+                        android:bottom="@dimen/input_shadow"/>
+                    <corners android:radius="@dimen/radius"></corners>
+                    <solid android:color="@android:color/transparent"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:left="@dimen/input_border"
+                        android:top="@dimen/input_border"
+                        android:right="@dimen/input_border"
+                        android:bottom="@dimen/input_border"/>
+                    <corners android:radius="@dimen/radius_sm"></corners>
+                    <solid android:color="@color/colorDisabled"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:top="@dimen/input_padding_sm"
+                        android:bottom="@dimen/input_padding_sm"
+                        android:left="@dimen/input_padding"
+                        android:right="@dimen/input_padding"></padding>
+                    <corners android:radius="@dimen/radius_xs"></corners>
+                    <solid android:color="@color/colorBorder"></solid>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:left="@dimen/input_shadow"
+                        android:top="@dimen/input_shadow"
+                        android:right="@dimen/input_shadow"
+                        android:bottom="@dimen/input_shadow"/>
+                    <corners android:radius="@dimen/radius"></corners>
+                    <solid android:color="@android:color/transparent"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:left="@dimen/input_border"
+                        android:top="@dimen/input_border"
+                        android:right="@dimen/input_border"
+                        android:bottom="@dimen/input_border"/>
+                    <corners android:radius="@dimen/radius_sm"></corners>
+                    <solid android:color="@color/colorBorder"/>
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:top="@dimen/input_padding_sm"
+                        android:bottom="@dimen/input_padding_sm"
+                        android:left="@dimen/input_padding"
+                        android:right="@dimen/input_padding"></padding>
+                    <corners android:radius="@dimen/radius_xs"></corners>
+                    <solid android:color="@android:color/white"></solid>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

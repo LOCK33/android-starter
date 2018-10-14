@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#007bff</color>
+    <color name="colorPrimaryDark">#0062cc</color>
+    <color name="colorPrimaryLight">#afd2e7</color>
+    <color name="colorSecondary">#6c757d</color>
+    <color name="colorSecondaryDark">#5a6268</color>
+    <color name="colorSuccess">#28a745</color>
+    <color name="colorSuccessDark">#218838</color>
+    <color name="colorDanger">#dc3545</color>
+    <color name="colorDangerDark">#c82333</color>
+    <color name="colorWarning">#ffc107</color>
+    <color name="colorWarningDark">#e0a800</color>
+    <color name="colorInfo">#17a2b8</color>
+    <color name="colorInfoDark">#138496</color>
+    <color name="colorLight">#f8f9fa</color>
+    <color name="colorLightDark">#e2e6ea</color>
+    <color name="colorDark">#343a40</color>
+    <color name="colorDarkDark">#23272b</color>
+
     <color name="colorAccent">#ff4081</color>
+    <color name="colorAccentDark">#D81B60</color>
+    <color name="colorAccentLight">#F8BBD0</color>
+
+    <color name="colorBorder">#ced4da</color>
+    <color name="colorDisabled">#efefef</color>
     <color name="colorShadow">#aaaaaa</color>
-    <color name="colorPink">#e83e8c</color>
-    <color name="colorBlue">#007bff</color>
 </resources>

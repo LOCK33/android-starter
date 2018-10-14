@@ -52,7 +52,8 @@
         <activity
             android:name=".sample.GenerateBarcodeActivity"
             android:parentActivityName=".SplashActivity" />
-        <activity android:name=".sample.ScanBarcodeActivity"></activity>
+        <activity android:name=".sample.ScanBarcodeActivity" />
+        <activity android:name=".sample.FormActivity"></activity>
     </application>
 
 </manifest>

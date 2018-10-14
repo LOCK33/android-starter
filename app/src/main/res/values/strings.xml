@@ -14,4 +14,9 @@
     <string name="title_activity_capture">Barcode Scanner</string>
     <string name="generate_barcode">Generate Barcode</string>
     <string name="scan_barcode">Scan Barcode</string>
+    <string-array name="ddl">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+    </string-array>
 </resources>

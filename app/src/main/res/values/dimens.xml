@@ -3,4 +3,13 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="radius">4dp</dimen>
+    <dimen name="radius_sm">3dp</dimen>
+    <dimen name="radius_xs">2dp</dimen>
+    <dimen name="input_padding">10dp</dimen>
+    <dimen name="input_padding_sm">8dp</dimen>
+    <dimen name="input_padding_xs">4dp</dimen>
+    <dimen name="input_shadow">3dp</dimen>
+    <dimen name="input_border">3px</dimen>
 </resources>

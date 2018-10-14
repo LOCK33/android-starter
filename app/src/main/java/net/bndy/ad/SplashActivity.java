@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import net.bndy.ad.framework.BaseScanActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.lib.oauth.OAuthLoginService;
+import net.bndy.ad.sample.FormActivity;
 import net.bndy.ad.sample.GenerateBarcodeActivity;
 import net.bndy.ad.sample.ScanBarcodeActivity;
 import net.bndy.ad.service.HttpResponseSuccessCallback;
@@ -40,7 +40,6 @@ public class SplashActivity extends BaseScanActivity {
     private Button btnLoginGoogle;
     @Event(R.id.login_google_btn)
     private void onLoginWithGoogle(View view) {
-        Log.i(Application.LOG_TAG, "TTTTT");
         this.oAuthLoginService.doAuth(OAuthLoginService.GoogleConfiguration);
     }
 
@@ -57,6 +56,11 @@ public class SplashActivity extends BaseScanActivity {
     @Event(R.id.generate_barcode_btn)
     private void onGenerateBarcode(View view) {
         startActivity(GenerateBarcodeActivity.class);
+    }
+
+    @Event(R.id.form_btn)
+    private void onForm(View view) {
+        startActivity(FormActivity.class);
     }
 
     private ActionBar actionBar;
@@ -103,9 +107,9 @@ public class SplashActivity extends BaseScanActivity {
             this.viewHello.setText(user.getName());
             if (user.getMale() != null) {
                 if (user.getMale().booleanValue()) {
-                    viewHello.setTextColor(getResources().getColor(R.color.colorBlue));
+                    viewHello.setTextColor(getResources().getColor(R.color.colorPrimary));
                 } else {
-                    viewHello.setTextColor(getResources().getColor(R.color.colorPink));
+                    viewHello.setTextColor(getResources().getColor(R.color.colorAccent));
                 }
             }
             x.image().bind(userImg, user.getAvatar());
