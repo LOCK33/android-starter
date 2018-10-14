@@ -41,6 +41,7 @@
                 android:textSize="32sp" />
 
             <Button
+                style="@style/ButtonPrimary"
                 android:id="@+id/login_google_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,6 +51,7 @@
                 android:textAllCaps="false" />
 
             <Button
+                style="@style/ButtonPrimary"
                 android:id="@+id/logout_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,6 +60,7 @@
                 android:textAllCaps="false" />
 
             <Button
+                style="@style/ButtonPrimary"
                 android:id="@+id/form_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,6 +69,7 @@
                 android:textAllCaps="false" />
 
             <Button
+                style="@style/ButtonPrimary"
                 android:id="@+id/scan_barcode_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,12 +77,13 @@
                 android:text="@string/scan_barcode"
                 android:textAllCaps="false" />
 
-
             <Button
+                style="@style/ButtonPrimary"
                 android:id="@+id/generate_barcode_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/generate_barcode"/>
+                android:text="@string/generate_barcode"
+                android:textAllCaps="false"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="space">5dp</dimen>
+
     <dimen name="radius">4dp</dimen>
     <dimen name="radius_sm">3dp</dimen>
     <dimen name="radius_xs">2dp</dimen>

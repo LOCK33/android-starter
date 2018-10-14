@@ -49,11 +49,10 @@
             android:stateNotNeeded="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".sample.GenerateBarcodeActivity"
-            android:parentActivityName=".SplashActivity" />
-        <activity android:name=".sample.ScanBarcodeActivity" />
-        <activity android:name=".sample.FormActivity"></activity>
+
+        <activity android:name=".sample.GenerateBarcodeActivity" android:parentActivityName=".SplashActivity" />
+        <activity android:name=".sample.ScanBarcodeActivity" android:parentActivityName=".SplashActivity" />
+        <activity android:name=".sample.FormActivity" android:parentActivityName=".SplashActivity"></activity>
     </application>
 
 </manifest>
