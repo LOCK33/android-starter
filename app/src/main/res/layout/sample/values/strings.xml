@@ -1,3 +1,4 @@
 <resources>
     <string name="form">Form</string>
+    <string name="show_progress_bar">Show progress bar</string>
 </resources>

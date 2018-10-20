@@ -18,9 +18,9 @@ public class ScanBarcodeActivity extends BaseScanActivity {
     @Override
     protected void scanCallback(String scanResult) {
         if (scanResult != null) {
-            applicationUtils.info(scanResult);
+            info(scanResult);
         } else {
-            applicationUtils.info("No result scanned");
+            info("No result scanned");
         }
     }
 }

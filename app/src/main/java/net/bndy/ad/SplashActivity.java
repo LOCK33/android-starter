@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ import net.bndy.ad.framework.ApplicationUtils;
 import net.bndy.ad.framework.BaseScanActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
-import net.bndy.ad.lib.oauth.OAuthLoginService;
+import net.bndy.ad.oauth.OAuthLoginService;
 import net.bndy.ad.sample.FormActivity;
 import net.bndy.ad.sample.GenerateBarcodeActivity;
 import net.bndy.ad.sample.ScanBarcodeActivity;
@@ -64,13 +65,28 @@ public class SplashActivity extends BaseScanActivity {
         startActivity(FormActivity.class);
     }
 
+    @Event(R.id.show_progress_bar)
+    private void onShowProgressBar(View view) {
+        showProgressBar();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    sleep(5000);
+                    hideProgressBar();
+                } catch (Exception ex) { }
+
+            }
+        }.start();
+    }
+
     private ActionBar actionBar;
     private OAuthLoginService oAuthLoginService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        applicationUtils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
+        mApplicationUtils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
         x.view().inject(this);
         oAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
 
@@ -79,6 +95,9 @@ public class SplashActivity extends BaseScanActivity {
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setIcon(R.drawable.github);
+
+        setActionMenu(R.menu.main);
+        registerProgressBar();
 
         refreshUI();
     }
@@ -97,8 +116,18 @@ public class SplashActivity extends BaseScanActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_main_logout:
+                exitApplication();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void scanCallback(String scanResult) {
-        applicationUtils.info(scanResult);
+        info(scanResult);
     }
 
     private void refreshUI() {
@@ -125,12 +154,12 @@ public class SplashActivity extends BaseScanActivity {
     }
 
     private void logout() {
-        applicationUtils.confirm(R.string.sign_out, R.string.sign_out_confirmation, new ApplicationUtils.Action() {
+        confirm(R.string.sign_out, R.string.sign_out_confirmation, new ApplicationUtils.Action() {
             @Override
             public void execute(Object... args) {
                 oAuthLoginService.logout();
                 refreshUI();
-                applicationUtils.info(R.string.sign_out_success);
+                info(R.string.sign_out_success);
             }
         }, null);
     }

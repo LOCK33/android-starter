@@ -1,4 +1,4 @@
-package net.bndy.ad.lib.oauth;
+package net.bndy.ad.oauth;
 
 public class OAuthConfiguration {
 

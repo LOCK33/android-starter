@@ -1,4 +1,4 @@
-package net.bndy.ad.lib.oauth;
+package net.bndy.ad.oauth;
 
 import android.app.Activity;
 import android.content.Context;

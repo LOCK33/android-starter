@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- app:showAsAction="ifRoom", should appear as action button if possible -->
+    <item
+        android:id="@+id/menu_main_logout"
+        android:icon="@drawable/icon_arrow_down"
+        android:title="@string/sign_out"
+        app:showAsAction="never"/>
+</menu>

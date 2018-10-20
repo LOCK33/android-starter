@@ -25,4 +25,5 @@
     <color name="colorBorder">#ced4da</color>
     <color name="colorDisabled">#efefef</color>
     <color name="colorShadow">#aaaaaa</color>
+    <color name="colorProgressBarBg">#99ffffff</color>
 </resources>

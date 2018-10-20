@@ -83,6 +83,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/generate_barcode"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"/>
+
+            <Button
+                style="@style/ButtonPrimary"
+                android:id="@+id/show_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_progress_bar"
+                android:stateListAnimator="@null"
                 android:textAllCaps="false"/>
         </LinearLayout>
     </ScrollView>

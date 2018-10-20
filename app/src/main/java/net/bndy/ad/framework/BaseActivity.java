@@ -1,5 +1,6 @@
 package net.bndy.ad.framework;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ public class BaseActivity extends AppCompatActivity {
     private Locale mCurrentLocale;
     private ExitReceiver mExitReceiver = new ExitReceiver();
     private Map<Integer, ContextMenuInfo.ContextMenuItemInfo> mContextMenuItemsMapping;
+    private ProgressBarHandler mProgressBarHandler;
     protected ApplicationUtils mApplicationUtils;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
 
@@ -149,6 +151,9 @@ public class BaseActivity extends AppCompatActivity {
     protected void info(@StringRes int message) {
         mApplicationUtils.info(message);
     }
+    protected void info(String message) {
+        mApplicationUtils.info(message);
+    }
     protected void alert(@StringRes int title, @StringRes int message, ApplicationUtils.Action action) {
         mApplicationUtils.alert(title, message, action);
     }
@@ -156,6 +161,15 @@ public class BaseActivity extends AppCompatActivity {
         mApplicationUtils.confirm(title, message, actionYes, actionNo);
     }
 
+    protected void registerProgressBar() {
+        mProgressBarHandler = new ProgressBarHandler(this);
+    }
+    protected void showProgressBar() {
+        mProgressBarHandler.show();
+    }
+    protected void hideProgressBar() {
+        mProgressBarHandler.hide();
+    }
 
     class ExitReceiver extends BroadcastReceiver {
         @Override
