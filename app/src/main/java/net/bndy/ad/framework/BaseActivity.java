@@ -1,7 +1,12 @@
 package net.bndy.ad.framework;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -20,17 +25,34 @@ import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity {
 
-    private Locale mCurrentLocale;
+    private static final String ACTION_EXIT = "action.exit";
 
-    protected ApplicationUtils applicationUtils;
-    protected Map<Integer, ContextMenuInfo> viewsMappingWithContextMenu;
-    private Map<Integer, ContextMenuInfo.ContextMenuItemInfo> contextMenuItemsMapping;
+    private Locale mCurrentLocale;
+    private ExitReceiver mExitReceiver = new ExitReceiver();
+    private Map<Integer, ContextMenuInfo.ContextMenuItemInfo> mContextMenuItemsMapping;
+    protected ApplicationUtils mApplicationUtils;
+    protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
 
     public BaseActivity() {
         super();
-        applicationUtils = new ApplicationUtils(this);
-        viewsMappingWithContextMenu = new HashMap<>();
-        contextMenuItemsMapping = new HashMap<>();
+        mApplicationUtils = new ApplicationUtils(this);
+        mViewsMappingWithContextMenu = new HashMap<>();
+        mContextMenuItemsMapping = new HashMap<>();
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_EXIT);
+        registerReceiver(mExitReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mExitReceiver);
     }
 
     @Override
@@ -42,7 +64,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Locale locale = applicationUtils.getLocale();
+        Locale locale = mApplicationUtils.getLocale();
 
         if (!locale.equals(mCurrentLocale)) {
             mCurrentLocale = locale;
@@ -52,14 +74,14 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (viewsMappingWithContextMenu.containsKey(v.getId())) {
-            ContextMenuInfo cmi = viewsMappingWithContextMenu.get(v.getId());
+        if (mViewsMappingWithContextMenu.containsKey(v.getId())) {
+            ContextMenuInfo cmi = mViewsMappingWithContextMenu.get(v.getId());
             if (cmi.getOnCreateItems() != null) {
                 AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
                 cmi.setMenuItems(cmi.getOnCreateItems().onCreate(adapterContextMenuInfo));
             }
             for (ContextMenuInfo.ContextMenuItemInfo contextMenuItemInfo : cmi.getMenuItems()) {
-                contextMenuItemsMapping.put(contextMenuItemInfo.getId(), contextMenuItemInfo);
+                mContextMenuItemsMapping.put(contextMenuItemInfo.getId(), contextMenuItemInfo);
                 menu.add(contextMenuItemInfo.getGroupId(), contextMenuItemInfo.getId(), contextMenuItemInfo.getOrderId(), contextMenuItemInfo.getTitle());
             }
         }
@@ -67,9 +89,9 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (contextMenuItemsMapping.containsKey(item.getItemId())) {
+        if (mContextMenuItemsMapping.containsKey(item.getItemId())) {
             AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            ContextMenuInfo.ContextMenuItemInfo contextMenuItemInfo = contextMenuItemsMapping.get(item.getItemId());
+            ContextMenuInfo.ContextMenuItemInfo contextMenuItemInfo = mContextMenuItemsMapping.get(item.getItemId());
             if (contextMenuItemInfo != null && contextMenuItemInfo.getOnSelect() != null) {
                 contextMenuItemInfo.getOnSelect().onSelect(adapterContextMenuInfo, item, contextMenuItemInfo);
             }
@@ -80,7 +102,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void registerForContextMenu(ContextMenuInfo contextMenuInfo) {
-        viewsMappingWithContextMenu.put(contextMenuInfo.getTargetId(), contextMenuInfo);
+        mViewsMappingWithContextMenu.put(contextMenuInfo.getTargetId(), contextMenuInfo);
         registerForContextMenu(findViewById(contextMenuInfo.getTargetId()));
     }
 
@@ -98,5 +120,19 @@ public class BaseActivity extends AppCompatActivity {
     protected void startActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+    }
+
+    protected void exitApplication() {
+        Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(ACTION_EXIT);
+        BaseActivity.this.sendBroadcast(intent);
+    }
+
+    class ExitReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            BaseActivity.this.finish();
+        }
     }
 }
