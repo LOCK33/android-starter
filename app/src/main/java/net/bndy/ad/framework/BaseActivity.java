@@ -1,6 +1,5 @@
 package net.bndy.ad.framework;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,11 +16,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.xutils.x;
+
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -169,6 +175,41 @@ public class BaseActivity extends AppCompatActivity {
     }
     protected void hideProgressBar() {
         mProgressBarHandler.hide();
+    }
+
+    protected void bindObjectToView(Object data) {
+        bindObjectToView(data, null);
+    }
+    protected void bindObjectToView(Object data, String viewIdPrefix) {
+        Field[] fields = data.getClass().getDeclaredFields();
+
+        for(Field field: fields) {
+            int elemId = this.getResources().getIdentifier((viewIdPrefix == null ? "" : viewIdPrefix) + field.getName().toLowerCase(), "id", this.getPackageName());
+            if (elemId > 0) {
+                View view = findViewById(elemId);
+                if (view != null) {
+                    String fieldValue = "";
+                    try {
+                        field.setAccessible(true);
+                        fieldValue = field.get(data).toString();
+                    } catch (IllegalAccessException ex) {
+                        System.out.print(ex);
+                    }
+
+                    if (view instanceof TextView) {
+                        ((TextView) view).setText(fieldValue);
+                    } else if (view instanceof EditText) {
+                        ((EditText) view).setText(fieldValue);
+                    } else if (view instanceof ImageView) {
+                        x.image().bind((ImageView) view, fieldValue);
+                    } else if (view instanceof CheckBox) {
+                        if (fieldValue == "true") {
+                            ((CheckBox) view).setChecked(true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     class ExitReceiver extends BroadcastReceiver {

@@ -50,10 +50,10 @@ public class SplashActivity extends BaseScanActivity {
         startActivity(ScanBarcodeActivity.class);
     }
 
-    @ViewInject(R.id.hello_view)
-    TextView viewHello;
-    @ViewInject(R.id.user_img)
-    CircularImageView userImg;
+    @ViewInject(R.id.user_name)
+    TextView mUserName;
+    @ViewInject(R.id.user_avatar)
+    CircularImageView mUserAvatar;
 
     @Event(R.id.generate_barcode_btn)
     private void onGenerateBarcode(View view) {
@@ -108,7 +108,6 @@ public class SplashActivity extends BaseScanActivity {
             oAuthLoginService.handleAuthorizationResponse(data, new HttpResponseSuccessCallback<GoogleUser>() {
                 @Override
                 public void onSuccessResponse(GoogleUser response) {
-                    viewHello.setText(response.getName());
                     refreshUI();
                 }
             }, null);
@@ -134,22 +133,21 @@ public class SplashActivity extends BaseScanActivity {
         AuthState authState = this.oAuthLoginService.getAuthState();
         if (authState != null && authState.isAuthorized() && this.oAuthLoginService.getUser() != null) {
             AppUser user = this.oAuthLoginService.getUser();
-            this.viewHello.setText(user.getName());
             if (user.getMale() != null) {
                 if (user.getMale().booleanValue()) {
-                    viewHello.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    mUserName.setTextColor(getResources().getColor(R.color.colorPrimary));
                 } else {
-                    viewHello.setTextColor(getResources().getColor(R.color.colorAccent));
+                    mUserName.setTextColor(getResources().getColor(R.color.colorAccent));
                 }
             }
-            x.image().bind(userImg, user.getAvatar());
+            bindObjectToView(user, "user_");
             this.btnLoginGoogle.setVisibility(View.GONE);
             this.btnLogout.setVisibility(View.VISIBLE);
         } else {
             this.btnLoginGoogle.setVisibility(View.VISIBLE);
             this.btnLogout.setVisibility(View.GONE);
-            this.viewHello.setText(R.string.hello);
-            this.userImg.setImageResource(R.drawable.image_placeholder);
+            this.mUserName.setText(R.string.hello);
+            this.mUserAvatar.setImageResource(R.drawable.image_placeholder);
         }
     }
 
