@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,8 +20,6 @@ import android.widget.AdapterView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-
-import net.bndy.ad.ApplicationUtils;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -32,6 +34,8 @@ public class BaseActivity extends AppCompatActivity {
     private Map<Integer, ContextMenuInfo.ContextMenuItemInfo> mContextMenuItemsMapping;
     protected ApplicationUtils mApplicationUtils;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
+
+    private @MenuRes int mMenu;
 
     public BaseActivity() {
         super();
@@ -70,6 +74,15 @@ public class BaseActivity extends AppCompatActivity {
             mCurrentLocale = locale;
             recreate();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mMenu > 0) {
+            MenuInflater menuInflater = getMenuInflater();
+            menuInflater.inflate(mMenu, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -122,12 +135,27 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    protected void setActionMenu(@MenuRes int menu) {
+        mMenu = menu;
+    }
+
     protected void exitApplication() {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(ACTION_EXIT);
         BaseActivity.this.sendBroadcast(intent);
     }
+
+    protected void info(@StringRes int message) {
+        mApplicationUtils.info(message);
+    }
+    protected void alert(@StringRes int title, @StringRes int message, ApplicationUtils.Action action) {
+        mApplicationUtils.alert(title, message, action);
+    }
+    protected void confirm(@StringRes int title, @StringRes int message, ApplicationUtils.Action actionYes, ApplicationUtils.Action actionNo) {
+        mApplicationUtils.confirm(title, message, actionYes, actionNo);
+    }
+
 
     class ExitReceiver extends BroadcastReceiver {
         @Override

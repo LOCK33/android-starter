@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import net.bndy.ad.framework.ApplicationUtils;
 import net.bndy.ad.framework.BaseScanActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;

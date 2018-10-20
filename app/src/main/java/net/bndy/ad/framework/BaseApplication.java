@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import net.bndy.ad.ApplicationUtils;
-
 public class BaseApplication extends Application {
 
     protected ApplicationUtils applicationUtils;

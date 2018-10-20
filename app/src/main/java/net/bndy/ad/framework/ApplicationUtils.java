@@ -1,4 +1,4 @@
-package net.bndy.ad;
+package net.bndy.ad.framework;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import net.bndy.ad.R;
 
 import java.util.Locale;
 
@@ -24,8 +27,14 @@ public class ApplicationUtils {
     public void info(int message) {
         info(mContext.getResources().getString(message));
     }
+
     public void info(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public AlertDialog.Builder alert(int title, int message, final Action aciton) {
+        return alert(mContext.getResources().getString(title), mContext.getResources().getString(message), aciton);
     }
 
     public AlertDialog.Builder alert(String title, String message, final Action action) {
