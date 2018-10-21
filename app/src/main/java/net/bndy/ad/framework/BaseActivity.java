@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String ACTION_EXIT = "action.exit";
 

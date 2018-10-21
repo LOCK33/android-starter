@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-public class BaseApplication extends Application {
+public abstract class BaseApplication extends Application {
 
     protected ApplicationUtils applicationUtils;
 
