@@ -23,12 +23,10 @@ import net.bndy.ad.sample.ScanBarcodeActivity;
 import net.bndy.ad.service.HttpResponseSuccessCallback;
 import net.openid.appauth.AuthState;
 
-import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(R.layout.activity_splash)
 public class SplashActivity extends BaseScanActivity {
 
     @ViewInject(R.id.logout_btn)
@@ -92,15 +90,13 @@ public class SplashActivity extends BaseScanActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApplicationUtils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
+        setContentView(R.layout.activity_splash);
+        setIcon(R.mipmap.ic_launcher);
+
+        //mApplicationUtils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
+
         x.view().inject(this);
         oAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
-
-        actionBar = getSupportActionBar();
-
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setIcon(R.drawable.github);
 
         setActionMenu(R.menu.main);
         registerProgressBar();

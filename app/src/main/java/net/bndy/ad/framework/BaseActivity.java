@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
@@ -42,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private BaseActivity mThis;
     private Locale mCurrentLocale;
     private ExitReceiver mExitReceiver = new ExitReceiver();
-    private Map<Integer, ContextMenuInfo.ContextMenuItemInfo> mContextMenuItemsMapping;
+    private Map<Integer, ContextMenuItemInfo> mContextMenuItemsMapping;
     private ProgressBarHandler mProgressBarHandler;
     protected ApplicationUtils mApplicationUtils;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
@@ -107,7 +109,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) menuInfo;
                 cmi.setMenuItems(cmi.getOnCreateItems().onCreate(adapterContextMenuInfo));
             }
-            for (ContextMenuInfo.ContextMenuItemInfo contextMenuItemInfo : cmi.getMenuItems()) {
+            for (ContextMenuItemInfo contextMenuItemInfo : cmi.getMenuItems()) {
                 mContextMenuItemsMapping.put(contextMenuItemInfo.getId(), contextMenuItemInfo);
                 menu.add(contextMenuItemInfo.getGroupId(), contextMenuItemInfo.getId(), contextMenuItemInfo.getOrderId(), contextMenuItemInfo.getTitle());
             }
@@ -118,7 +120,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         if (mContextMenuItemsMapping.containsKey(item.getItemId())) {
             AdapterView.AdapterContextMenuInfo adapterContextMenuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            ContextMenuInfo.ContextMenuItemInfo contextMenuItemInfo = mContextMenuItemsMapping.get(item.getItemId());
+            ContextMenuItemInfo contextMenuItemInfo = mContextMenuItemsMapping.get(item.getItemId());
             if (contextMenuItemInfo != null && contextMenuItemInfo.getOnSelect() != null) {
                 contextMenuItemInfo.getOnSelect().onSelect(adapterContextMenuInfo, item, contextMenuItemInfo);
             }
@@ -151,6 +153,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setActionMenu(@MenuRes int menu) {
         mMenu = menu;
+    }
+
+    protected void setIcon(@DrawableRes int id) {
+        setIcon(mApplicationUtils.getDrawable(id));
+    }
+
+    protected void setIcon(Drawable drawable) {
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(drawable);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
     protected void exitApplication() {

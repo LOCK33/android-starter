@@ -1,9 +1,9 @@
 package net.bndy.ad.framework;
 
 import android.support.annotation.IdRes;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,68 +36,16 @@ public class ContextMenuInfo {
             index++;
             contextMenuItemInfo.setId(targetId * 100 + index);
         }
-        menuItems = Arrays.asList(menuItemInfos);
+        // Arrays.asList returns list can not use add(...) method, just remove permitted
+        this.menuItems = new ArrayList<>(Arrays.asList(menuItemInfos));
     }
 
     public void setOnCreateItems(OnCreateItems onCreateItems) {
         this.onCreateItems = onCreateItems;
     }
 
-    public class ContextMenuItemInfo {
-
-        private int id;
-        private int groupId;
-        private int orderId;
-        private CharSequence title;
-        private OnContextMenuItemSelect onSelect;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getGroupId() {
-            return groupId;
-        }
-
-        public void setGroupId(int groupId) {
-            this.groupId = groupId;
-        }
-
-        public int getOrderId() {
-            return orderId;
-        }
-
-        public void setOrderId(int orderId) {
-            this.orderId = orderId;
-        }
-
-        public CharSequence getTitle() {
-            return title;
-        }
-
-        public void setTitle(CharSequence title) {
-            this.title = title;
-        }
-
-        public OnContextMenuItemSelect getOnSelect() {
-            return onSelect;
-        }
-
-        public void setOnSelect(OnContextMenuItemSelect onSelect) {
-            this.onSelect = onSelect;
-        }
-
-        public ContextMenuItemInfo(CharSequence title) {
-            title = title;
-        }
-    }
-
-    public interface OnContextMenuItemSelect {
-        void onSelect(AdapterView.AdapterContextMenuInfo adapterContextMenuInfo, MenuItem menuItem, ContextMenuItemInfo contextMenuItemInfo);
+    public void addMenuItem(ContextMenuItemInfo menuItemInfo) {
+        this.menuItems.add(menuItemInfo);
     }
 
     public interface OnCreateItems {

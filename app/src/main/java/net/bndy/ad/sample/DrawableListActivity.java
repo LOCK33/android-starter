@@ -7,6 +7,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import net.bndy.ad.R;
 import net.bndy.ad.framework.BaseActivity;
+import net.bndy.ad.framework.ContextMenuInfo;
+import net.bndy.ad.framework.ContextMenuItemInfo;
 import net.bndy.ad.framework.ResourceInfo;
 
 import org.xutils.view.annotation.ViewInject;
@@ -25,6 +28,8 @@ import org.xutils.x;
 import java.util.List;
 
 public class DrawableListActivity extends BaseActivity {
+
+    private ImageAdapter mImageAdapter;
 
     @ViewInject(R.id.sample_drawable_gird)
     private GridView mGridView;
@@ -35,20 +40,30 @@ public class DrawableListActivity extends BaseActivity {
         setContentView(R.layout.activity_drawable_list);
         x.view().inject(this);
 
-        gv_init();
-    }
-
-    void gv_init() {
-        final ImageAdapter imageAdapter = new ImageAdapter(this, R.layout.drawable_list_item,
+        mImageAdapter = new ImageAdapter(this, R.layout.drawable_list_item,
                 mApplicationUtils.getResources(R.drawable.class));
-        mGridView.setAdapter(imageAdapter);
+
+        mGridView.setAdapter(mImageAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ResourceInfo resourceInfo = imageAdapter.getItem(position);
-                alert("#" + String.valueOf(resourceInfo.getId()), "R.drawable." + resourceInfo.getName(), null);
+                ResourceInfo resourceInfo = mImageAdapter.getItem(position);
+                showItemDetail(resourceInfo);
+
             }
         });
+
+        // init context menus
+        ContextMenuInfo cmi = new ContextMenuInfo(R.id.sample_drawable_gird);
+        ContextMenuItemInfo cmii = new ContextMenuItemInfo(getResources().getString(R.string.view_detail));
+        cmii.setOnSelect(new ContextMenuItemInfo.OnContextMenuItemSelect() {
+            @Override
+            public void onSelect(AdapterView.AdapterContextMenuInfo adapterContextMenuInfo, MenuItem menuItem, ContextMenuItemInfo contextMenuItemInfo) {
+                showItemDetail(mImageAdapter.getItem(adapterContextMenuInfo.position));
+            }
+        });
+        cmi.addMenuItem(cmii);
+        registerForContextMenu(cmi);
     }
 
     public class ImageAdapter extends ArrayAdapter<ResourceInfo> {
@@ -74,5 +89,9 @@ public class DrawableListActivity extends BaseActivity {
             textView.setText(item.getName());
             return layout;
         }
+    }
+
+    private void showItemDetail(ResourceInfo resourceInfo) {
+        alert("#" + String.valueOf(resourceInfo.getId()), "R.drawable." + resourceInfo.getName(), null);
     }
 }
