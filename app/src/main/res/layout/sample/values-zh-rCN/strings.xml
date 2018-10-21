@@ -2,4 +2,5 @@
 <resources>
     <string name="form">表单</string>
     <string name="show_progress_bar">显示加载状态</string>
+    <string name="required">必填项</string>
 </resources>

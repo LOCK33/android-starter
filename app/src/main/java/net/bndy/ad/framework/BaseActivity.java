@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -25,6 +26,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import net.bndy.ad.framework.exception.UnsupportedViewException;
+
 import org.xutils.x;
 
 import java.lang.reflect.Field;
@@ -36,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String ACTION_EXIT = "action.exit";
 
+    private BaseActivity mThis;
     private Locale mCurrentLocale;
     private ExitReceiver mExitReceiver = new ExitReceiver();
     private Map<Integer, ContextMenuInfo.ContextMenuItemInfo> mContextMenuItemsMapping;
@@ -55,6 +59,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mThis = this;
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_EXIT);
@@ -210,6 +216,27 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    protected boolean checkRequired(@IdRes int viewId, @StringRes int requiredMessage) {
+        View view = findViewById(viewId);
+        if (view instanceof EditText) {
+            if (checkRequired(((EditText) view).getText().toString(), requiredMessage)) {
+                return true;
+            }
+            view.requestFocus();
+            view.requestFocusFromTouch();
+            return false;
+        }
+
+        throw new UnsupportedViewException(getResources().getResourceName(viewId));
+    }
+    protected boolean checkRequired(String val, @StringRes int requiredMessage) {
+        if (val == null || val.trim().isEmpty()) {
+            info(requiredMessage);
+            return false;
+        }
+        return true;
     }
 
     class ExitReceiver extends BroadcastReceiver {

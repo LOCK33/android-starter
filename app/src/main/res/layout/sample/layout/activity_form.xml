@@ -15,6 +15,7 @@
 
         <EditText
             style="@style/Input"
+            android:id="@+id/form_input1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -48,9 +49,10 @@
 
         <Button
             style="@style/ButtonPrimary"
+            android:id="@+id/form_submit1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button"/>
+            android:text="Submit"></Button>
 
         <Button
             style="@style/ButtonPrimary"
