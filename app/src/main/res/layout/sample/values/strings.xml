@@ -2,4 +2,6 @@
     <string name="form">Form</string>
     <string name="show_progress_bar">Show progress bar</string>
     <string name="required">Required</string>
+    <string name="show_drawable">Show all drawable</string>
+    <string name="available_images">Available Images</string>
 </resources>

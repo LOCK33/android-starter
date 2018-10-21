@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -12,6 +16,9 @@ import android.widget.Toast;
 
 import net.bndy.ad.R;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class ApplicationUtils {
@@ -127,7 +134,6 @@ public class ApplicationUtils {
         SharedPreferences.Editor editor = sp.edit();
         if (locale != null) {
             editor.putString(SP_KEY_LOCALE, locale.toString());
-
             Locale.setDefault(locale);
         } else {
             editor.remove(SP_KEY_LOCALE);
@@ -137,11 +143,35 @@ public class ApplicationUtils {
         Configuration config = mContext.getResources().getConfiguration();
         config.locale = locale;
         mContext.getResources().updateConfiguration(config, mContext.getResources().getDisplayMetrics());
-//        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//            config.setLocale(locale);
-//            mContext.getApplicationContext().createConfigurationContext(config);
-//        } else {
-//        }
+    }
+
+    public Drawable getDrawable(int id) {
+        return getDrawable(id, mContext);
+    }
+
+    public List<ResourceInfo> getResources(Class<?> rClazz) {
+        return getResources(rClazz, mContext);
+    }
+
+
+    // here to start static methods code
+
+    public static Drawable getDrawable(int id, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return context.getResources().getDrawable(id, context.getTheme());
+        } else {
+            return context.getResources().getDrawable(id);
+        }
+    }
+
+    public static List<ResourceInfo> getResources(Class<?> rClazz, Context context) {
+        List<ResourceInfo> resourceInfos = new ArrayList<>();
+        Field[] fields = rClazz.getDeclaredFields();
+        for(Field field:fields){
+            int resID = context.getResources().getIdentifier(field.getName(), rClazz.getSimpleName(), context.getPackageName());
+            resourceInfos.add(new ResourceInfo(context, resID, field.getName(), rClazz.getSimpleName()));
+        }
+        return resourceInfos;
     }
 
 

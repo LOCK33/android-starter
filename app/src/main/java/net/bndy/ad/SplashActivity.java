@@ -16,6 +16,7 @@ import net.bndy.ad.framework.BaseScanActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.oauth.OAuthLoginService;
+import net.bndy.ad.sample.DrawableListActivity;
 import net.bndy.ad.sample.FormActivity;
 import net.bndy.ad.sample.GenerateBarcodeActivity;
 import net.bndy.ad.sample.ScanBarcodeActivity;
@@ -78,6 +79,11 @@ public class SplashActivity extends BaseScanActivity {
 
             }
         }.start();
+    }
+
+    @Event(R.id.show_drawable)
+    private void onShowDrawable(View view) {
+        startActivity(DrawableListActivity.class);
     }
 
     private ActionBar actionBar;

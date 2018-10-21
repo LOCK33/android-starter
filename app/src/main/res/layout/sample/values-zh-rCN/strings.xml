@@ -3,4 +3,6 @@
     <string name="form">表单</string>
     <string name="show_progress_bar">显示加载状态</string>
     <string name="required">必填项</string>
+    <string name="show_drawable">显示所有图片</string>
+    <string name="available_images">可用图片</string>
 </resources>

@@ -169,6 +169,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void alert(@StringRes int title, @StringRes int message, ApplicationUtils.Action action) {
         mApplicationUtils.alert(title, message, action);
     }
+    protected void alert(String title, String message, ApplicationUtils.Action action) {
+        mApplicationUtils.alert(title, message, action);
+    }
     protected void confirm(@StringRes int title, @StringRes int message, ApplicationUtils.Action actionYes, ApplicationUtils.Action actionNo) {
         mApplicationUtils.confirm(title, message, actionYes, actionNo);
     }
