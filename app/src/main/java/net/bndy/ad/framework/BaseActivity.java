@@ -46,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String ACTION_EXIT = "action.exit";
     private static final int REQUEST_TAKE_PHOTO = 1;
-    private static final int REQUEST_SCAN_QRCODE = 2;
+    private static final int REQUEST_SCAN_CODE = 2;
 
     private BaseActivity mThis;
     private Locale mCurrentLocale;
@@ -64,7 +64,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public BaseActivity() {
         super();
-        mApplicationUtils = new ApplicationUtils(this);
+        mThis = this;
+        mApplicationUtils = new ApplicationUtils(mThis);
         mViewsMappingWithContextMenu = new HashMap<>();
         mContextMenuItemsMapping = new HashMap<>();
     }
@@ -72,8 +73,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mThis = this;
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_EXIT);
@@ -151,7 +150,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     mTakePhotoCallbackHandler.callback(imageBitmap);
                     break;
 
-                case REQUEST_SCAN_QRCODE:
+                case REQUEST_SCAN_CODE:
                     IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
                     if (scanResult != null) {
                         String result = scanResult.getContents();

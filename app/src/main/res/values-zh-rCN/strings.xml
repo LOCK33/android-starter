@@ -11,9 +11,9 @@
     <string name="female">女</string>
     <string name="sign_out_success">您已成功退出。</string>
     <string name="sign_in_with_face">刷脸登录</string>
-    <string name="hint_for_scan_code">请将条形码或二维码放置中间位置</string>
+    <string name="hint_for_scan_code">将二维码/条码放入框内，即可自动扫描</string>
     <string name="generate_barcode">二维码生成</string>
-    <string name="title_activity_capture">扫码</string>
+    <string name="title_activity_capture">二维码/条码</string>
     <string name="scan_barcode">二维码扫描</string>
     <string name="view_detail">查看详情</string>
     <string name="exit">退出</string>
