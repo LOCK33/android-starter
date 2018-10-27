@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/space"
+    tools:context=".sample.TakePhotoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/sample_take_photo_vi"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:src="@drawable/image_placeholder"
+            android:layout_gravity="center"
+            app:civ_border_color="#ffffff"
+            app:civ_border_width="5dp"
+            app:civ_shadow="true"
+            app:civ_shadow_radius="10"
+            app:civ_shadow_gravity="start"
+            app:civ_shadow_color="@color/colorShadow"/>
+
+        <Button
+            android:id="@+id/sample_take_photo_btn"
+            style="@style/ButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space"
+            android:text="@string/take_photo" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -7,4 +7,10 @@
         android:icon="@drawable/icon_arrow_down"
         android:title="@string/sign_out"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_main_exit"
+        android:icon="@drawable/icon_arrow_down"
+        android:title="@string/exit"
+        app:showAsAction="never"/>
 </menu>

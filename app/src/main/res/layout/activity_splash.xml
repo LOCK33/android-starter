@@ -1,109 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:flexWrap="wrap"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/space_lg"
     tools:context="net.bndy.ad.SplashActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/login_google_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/google"
+        android:text="@string/sign_in_with_google" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/logout_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_out" />
 
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/form_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/form" />
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/user_avatar"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/image_placeholder"
-                android:layout_gravity="center"
-                app:civ_border_color="#ffffff"
-                app:civ_border_width="5dp"
-                app:civ_shadow="true"
-                app:civ_shadow_radius="10"
-                app:civ_shadow_gravity="start"
-                app:civ_shadow_color="@color/colorShadow"/>
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/scan_barcode_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scan_barcode" />
 
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/hello"
-                android:textAllCaps="false"
-                android:layout_marginBottom="20dp"
-                android:textSize="32sp" />
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/generate_barcode_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generate_barcode" />
 
-            <Button
-                style="@style/ButtonPrimary"
-                android:id="@+id/login_google_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableRight="@drawable/google"
-                android:fontFamily="sans-serif"
-                android:text="@string/sign_in_with_google"
-                android:textAllCaps="false" />
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/show_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_progress_bar" />
 
-            <Button
-                style="@style/ButtonPrimary"
-                android:id="@+id/logout_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="@string/sign_out"
-                android:textAllCaps="false" />
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/show_drawable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_drawable" />
 
-            <Button
-                style="@style/ButtonPrimary"
-                android:id="@+id/form_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="@string/form"
-                android:textAllCaps="false" />
+    <Button
+        style="@style/ButtonPrimary"
+        app:layout_flexGrow="1"
+        android:id="@+id/take_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/take_photo" />
 
-            <Button
-                style="@style/ButtonPrimary"
-                android:id="@+id/scan_barcode_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:text="@string/scan_barcode"
-                android:textAllCaps="false" />
-
-            <Button
-                style="@style/ButtonPrimary"
-                android:id="@+id/generate_barcode_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/generate_barcode"
-                android:stateListAnimator="@null"
-                android:textAllCaps="false"/>
-
-            <Button
-                style="@style/ButtonPrimary"
-                android:id="@+id/show_progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_progress_bar"
-                android:stateListAnimator="@null"
-                android:textAllCaps="false"/>
-
-            <Button
-                style="@style/ButtonPrimary"
-                android:id="@+id/show_drawable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show_drawable"
-                android:stateListAnimator="@null"
-                android:textAllCaps="false"/>
-
-        </LinearLayout>
-    </ScrollView>
-</android.support.constraint.ConstraintLayout>
+</com.google.android.flexbox.FlexboxLayout>

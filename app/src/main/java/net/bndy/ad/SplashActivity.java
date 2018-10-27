@@ -1,18 +1,15 @@
 package net.bndy.ad;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import net.bndy.ad.framework.ApplicationUtils;
-import net.bndy.ad.framework.BaseScanActivity;
+import net.bndy.ad.framework.BaseActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.oauth.OAuthLoginService;
@@ -20,14 +17,17 @@ import net.bndy.ad.sample.DrawableListActivity;
 import net.bndy.ad.sample.FormActivity;
 import net.bndy.ad.sample.GenerateBarcodeActivity;
 import net.bndy.ad.sample.ScanBarcodeActivity;
+import net.bndy.ad.sample.TakePhotoActivity;
 import net.bndy.ad.service.HttpResponseSuccessCallback;
 import net.openid.appauth.AuthState;
 
+import org.xutils.common.Callback;
+import org.xutils.image.ImageOptions;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-public class SplashActivity extends BaseScanActivity {
+public class SplashActivity extends BaseActivity {
 
     @ViewInject(R.id.logout_btn)
     private Button btnLogout;
@@ -48,11 +48,6 @@ public class SplashActivity extends BaseScanActivity {
     private void onScanBarcode(View view) {
         startActivity(ScanBarcodeActivity.class);
     }
-
-    @ViewInject(R.id.user_name)
-    TextView mUserName;
-    @ViewInject(R.id.user_avatar)
-    CircularImageView mUserAvatar;
 
     @Event(R.id.generate_barcode_btn)
     private void onGenerateBarcode(View view) {
@@ -84,14 +79,17 @@ public class SplashActivity extends BaseScanActivity {
         startActivity(DrawableListActivity.class);
     }
 
-    private ActionBar actionBar;
+    @Event(R.id.take_photo)
+    private void onTakePhoto(View view) {
+        startActivity(TakePhotoActivity.class);
+    }
+
     private OAuthLoginService oAuthLoginService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        setIcon(R.mipmap.ic_launcher);
 
         //mApplicationUtils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
 
@@ -120,36 +118,49 @@ public class SplashActivity extends BaseScanActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_main_logout:
+                logout();
+                break;
+
+            case R.id.menu_main_exit:
                 exitApplication();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void scanCallback(String scanResult) {
-        info(scanResult);
-    }
-
     private void refreshUI() {
         AuthState authState = this.oAuthLoginService.getAuthState();
         if (authState != null && authState.isAuthorized() && this.oAuthLoginService.getUser() != null) {
             AppUser user = this.oAuthLoginService.getUser();
-            if (user.getMale() != null) {
-                if (user.getMale().booleanValue()) {
-                    mUserName.setTextColor(getResources().getColor(R.color.colorPrimary));
-                } else {
-                    mUserName.setTextColor(getResources().getColor(R.color.colorAccent));
+            setTitle(" Hi " + user.getName());
+            x.image().loadDrawable(user.getAvatar(), new ImageOptions() { }, new Callback.CommonCallback<Drawable>() {
+                @Override
+                public void onSuccess(Drawable result) {
+                    setIcon(result);
                 }
-            }
-            bindObjectToView(user, "user_");
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
             this.btnLoginGoogle.setVisibility(View.GONE);
             this.btnLogout.setVisibility(View.VISIBLE);
         } else {
             this.btnLoginGoogle.setVisibility(View.VISIBLE);
             this.btnLogout.setVisibility(View.GONE);
-            this.mUserName.setText(R.string.hello);
-            this.mUserAvatar.setImageResource(R.drawable.image_placeholder);
+            setIcon(null);
+            setTitle(R.string.app_name);
         }
     }
 

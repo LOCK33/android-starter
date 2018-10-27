@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -65,6 +69,10 @@
         <activity
             android:name=".sample.DrawableListActivity"
             android:label="@string/available_images"
+            android:parentActivityName=".SplashActivity" />
+        <activity
+            android:name=".sample.TakePhotoActivity"
+            android:label="@string/take_photo"
             android:parentActivityName=".SplashActivity"></activity>
     </application>
 

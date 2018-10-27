@@ -5,6 +5,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="space">5dp</dimen>
+    <dimen name="space_lg">10dp</dimen>
 
     <dimen name="radius">4dp</dimen>
     <dimen name="radius_sm">3dp</dimen>
@@ -13,5 +14,6 @@
     <dimen name="input_padding_sm">8dp</dimen>
     <dimen name="input_padding_xs">4dp</dimen>
     <dimen name="input_shadow">3dp</dimen>
+    <dimen name="input_shadow_margin">-3dp</dimen>
     <dimen name="input_border">3px</dimen>
 </resources>

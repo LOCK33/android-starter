@@ -1,8 +1,10 @@
 package net.bndy.ad.framework;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 
+import net.bndy.ad.R;
 import net.bndy.ad.framework.exception.UnsupportedResourceTypeException;
 
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class ResourceInfo {
     public Object get(Object... args) {
         switch (type) {
             case "id":
-                return id;
+                return ((Activity)context).findViewById(id);
 
             case "drawable":
                 return ApplicationUtils.getDrawable(id, context);

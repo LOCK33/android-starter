@@ -5,4 +5,5 @@
     <string name="required">必填项</string>
     <string name="show_drawable">显示所有图片</string>
     <string name="available_images">可用图片</string>
+    <string name="take_photo">拍摄照片</string>
 </resources>

@@ -1,5 +1,6 @@
 package net.bndy.ad.framework;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
@@ -26,8 +28,11 @@ import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import net.bndy.ad.R;
 import net.bndy.ad.framework.exception.UnsupportedViewException;
 
 import org.xutils.x;
@@ -40,6 +45,8 @@ import java.util.Map;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String ACTION_EXIT = "action.exit";
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int REQUEST_SCAN_QRCODE = 2;
 
     private BaseActivity mThis;
     private Locale mCurrentLocale;
@@ -48,6 +55,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ProgressBarHandler mProgressBarHandler;
     protected ApplicationUtils mApplicationUtils;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
+
+    // all callback here
+    private CallbackHandler1<Bitmap> mTakePhotoCallbackHandler;
+    private CallbackHandler1<String> mScanCallbackHandler;
 
     private @MenuRes int mMenu;
 
@@ -130,6 +141,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_TAKE_PHOTO:
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    mTakePhotoCallbackHandler.callback(imageBitmap);
+                    break;
+
+                case REQUEST_SCAN_QRCODE:
+                    IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+                    if (scanResult != null) {
+                        String result = scanResult.getContents();
+                        mScanCallbackHandler.callback(result);
+                    }
+                    break;
+            }
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     protected void registerForContextMenu(ContextMenuInfo contextMenuInfo) {
         mViewsMappingWithContextMenu.put(contextMenuInfo.getTargetId(), contextMenuInfo);
         registerForContextMenu(findViewById(contextMenuInfo.getTargetId()));
@@ -146,7 +181,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return bitmap;
     }
 
-    protected void startActivity(Class<?> cls) {
+    protected void startActivity(Class<? extends Activity> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
     }
@@ -252,6 +287,25 @@ public abstract class BaseActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    protected void startTakePhoto(CallbackHandler1<Bitmap> callback) {
+        mTakePhotoCallbackHandler = callback;
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        }
+    }
+
+    protected void startScan(CallbackHandler1<String> callback) {
+        mScanCallbackHandler = callback;
+        IntentIntegrator integrator = new IntentIntegrator(this)
+                .setCaptureActivity(CaptureActivity.class)
+                .setPrompt(getResources().getString(R.string.hint_for_scan_code))
+                .setCameraId(0)
+                .setBeepEnabled(false)
+                .setBarcodeImageEnabled(true);
+        integrator.initiateScan();
     }
 
     class ExitReceiver extends BroadcastReceiver {
