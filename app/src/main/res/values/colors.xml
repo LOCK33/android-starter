@@ -26,4 +26,6 @@
     <color name="colorDisabled">#efefef</color>
     <color name="colorShadow">#aaaaaa</color>
     <color name="colorProgressBarBg">#99ffffff</color>
+
+    <color name="colorDarkAlpha">#66000000</color>
 </resources>

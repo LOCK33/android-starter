@@ -42,5 +42,6 @@ public class ViewfinderView extends com.journeyapps.barcodescanner.ViewfinderVie
         // change status position under framing
         TextView statusView = getRootView().findViewById(com.google.zxing.client.android.R.id.zxing_status_view);
         statusView.setTranslationY(framingRect.bottom + 20);
+        statusView.setVisibility(VISIBLE);
     }
 }

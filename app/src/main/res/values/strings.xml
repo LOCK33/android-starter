@@ -10,7 +10,7 @@
     <string name="sign_out_confirmation">Are you sure you want to log out?</string>
     <string name="sign_out_success">You have logged out successfully.</string>
     <string name="sign_in_with_face">Sign in with Face</string>
-    <string name="hint_for_scan_code">Place a barcode inside the viewfinder rectangle to scan it.</string>
+    <string name="hint_for_scan_code">Place a barcode inside the rectangle to scan it.</string>
     <string name="title_activity_capture">QR Code</string>
     <string name="generate_barcode">Generate Barcode</string>
     <string name="scan_barcode">Scan Barcode</string>
