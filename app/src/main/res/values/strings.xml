@@ -16,6 +16,7 @@
     <string name="scan_barcode">Scan Barcode</string>
     <string name="view_detail">View Detail</string>
     <string name="exit">Exit</string>
+    <string name="gallery">Gallery</string>
     <string-array name="ddl">
         <item>A</item>
         <item>B</item>

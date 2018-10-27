@@ -11,20 +11,17 @@
         android:id="@+id/capture_actionbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-    </android.support.v7.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.Toolbar>
 
 
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/decorated_barcode_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:zxing_preview_scaling_strategy="fitXY"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:zxing_scanner_layout="@layout/capture_scanner"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:zxing_preview_scaling_strategy="fitXY"
+        app:zxing_scanner_layout="@layout/capture_scanner" />
 
     <LinearLayout
         android:id="@+id/capture_footer_layout"
@@ -32,43 +29,93 @@
         android:layout_height="wrap_content"
         android:background="@color/colorDarkAlpha"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <LinearLayout
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:orientation="vertical"
-            android:padding="@dimen/space"
-            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:focusable="true"
-            >
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/google"/>
+                android:src="@drawable/gallery_light" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="BUTTON"/>
+                android:layout_marginTop="@dimen/space"
+                android:text="@string/gallery"
+                android:textAlignment="center" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="@dimen/space"
-            android:focusableInTouchMode="true"
             android:focusable="true"
-            >
-           <ImageView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:src="@drawable/google"/>
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gallery_light" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="BUTTON"/>
+                android:layout_marginTop="@dimen/space"
+                android:text="@string/gallery"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gallery_light" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:text="BUTTON"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/space_lg">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gallery_light" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:text="BUTTON"
+                android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>
 
