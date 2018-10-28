@@ -17,34 +17,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.BaseActivity;
+import net.bndy.ad.framework.BaseFragment;
 import net.bndy.ad.framework.ContextMenuInfo;
 import net.bndy.ad.framework.ContextMenuItemInfo;
 import net.bndy.ad.framework.ResourceInfo;
 
-import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
-
 import java.util.List;
 
-public class DrawableListActivity extends BaseActivity {
+public class DrawableListFragment extends BaseFragment  {
 
     private ImageAdapter mImageAdapter;
 
-    @ViewInject(R.id.sample_drawable_gird)
-    private GridView mGridView;
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawable_list);
-        x.view().inject(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View layout = super.onCreateView(inflater, container, savedInstanceState);
+        mImageAdapter = new ImageAdapter(this.getContext(), R.layout.drawable_list_item,
+                utils.getResources(R.drawable.class));
 
-        mImageAdapter = new ImageAdapter(this, R.layout.drawable_list_item,
-                mApplicationUtils.getResources(R.drawable.class));
-
-        mGridView.setAdapter(mImageAdapter);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        GridView gridView = layout.findViewById(R.id.sample_drawable_gird);
+        gridView.setAdapter(mImageAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ResourceInfo resourceInfo = mImageAdapter.getItem(position);
@@ -63,7 +56,14 @@ public class DrawableListActivity extends BaseActivity {
             }
         });
         cmi.addMenuItem(cmii);
-        registerForContextMenu(cmi);
+//        registerForContextMenu(cmi);
+
+        return layout;
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_drawable_list;
     }
 
     public class ImageAdapter extends ArrayAdapter<ResourceInfo> {
@@ -92,6 +92,6 @@ public class DrawableListActivity extends BaseActivity {
     }
 
     private void showItemDetail(ResourceInfo resourceInfo) {
-        alert("#" + String.valueOf(resourceInfo.getId()), "R.drawable." + resourceInfo.getName(), null);
+        utils.alert("#" + String.valueOf(resourceInfo.getId()), "R.drawable." + resourceInfo.getName(), null);
     }
 }

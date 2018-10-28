@@ -1,117 +1,104 @@
 package net.bndy.ad;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
+import com.flyco.tablayout.CommonTabLayout;
 
 import net.bndy.ad.framework.ApplicationUtils;
 import net.bndy.ad.framework.BaseActivity;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.oauth.OAuthLoginService;
-import net.bndy.ad.sample.DrawableListActivity;
-import net.bndy.ad.sample.FormActivity;
-import net.bndy.ad.sample.GenerateBarcodeActivity;
-import net.bndy.ad.sample.ScanBarcodeActivity;
-import net.bndy.ad.sample.TakePhotoActivity;
-import net.bndy.ad.service.HttpResponseSuccessCallback;
-import net.openid.appauth.AuthState;
+import net.bndy.ad.sample.DrawableListFragment;
+import net.bndy.ad.sample.FormFragment;
+import net.bndy.ad.sample.BarcodeFragment;
+import net.bndy.ad.sample.TakePhotoFragment;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SplashActivity extends BaseActivity {
 
-    @ViewInject(R.id.logout_btn)
-    private Button btnLogout;
-    @Event(R.id.logout_btn)
-    private void onLogout(View view) {
-        logout();
-        refreshUI();
-    }
+//    @Event(R.id.scan_barcode_btn)
+//    private void onScanBarcode(View view) {
+//        startActivity(ScanBarcodeActivity.class);
+//    }
+//
+//    @Event(R.id.generate_barcode_btn)
+//    private void onGenerateBarcode(View view) {
+//        startActivity(GenerateBarcodeActivity.class);
+//    }
+//
+//    @Event(R.id.form_btn)
+//    private void onForm(View view) {
+//        startActivity(FormActivity.class);
+//    }
+//
+//    @Event(R.id.show_progress_bar)
+//    private void onShowProgressBar(View view) {
+//        showProgressBar();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    sleep(5000);
+//                    hideProgressBar();
+//                } catch (Exception ex) { }
+//
+//            }
+//        }.start();
+//    }
+//
+//    @Event(R.id.show_drawable)
+//    private void onShowDrawable(View view) {
+//        startActivity(DrawableListFragment.class);
+//    }
+//
+//    @Event(R.id.take_photo)
+//    private void onTakePhoto(View view) {
+//        startActivity(TakePhotoActivity.class);
+//    }
 
-    @ViewInject(R.id.login_google_btn)
-    private Button btnLoginGoogle;
-    @Event(R.id.login_google_btn)
-    private void onLoginWithGoogle(View view) {
-        this.oAuthLoginService.doAuth(OAuthLoginService.GoogleConfiguration);
-    }
-
-    @Event(R.id.scan_barcode_btn)
-    private void onScanBarcode(View view) {
-        startActivity(ScanBarcodeActivity.class);
-    }
-
-    @Event(R.id.generate_barcode_btn)
-    private void onGenerateBarcode(View view) {
-        startActivity(GenerateBarcodeActivity.class);
-    }
-
-    @Event(R.id.form_btn)
-    private void onForm(View view) {
-        startActivity(FormActivity.class);
-    }
-
-    @Event(R.id.show_progress_bar)
-    private void onShowProgressBar(View view) {
-        showProgressBar();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(5000);
-                    hideProgressBar();
-                } catch (Exception ex) { }
-
-            }
-        }.start();
-    }
-
-    @Event(R.id.show_drawable)
-    private void onShowDrawable(View view) {
-        startActivity(DrawableListActivity.class);
-    }
-
-    @Event(R.id.take_photo)
-    private void onTakePhoto(View view) {
-        startActivity(TakePhotoActivity.class);
-    }
+    @ViewInject(R.id.splash_tabs)
+    private CommonTabLayout mTabLayout;
 
     private OAuthLoginService oAuthLoginService;
+    private Map<Integer, Fragment> mFragmentMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        //mApplicationUtils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
+        //utils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
 
         x.view().inject(this);
         oAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
-
         setActionMenu(R.menu.main);
         registerProgressBar();
 
-        refreshUI();
+        initView();
+
+        mFragmentMap = new HashMap<>();
+        mFragmentMap.put(R.string.form, new FormFragment());
+        mFragmentMap.put(R.string.show_drawable, new DrawableListFragment());
+        mFragmentMap.put(R.string.take_photo, new TakePhotoFragment());
+        mFragmentMap.put(R.string.barcode, new BarcodeFragment());
+        setTabs(mTabLayout, R.id.splash_content_container, mFragmentMap);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == OAuthLoginService.REQUEST_CODE) {
-            oAuthLoginService.handleAuthorizationResponse(data, new HttpResponseSuccessCallback<GoogleUser>() {
-                @Override
-                public void onSuccessResponse(GoogleUser response) {
-                    refreshUI();
-                }
-            }, null);
-        }
+    protected void onResume() {
+        super.onResume();
+        initView();
     }
 
     @Override
@@ -128,39 +115,37 @@ public class SplashActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void refreshUI() {
-        AuthState authState = this.oAuthLoginService.getAuthState();
-        if (authState != null && authState.isAuthorized() && this.oAuthLoginService.getUser() != null) {
-            AppUser user = this.oAuthLoginService.getUser();
-            setTitle(" Hi " + user.getName());
-            x.image().loadDrawable(user.getAvatar(), new ImageOptions() { }, new Callback.CommonCallback<Drawable>() {
-                @Override
-                public void onSuccess(Drawable result) {
-                    setIcon(result);
-                }
 
-                @Override
-                public void onError(Throwable ex, boolean isOnCallback) {
-
-                }
-
-                @Override
-                public void onCancelled(CancelledException cex) {
-
-                }
-
-                @Override
-                public void onFinished() {
-
-                }
-            });
-            this.btnLoginGoogle.setVisibility(View.GONE);
-            this.btnLogout.setVisibility(View.VISIBLE);
+    private void initView() {
+        AppUser appUser = oAuthLoginService.getUser();
+        if (oAuthLoginService.getUser() == null) {
+            startActivity(LoginActivity.class);
         } else {
-            this.btnLoginGoogle.setVisibility(View.VISIBLE);
-            this.btnLogout.setVisibility(View.GONE);
-            setIcon(null);
-            setTitle(R.string.app_name);
+            if (appUser.getAvatar() != null && !appUser.getAvatar().isEmpty()) {
+                x.image().loadDrawable(appUser.getAvatar(), new ImageOptions() {
+                }, new Callback.CommonCallback<Drawable>() {
+                    @Override
+                    public void onSuccess(Drawable result) {
+                        setIcon(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+            }
+            setTitle(" " + oAuthLoginService.getUser().getName());
         }
     }
 
@@ -169,8 +154,8 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void execute(Object... args) {
                 oAuthLoginService.logout();
-                refreshUI();
                 info(R.string.sign_out_success);
+                startActivity(LoginActivity.class);
             }
         }, null);
     }

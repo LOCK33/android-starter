@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/space_xlg"
+    tools:context=".sample.BarcodeFragment">
+
+    <LinearLayout
+        android:id="@+id/barcode_lo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/space_xlg"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/barcode_generate_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/generate_barcode"
+            android:layout_weight="0.5"
+            />
+
+        <Button
+            android:id="@+id/scan_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scan"
+            android:layout_weight="0.5"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/barcode_iv"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/image_placeholder"
+        android:background="@android:color/white"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/barcode_lo"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

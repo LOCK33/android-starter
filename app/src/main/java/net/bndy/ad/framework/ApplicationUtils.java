@@ -1,20 +1,29 @@
 package net.bndy.ad.framework;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
 import net.bndy.ad.R;
+import net.bndy.ad.framework.exception.UnsupportedViewException;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -153,6 +162,31 @@ public class ApplicationUtils {
         return getResources(rClazz, mContext);
     }
 
+    public boolean checkRequired(Activity activity, @IdRes int viewId, @StringRes int requiredMessage) {
+        View view = activity.findViewById(viewId);
+        if (view instanceof EditText) {
+            if (checkRequired(((EditText) view).getText().toString(), requiredMessage)) {
+                return true;
+            }
+            view.requestFocus();
+            view.requestFocusFromTouch();
+            return false;
+        }
+
+        throw new UnsupportedViewException(mContext.getResources().getResourceName(viewId));
+    }
+    public boolean checkRequired(String val, @StringRes int requiredMessage) {
+        if (val == null || val.trim().isEmpty()) {
+            info(requiredMessage);
+            return false;
+        }
+        return true;
+    }
+
+    public Bitmap generateBarcode(BarcodeFormat barcodeFormat, int width, int height) {
+        return newBarcode(barcodeFormat, width, height);
+    }
+
 
     // here to start static methods code
 
@@ -172,6 +206,17 @@ public class ApplicationUtils {
             resourceInfos.add(new ResourceInfo(context, resID, field.getName(), rClazz.getSimpleName()));
         }
         return resourceInfos;
+    }
+
+    public static Bitmap newBarcode(BarcodeFormat barcodeFormat, int width, int height) {
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+        Bitmap bitmap = null;
+        try {
+            bitmap = barcodeEncoder.encodeBitmap("content", barcodeFormat, width, height);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     public static int dip2px(Context context, float dpValue) {

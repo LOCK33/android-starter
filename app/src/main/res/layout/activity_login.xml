@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/space_xlg"
+    tools:context=".LoginActivity">
+
+
+    <LinearLayout
+        android:id="@+id/login_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/login_username_input"
+            style="@style/Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/username"
+            android:layout_marginBottom="@dimen/space_lg" />
+
+        <EditText
+            android:id="@+id/login_password_input"
+            style="@style/Input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_lg"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/login_sign_in_btn"
+            style="@style/ButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_lg"
+            android:text="@string/sign_in" />
+
+        <Button
+            android:id="@+id/login_sign_in_with_google_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_lg"
+            android:text="@string/sign_in_with_google" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_wel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/login_user_avatar_img"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="@dimen/space_lg"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/login_username_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="26dp"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

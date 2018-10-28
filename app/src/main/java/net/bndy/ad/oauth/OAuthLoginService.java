@@ -26,11 +26,13 @@ import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
 
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.HashMap;
 import java.util.Map;
 
 public class OAuthLoginService<TUser extends AppUserInteface> {
 
+    private static AppUser USER;
     private static final String SHARED_PREFERENCES_NAME = "AuthStatePreference";
     private static final String AUTH_STATE = "AUTH_STATE";
     public static final int REQUEST_CODE = 1;
@@ -48,7 +50,6 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
     private Activity activity;
     private OAuthConfiguration configuration;
     private Class<TUser> userClazz;
-    private TUser user;
 
     public OAuthLoginService setLogTag(String tag) {
         logTag = tag;
@@ -56,10 +57,11 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
     }
 
     public AppUser getUser() {
-        if (user != null) {
-            return user.toAppUser();
-        }
-        return null;
+        return USER;
+    }
+
+    public void setUser(AppUser user) {
+        USER = user;
     }
 
     public AuthorizationService getAuthorizationService() {
@@ -98,7 +100,7 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
 
     public void logout() {
         Log.i(this.logTag, "Logging out...");
-        this.user = null;
+        USER = null;
         this.clearAuthState();
     }
 
@@ -164,7 +166,7 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
                 requestService.apiGet(userClazz, configuration.getUserInfoEndpoint(), new HttpResponseSuccessCallback<TUser>() {
                     @Override
                     public void onSuccessResponse(TUser response) {
-                        user = response;
+                        USER = response.toAppUser();
                         callback.onSuccessResponse(response);
                     }
                 }, errorCallback);
@@ -183,10 +185,6 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
                 .edit()
                 .remove(AUTH_STATE)
                 .apply();
-    }
-
-    public interface AuthorizationResponseHandler {
-        void onResponse();
     }
 }
 

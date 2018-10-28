@@ -14,6 +14,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -26,18 +27,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.exception.UnsupportedViewException;
 
 import org.xutils.x;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,8 +53,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ExitReceiver mExitReceiver = new ExitReceiver();
     private Map<Integer, ContextMenuItemInfo> mContextMenuItemsMapping;
     private ProgressBarHandler mProgressBarHandler;
-    protected ApplicationUtils mApplicationUtils;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
+
+    public ApplicationUtils utils;
 
     // all callback here
     private CallbackHandler1<Bitmap> mTakePhotoCallbackHandler;
@@ -65,7 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public BaseActivity() {
         super();
         mThis = this;
-        mApplicationUtils = new ApplicationUtils(mThis);
+        utils = new ApplicationUtils(mThis);
         mViewsMappingWithContextMenu = new HashMap<>();
         mContextMenuItemsMapping = new HashMap<>();
     }
@@ -94,7 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Locale locale = mApplicationUtils.getLocale();
+        Locale locale = utils.getLocale();
 
         if (!locale.equals(mCurrentLocale)) {
             mCurrentLocale = locale;
@@ -164,78 +165,69 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    protected void registerForContextMenu(ContextMenuInfo contextMenuInfo) {
+    public void registerForContextMenu(ContextMenuInfo contextMenuInfo) {
         mViewsMappingWithContextMenu.put(contextMenuInfo.getTargetId(), contextMenuInfo);
         registerForContextMenu(findViewById(contextMenuInfo.getTargetId()));
     }
 
-    protected Bitmap generateBarcode(BarcodeFormat barcodeFormat, int width, int height) {
-        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-        Bitmap bitmap = null;
-        try {
-            bitmap = barcodeEncoder.encodeBitmap("content", barcodeFormat, width, height);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
 
-    protected void startActivity(Class<? extends Activity> cls) {
+
+    public void startActivity(Class<? extends Activity> cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
     }
 
-    protected void setActionMenu(@MenuRes int menu) {
+    public void setActionMenu(@MenuRes int menu) {
         mMenu = menu;
     }
 
-    protected void setIcon(@DrawableRes int id) {
-        setIcon(mApplicationUtils.getDrawable(id));
+    public void setIcon(@DrawableRes int id) {
+        setIcon(utils.getDrawable(id));
     }
 
-    protected void setIcon(Drawable drawable) {
+    public void setIcon(Drawable drawable) {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(drawable);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
-    protected void exitApplication() {
+    public void exitApplication() {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(ACTION_EXIT);
         BaseActivity.this.sendBroadcast(intent);
     }
 
-    protected void info(@StringRes int message) {
-        mApplicationUtils.info(message);
+    public void info(@StringRes int message) {
+        utils.info(message);
     }
-    protected void info(String message) {
-        mApplicationUtils.info(message);
+    public void info(String message) {
+        utils.info(message);
     }
-    protected void alert(@StringRes int title, @StringRes int message, ApplicationUtils.Action action) {
-        mApplicationUtils.alert(title, message, action);
+    public void alert(@StringRes int title, @StringRes int message, ApplicationUtils.Action action) {
+        utils.alert(title, message, action);
     }
-    protected void alert(String title, String message, ApplicationUtils.Action action) {
-        mApplicationUtils.alert(title, message, action);
+    public void alert(String title, String message, ApplicationUtils.Action action) {
+        utils.alert(title, message, action);
     }
-    protected void confirm(@StringRes int title, @StringRes int message, ApplicationUtils.Action actionYes, ApplicationUtils.Action actionNo) {
-        mApplicationUtils.confirm(title, message, actionYes, actionNo);
+    public void confirm(@StringRes int title, @StringRes int message, ApplicationUtils.Action actionYes, ApplicationUtils.Action actionNo) {
+        utils.confirm(title, message, actionYes, actionNo);
     }
 
-    protected void registerProgressBar() {
+    public void registerProgressBar() {
         mProgressBarHandler = new ProgressBarHandler(this);
     }
-    protected void showProgressBar() {
+    public void showProgressBar() {
         mProgressBarHandler.show();
     }
-    protected void hideProgressBar() {
+    public void hideProgressBar() {
         mProgressBarHandler.hide();
     }
 
-    protected void bindObjectToView(Object data) {
+    public void bindObjectToView(Object data) {
         bindObjectToView(data, null);
     }
-    protected void bindObjectToView(Object data, String viewIdPrefix) {
+    public void bindObjectToView(Object data, String viewIdPrefix) {
         Field[] fields = data.getClass().getDeclaredFields();
 
         for(Field field: fields) {
@@ -267,28 +259,40 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected boolean checkRequired(@IdRes int viewId, @StringRes int requiredMessage) {
-        View view = findViewById(viewId);
-        if (view instanceof EditText) {
-            if (checkRequired(((EditText) view).getText().toString(), requiredMessage)) {
-                return true;
-            }
-            view.requestFocus();
-            view.requestFocusFromTouch();
-            return false;
-        }
-
-        throw new UnsupportedViewException(getResources().getResourceName(viewId));
+    public boolean checkRequired(@IdRes int viewId, @StringRes int requiredMessage) {
+        return utils.checkRequired(this, viewId, requiredMessage);
     }
-    protected boolean checkRequired(String val, @StringRes int requiredMessage) {
-        if (val == null || val.trim().isEmpty()) {
-            info(requiredMessage);
-            return false;
-        }
-        return true;
+    public boolean checkRequired(String val, @StringRes int requiredMessage) {
+        return utils.checkRequired(val, requiredMessage);
     }
 
-    protected void startTakePhoto(CallbackHandler1<Bitmap> callback) {
+    public void setTabs(CommonTabLayout tabLayout, @IdRes int tabContentContainer, Map<Integer, Fragment> fragmentMap) {
+        ArrayList<CustomTabEntity> tabs = new ArrayList<>();
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        for(final int title: fragmentMap.keySet()) {
+            tabs.add(new CustomTabEntity() {
+                @Override
+                public String getTabTitle() {
+                    return getBaseContext().getResources().getString(title);
+                }
+
+                @Override
+                public int getTabSelectedIcon() {
+                    return 0;
+                }
+
+                @Override
+                public int getTabUnselectedIcon() {
+                    return 0;
+                }
+            });
+            fragments.add(fragmentMap.get(title));
+        }
+
+        tabLayout.setTabData(tabs, this, tabContentContainer, fragments);
+    }
+
+    public void startTakePhoto(CallbackHandler1<Bitmap> callback) {
         mTakePhotoCallbackHandler = callback;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -296,7 +300,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void startScan(CallbackHandler1<String> callback) {
+    public void startScan(CallbackHandler1<String> callback) {
         mScanCallbackHandler = callback;
         IntentIntegrator integrator = new IntentIntegrator(this)
                 .setCaptureActivity(CaptureActivity.class)
