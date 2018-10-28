@@ -14,7 +14,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -27,8 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.listener.CustomTabEntity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -37,7 +34,6 @@ import net.bndy.ad.R;
 import org.xutils.x;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -264,32 +260,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     public boolean checkRequired(String val, @StringRes int requiredMessage) {
         return utils.checkRequired(val, requiredMessage);
-    }
-
-    public void setTabs(CommonTabLayout tabLayout, @IdRes int tabContentContainer, Map<Integer, Fragment> fragmentMap) {
-        ArrayList<CustomTabEntity> tabs = new ArrayList<>();
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        for(final int title: fragmentMap.keySet()) {
-            tabs.add(new CustomTabEntity() {
-                @Override
-                public String getTabTitle() {
-                    return getBaseContext().getResources().getString(title);
-                }
-
-                @Override
-                public int getTabSelectedIcon() {
-                    return 0;
-                }
-
-                @Override
-                public int getTabUnselectedIcon() {
-                    return 0;
-                }
-            });
-            fragments.add(fragmentMap.get(title));
-        }
-
-        tabLayout.setTabData(tabs, this, tabContentContainer, fragments);
     }
 
     public void startTakePhoto(CallbackHandler1<Bitmap> callback) {

@@ -26,4 +26,6 @@
     <string name="required">必填项</string>
     <string name="take_photo">拍照</string>
     <string name="image">图片</string>
+    <string name="list">列表</string>
+    <string name="grid">表格</string>
 </resources>

@@ -7,13 +7,13 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/sample_drawable_item_iv"
+        android:id="@+id/sample_images_item_iv"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:scaleType="centerInside"/>
 
     <TextView
-        android:id="@+id/sample_drawable_item_tv"
+        android:id="@+id/sample_images_item_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"

@@ -6,25 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
 
-    <com.flyco.tablayout.CommonTabLayout
+    <net.bndy.ad.framework.ui.TabLayout
         android:id="@+id/splash_tabs"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        app:tl_indicator_color="@color/colorAccent">
-    </com.flyco.tablayout.CommonTabLayout>
+        app:tl_indicator_color="@color/colorAccent"></net.bndy.ad.framework.ui.TabLayout>
 
     <LinearLayout
         android:id="@+id/splash_content_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:background="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/splash_tabs"
-        app:layout_constraintBottom_toBottomOf="parent">
-    </LinearLayout>
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/splash_tabs"></LinearLayout>
 
-<!--<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
     <!--xmlns:tools="http://schemas.android.com/tools"-->
     <!--app:flexWrap="wrap"-->
@@ -34,52 +32,52 @@
     <!--&gt;-->
 
     <!--<Button-->
-        <!--style="@style/ButtonPrimary"-->
-        <!--app:layout_flexGrow="1"-->
-        <!--android:id="@+id/form_btn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/form" />-->
+    <!--style="@style/ButtonPrimary"-->
+    <!--app:layout_flexGrow="1"-->
+    <!--android:id="@+id/form_btn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/form" />-->
 
     <!--<Button-->
-        <!--style="@style/ButtonPrimary"-->
-        <!--app:layout_flexGrow="1"-->
-        <!--android:id="@+id/scan_barcode_btn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/scan_barcode" />-->
+    <!--style="@style/ButtonPrimary"-->
+    <!--app:layout_flexGrow="1"-->
+    <!--android:id="@+id/scan_barcode_btn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/scan_barcode" />-->
 
     <!--<Button-->
-        <!--style="@style/ButtonPrimary"-->
-        <!--app:layout_flexGrow="1"-->
-        <!--android:id="@+id/generate_barcode_btn"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/generate_barcode" />-->
+    <!--style="@style/ButtonPrimary"-->
+    <!--app:layout_flexGrow="1"-->
+    <!--android:id="@+id/generate_barcode_btn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/generate_barcode" />-->
 
     <!--<Button-->
-        <!--style="@style/ButtonPrimary"-->
-        <!--app:layout_flexGrow="1"-->
-        <!--android:id="@+id/show_progress_bar"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/show_progress_bar" />-->
+    <!--style="@style/ButtonPrimary"-->
+    <!--app:layout_flexGrow="1"-->
+    <!--android:id="@+id/show_progress_bar"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/show_progress_bar" />-->
 
     <!--<Button-->
-        <!--style="@style/ButtonPrimary"-->
-        <!--app:layout_flexGrow="1"-->
-        <!--android:id="@+id/show_drawable"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/show_drawable" />-->
+    <!--style="@style/ButtonPrimary"-->
+    <!--app:layout_flexGrow="1"-->
+    <!--android:id="@+id/show_drawable"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/show_drawable" />-->
 
     <!--<Button-->
-        <!--style="@style/ButtonPrimary"-->
-        <!--app:layout_flexGrow="1"-->
-        <!--android:id="@+id/take_photo"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/take_photo" />-->
+    <!--style="@style/ButtonPrimary"-->
+    <!--app:layout_flexGrow="1"-->
+    <!--android:id="@+id/take_photo"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/take_photo" />-->
 
-<!--</com.google.android.flexbox.FlexboxLayout>-->
+    <!--</com.google.android.flexbox.FlexboxLayout>-->
 </android.support.constraint.ConstraintLayout>

@@ -5,16 +5,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
-import com.flyco.tablayout.CommonTabLayout;
-
 import net.bndy.ad.framework.ApplicationUtils;
 import net.bndy.ad.framework.BaseActivity;
+import net.bndy.ad.framework.ui.TabLayout;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.oauth.OAuthLoginService;
-import net.bndy.ad.sample.DrawableListFragment;
 import net.bndy.ad.sample.FormFragment;
 import net.bndy.ad.sample.BarcodeFragment;
+import net.bndy.ad.sample.ImagesFragment;
 import net.bndy.ad.sample.TakePhotoFragment;
 
 import org.xutils.common.Callback;
@@ -27,51 +26,11 @@ import java.util.Map;
 
 public class SplashActivity extends BaseActivity {
 
-//    @Event(R.id.scan_barcode_btn)
-//    private void onScanBarcode(View view) {
-//        startActivity(ScanBarcodeActivity.class);
-//    }
-//
-//    @Event(R.id.generate_barcode_btn)
-//    private void onGenerateBarcode(View view) {
-//        startActivity(GenerateBarcodeActivity.class);
-//    }
-//
-//    @Event(R.id.form_btn)
-//    private void onForm(View view) {
-//        startActivity(FormActivity.class);
-//    }
-//
-//    @Event(R.id.show_progress_bar)
-//    private void onShowProgressBar(View view) {
-//        showProgressBar();
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    sleep(5000);
-//                    hideProgressBar();
-//                } catch (Exception ex) { }
-//
-//            }
-//        }.start();
-//    }
-//
-//    @Event(R.id.show_drawable)
-//    private void onShowDrawable(View view) {
-//        startActivity(DrawableListFragment.class);
-//    }
-//
-//    @Event(R.id.take_photo)
-//    private void onTakePhoto(View view) {
-//        startActivity(TakePhotoActivity.class);
-//    }
-
-    @ViewInject(R.id.splash_tabs)
-    private CommonTabLayout mTabLayout;
-
     private OAuthLoginService oAuthLoginService;
     private Map<Integer, Fragment> mFragmentMap;
+
+    @ViewInject(R.id.splash_tabs)
+    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +48,10 @@ public class SplashActivity extends BaseActivity {
 
         mFragmentMap = new HashMap<>();
         mFragmentMap.put(R.string.form, new FormFragment());
-        mFragmentMap.put(R.string.image, new DrawableListFragment());
+        mFragmentMap.put(R.string.image, new ImagesFragment());
         mFragmentMap.put(R.string.take_photo, new TakePhotoFragment());
         mFragmentMap.put(R.string.barcode, new BarcodeFragment());
-        setTabs(mTabLayout, R.id.splash_content_container, mFragmentMap);
+        mTabLayout.setItems(R.id.splash_content_container, mFragmentMap, this);
     }
 
     @Override

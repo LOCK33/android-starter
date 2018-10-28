@@ -4,104 +4,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:background="@android:color/white"
     tools:context=".sample.FormFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <EditText
-            style="@style/Input"
-            android:id="@+id/form_input1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            style="@style/Input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            style="@style/Input"
-            android:enabled="false"
-            android:text="Disabled"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Spinner
-            style="@style/InputSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:entries="@array/ddl"></Spinner>
-
-        <Spinner
-            style="@style/InputSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:entries="@array/ddl"></Spinner>
-
-        <Button
-            style="@style/ButtonPrimary"
-            android:id="@+id/form_submit1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit"></Button>
-
-        <Button
-            style="@style/ButtonPrimary"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Disabled"/>
-
-        <Button
-            style="@style/ButtonAccent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button"/>
-
-        <Button
-            style="@style/ButtonAccent"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Disabled"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                style="@style/CircleButtonPrimary"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:text="Button"/>
-            <Button
-                style="@style/CircleButtonPrimary"
-                android:enabled="false"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:text="Disabled"/>
-            <Button
-                style="@style/CircleButtonAccent"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:text="Button"/>
-            <Button
-                style="@style/CircleButtonAccent"
-                android:enabled="false"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:text="Disabled"/>
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:padding="@dimen/space"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/form_input1"
+                style="@style/Input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                style="@style/Input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                style="@style/Input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Disabled" />
+
+            <Spinner
+                style="@style/InputSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/ddl"
+                android:focusable="true"
+                android:focusableInTouchMode="true"></Spinner>
+
+            <Spinner
+                style="@style/InputSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/ddl"
+                android:focusable="true"
+                android:focusableInTouchMode="true"></Spinner>
+
+            <Button
+                android:id="@+id/form_submit1"
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit"></Button>
+
+            <Button
+                style="@style/ButtonPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Disabled" />
+
+            <Button
+                style="@style/ButtonAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
+            <Button
+                style="@style/ButtonAccent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Disabled" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    style="@style/CircleButtonPrimary"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:text="Button" />
+
+                <Button
+                    style="@style/CircleButtonPrimary"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:enabled="false"
+                    android:text="Disabled" />
+
+                <Button
+                    style="@style/CircleButtonAccent"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:text="Button" />
+
+                <Button
+                    style="@style/CircleButtonAccent"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:enabled="false"
+                    android:text="Disabled" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
