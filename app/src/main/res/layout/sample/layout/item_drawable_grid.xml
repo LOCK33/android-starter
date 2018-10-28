@@ -2,19 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightDark"
+    android:background="@color/colorWhite"
     android:padding="10dp"
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/sample_drawable_list_grid_item_iv"
+        android:id="@+id/sample_drawable_item_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="centerInside"
         android:layout_gravity="center"/>
 
     <TextView
-        android:id="@+id/sample_drawable_list_grid_item_tv"
+        android:id="@+id/sample_drawable_item_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"

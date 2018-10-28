@@ -17,4 +17,6 @@
     <dimen name="input_shadow">3dp</dimen>
     <dimen name="input_shadow_margin">-3dp</dimen>
     <dimen name="input_border">3px</dimen>
+
+    <dimen name="width_swipe_menu_item">22dp</dimen>
 </resources>

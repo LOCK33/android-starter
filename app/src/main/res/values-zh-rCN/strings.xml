@@ -22,4 +22,8 @@
     <string name="username">登录账号</string>
     <string name="password">登录密码</string>
     <string name="scan">扫描</string>
+    <string name="form">表单</string>
+    <string name="required">必填项</string>
+    <string name="take_photo">拍照</string>
+    <string name="image">图片</string>
 </resources>

@@ -55,25 +55,6 @@
             android:stateNotNeeded="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".sample.GenerateBarcodeActivity"
-            android:label="@string/generate_barcode"
-            android:parentActivityName=".SplashActivity" />
-        <activity
-            android:name=".sample.ScanBarcodeActivity"
-            android:parentActivityName=".SplashActivity" />
-        <activity
-            android:name=".sample.FormActivity"
-            android:label="@string/form"
-            android:parentActivityName=".SplashActivity" />
-        <activity
-            android:name=".sample.DrawableListFragment"
-            android:label="@string/available_images"
-            android:parentActivityName=".SplashActivity" />
-        <activity
-            android:name=".sample.TakePhotoActivity"
-            android:label="@string/take_photo"
-            android:parentActivityName=".SplashActivity" />
         <activity android:name=".LoginActivity"></activity>
     </application>
 

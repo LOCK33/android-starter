@@ -208,6 +208,14 @@ public class ApplicationUtils {
         return resourceInfos;
     }
 
+    public static int getColor(int id, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return context.getResources().getColor(id, context.getTheme());
+        } else {
+            return context.getResources().getColor(id);
+        }
+    }
+
     public static Bitmap newBarcode(BarcodeFormat barcodeFormat, int width, int height) {
         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
         Bitmap bitmap = null;

@@ -89,7 +89,7 @@ public class SplashActivity extends BaseActivity {
 
         mFragmentMap = new HashMap<>();
         mFragmentMap.put(R.string.form, new FormFragment());
-        mFragmentMap.put(R.string.show_drawable, new DrawableListFragment());
+        mFragmentMap.put(R.string.image, new DrawableListFragment());
         mFragmentMap.put(R.string.take_photo, new TakePhotoFragment());
         mFragmentMap.put(R.string.barcode, new BarcodeFragment());
         setTabs(mTabLayout, R.id.splash_content_container, mFragmentMap);

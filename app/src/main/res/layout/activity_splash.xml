@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:background="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/splash_tabs"
         app:layout_constraintBottom_toBottomOf="parent">
     </LinearLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorPrimary">#007bff</color>
     <color name="colorPrimaryDark">#0062cc</color>
     <color name="colorPrimaryLight">#afd2e7</color>
@@ -15,8 +16,10 @@
     <color name="colorInfoDark">#138496</color>
     <color name="colorLight">#f8f9fa</color>
     <color name="colorLightDark">#e2e6ea</color>
+
     <color name="colorDark">#343a40</color>
     <color name="colorDarkDark">#23272b</color>
+    <color name="colorDarkAlpha">#66000000</color>
 
     <color name="colorAccent">#ff4081</color>
     <color name="colorAccentDark">#D81B60</color>
@@ -27,5 +30,4 @@
     <color name="colorShadow">#aaaaaa</color>
     <color name="colorProgressBarBg">#99ffffff</color>
 
-    <color name="colorDarkAlpha">#66000000</color>
 </resources>

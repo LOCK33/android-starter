@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity {
 
     @Event(R.id.login_sign_in_btn)
     private void onLogin(View view) {
-        if (checkRequired(R.id.login_username_input, R.string.required) && checkRequired(R.id.login_password_input, R.string.required)) {
+        if (true) { // checkRequired(R.id.login_username_input, R.string.required) && checkRequired(R.id.login_password_input, R.string.required)) {
             AppUser appUser = new AppUser();
             appUser.setName(mEditTextUsername.getText().toString());
             this.mOAuthLoginService.setUser(appUser);
