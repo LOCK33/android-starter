@@ -18,6 +18,6 @@
 
 ## Screenshots
 
-![Splash](https://raw.githubusercontent.com/bndynet/web-framework-for-java/master/docs/images/splash.png)
+![Splash](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/splash.png)
 
-![Form](https://raw.githubusercontent.com/bndynet/web-framework-for-java/master/docs/images/form.png)
+![Form](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/form.png)
