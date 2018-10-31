@@ -29,5 +29,6 @@
     <color name="colorDisabled">#efefef</color>
     <color name="colorShadow">#aaaaaa</color>
     <color name="colorProgressBarBg">#99ffffff</color>
+    <color name="colorLink">#ff007bff</color>
 
 </resources>

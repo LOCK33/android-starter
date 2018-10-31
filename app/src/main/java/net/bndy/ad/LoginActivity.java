@@ -1,9 +1,10 @@
 package net.bndy.ad;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,13 +33,16 @@ public class LoginActivity extends BaseActivity {
     private LinearLayout mLayoutMain;
     @ViewInject(R.id.login_username_input)
     private EditText mEditTextUsername;
-
     @ViewInject(R.id.login_wel_layout)
     private LinearLayout mLayoutWel;
     @ViewInject(R.id.login_user_avatar_img)
     private ImageView mImageViewUserAvatar;
     @ViewInject(R.id.login_username_tv)
     private TextView mTextViewUsername;
+    @ViewInject(R.id.login_copyright)
+    private TextView mTextViewCopyright;
+    @ViewInject(R.id.login_sign_in_with_google_btn)
+    private TextView mTextViewLoginWithGoogle;
 
     @Event(R.id.login_sign_in_btn)
     private void onLogin(View view) {
@@ -63,6 +67,8 @@ public class LoginActivity extends BaseActivity {
         registerProgressBar();
 
         mOAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
+        mTextViewCopyright.setMovementMethod(LinkMovementMethod.getInstance());
+        mTextViewLoginWithGoogle.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 
     @Override

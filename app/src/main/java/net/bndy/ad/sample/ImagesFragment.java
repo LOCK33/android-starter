@@ -30,7 +30,7 @@ public class ImagesFragment extends BaseFragment  {
         mFragmentMap.put(R.string.list, new ImagesListFragment());
         mFragmentMap.put(R.string.grid, new ImagesGridFragment());
         mTabLayout.setItems(R.id.sample_images_tabcontent_container, mFragmentMap, this.getActivity());
-        mTabLayout.showDot(1);
+        mTabLayout.showDot(0);
         return layout;
     }
 

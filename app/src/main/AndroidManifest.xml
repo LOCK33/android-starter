@@ -53,9 +53,10 @@
             android:label="@string/title_activity_capture"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/AppTheme.FullScreenDark"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity
+            android:name=".LoginActivity" android:theme="@style/AppTheme.FullScreen"></activity>
     </application>
 
 </manifest>

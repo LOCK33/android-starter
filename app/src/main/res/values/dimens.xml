@@ -19,4 +19,6 @@
     <dimen name="input_border">3px</dimen>
 
     <dimen name="width_swipe_menu_item">22dp</dimen>
+
+    <dimen name="font_size_sm">14dp</dimen>
 </resources>

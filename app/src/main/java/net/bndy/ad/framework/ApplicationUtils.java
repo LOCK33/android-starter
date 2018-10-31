@@ -12,6 +12,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -232,6 +235,14 @@ public class ApplicationUtils {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    public static Spanned convertHtml(String html) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            return Html.fromHtml(html);
+        }
     }
 
     public interface Action {
