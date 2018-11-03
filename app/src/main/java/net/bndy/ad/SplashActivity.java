@@ -14,7 +14,7 @@ import net.bndy.ad.oauth.OAuthLoginService;
 import net.bndy.ad.sample.FormFragment;
 import net.bndy.ad.sample.BarcodeFragment;
 import net.bndy.ad.sample.ImagesFragment;
-import net.bndy.ad.sample.TakePhotoFragment;
+import net.bndy.ad.sample.PictureFragment;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -49,7 +49,7 @@ public class SplashActivity extends BaseActivity {
         mFragmentMap = new HashMap<>();
         mFragmentMap.put(R.string.form, new FormFragment());
         mFragmentMap.put(R.string.image, new ImagesFragment());
-        mFragmentMap.put(R.string.take_photo, new TakePhotoFragment());
+        mFragmentMap.put(R.string.photo, new PictureFragment());
         mFragmentMap.put(R.string.barcode, new BarcodeFragment());
         mTabLayout.setItems(R.id.splash_content_container, mFragmentMap, this);
     }

@@ -1,7 +1,6 @@
 package net.bndy.ad;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -75,7 +74,7 @@ public class LoginActivity extends BaseActivity {
         utils.setTextViewAsLink(mTextViewLoginWithGoogle);
         utils.enableLinksInTextView(mTextViewCopyright);
 
-        mLayout.setBackground(ImageHelper.blur(this, R.drawable.bg_login));
+        mLayout.setBackground(ImageHelper.blur(this, mLayout.getBackground()));
     }
 
     @Override

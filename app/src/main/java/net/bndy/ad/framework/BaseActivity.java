@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
@@ -30,9 +31,11 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import net.bndy.ad.R;
+import net.bndy.ad.framework.system.GalleryHelper;
 
 import org.xutils.x;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Locale;
@@ -54,6 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     // all callback here
     private CallbackHandler1<Bitmap> mTakePhotoCallbackHandler;
     private CallbackHandler1<String> mScanCallbackHandler;
+    private CallbackHandler2<Uri, Bitmap> mChoosePhotoCallbackHandler;
 
     private @MenuRes int mMenu;
 
@@ -150,6 +154,18 @@ public abstract class BaseActivity extends AppCompatActivity {
                     if (scanResult != null) {
                         String result = scanResult.getContents();
                         mScanCallbackHandler.callback(result);
+                    }
+                    break;
+
+                case RequestCodes.GALLERY:
+                    if (data != null) {
+                        Uri contentURI = data.getData();
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                            mChoosePhotoCallbackHandler.callback(contentURI, bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     break;
             }
@@ -256,6 +272,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     public boolean checkRequired(String val, @StringRes int requiredMessage) {
         return utils.checkRequired(val, requiredMessage);
+    }
+
+    public void startChoosePhoto(CallbackHandler2<Uri, Bitmap> callback) {
+        mChoosePhotoCallbackHandler = callback;
+        GalleryHelper galleryHelper = new GalleryHelper(this);
+        galleryHelper.choosePhoto();
     }
 
     public void startTakePhoto(CallbackHandler1<Bitmap> callback) {

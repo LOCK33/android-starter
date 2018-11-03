@@ -7,7 +7,7 @@
 
     <string name="sign_in">登录</string>
     <string name="sign_in_with_google">谷歌登录</string>
-    <string name="sign_out">退出</string>
+    <string name="sign_out">登出</string>
     <string name="sign_out_confirmation">您确定要退出吗？</string>
     <string name="hello">您好</string>
     <string name="ok">确定</string>
@@ -32,4 +32,6 @@
     <string name="image">图片</string>
     <string name="list">列表</string>
     <string name="grid">表格</string>
+    <string name="photo">照片</string>
+    <string name="choose_picture">选择图片</string>
 </resources>

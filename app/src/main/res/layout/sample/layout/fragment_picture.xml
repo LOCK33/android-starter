@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/space"
-    tools:context=".sample.TakePhotoFragment">
+    tools:context=".sample.PictureFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/sample_take_photo_vi"
+            android:id="@+id/sample_picture_tv"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:src="@drawable/image_placeholder"
@@ -25,12 +25,27 @@
             app:civ_shadow_gravity="start"
             app:civ_shadow_color="@color/colorShadow"/>
 
-        <Button
-            android:id="@+id/sample_take_photo_btn"
-            style="@style/ButtonPrimary"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space"
-            android:text="@string/take_photo" />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/sample_picture_take_btn"
+                style="@style/ButtonPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:layout_weight="0.5"
+                android:text="@string/take_photo" />
+            <Button
+                android:id="@+id/sample_picture_choose_btn"
+                style="@style/ButtonPrimary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space"
+                android:layout_weight="0.5"
+                android:text="@string/choose_picture" />
+
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

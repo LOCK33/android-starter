@@ -1,4 +1,4 @@
-package net.bndy.ad.framework.device;
+package net.bndy.ad.framework.system;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,12 +15,10 @@ import net.bndy.ad.framework.RequestCodes;
 
 import java.io.File;
 
-public class CameraHelper {
-
-    private Activity mActivity;
+public class CameraHelper extends BaseHelper {
 
     public CameraHelper(Activity activity) {
-        mActivity = activity;
+        super(activity);
     }
 
     public boolean checkPermission() {
@@ -35,24 +33,16 @@ public class CameraHelper {
         return true;
     }
 
-    private void takePhoto(String filename) {
+    public void takePhoto(String filename) {
         if (checkPermission()) {
             Intent intentToTakePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             String filePath = Environment.getExternalStorageDirectory() + File.separator + filename;
-            /*imageUri = Uri.fromFile(new File(mTempPhotoPath));*/
-            Uri imageUri = FileProvider.getUriForFile(mActivity,
-                    mActivity.getApplicationContext().getPackageName() + ".my.provider",
-                    new File(filePath));
+            Uri imageUri = Uri.fromFile(new File(filePath));
+//            imageUri = FileProvider.getUriForFile(mActivity,
+//                    mActivity.getApplicationContext().getPackageName() + ".my.provider",
+//                    new File(filePath));
             intentToTakePhoto.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             mActivity.startActivityForResult(intentToTakePhoto, RequestCodes.GALLERY);
-        }
-    }
-
-    private void choosePhoto() {
-        if (checkPermission()) {
-            Intent intentToPickPic = new Intent(Intent.ACTION_PICK, null);
-            intentToPickPic.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-            mActivity.startActivityForResult(intentToPickPic, RequestCodes.GALLERY);
         }
     }
 }
