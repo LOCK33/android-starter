@@ -1,16 +1,22 @@
 package net.bndy.ad.framework.helper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Environment;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
+import android.view.Display;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
@@ -25,9 +31,53 @@ import java.util.Calendar;
 
 public class ImageHelper {
 
-    public static Drawable changeSize(Context context, @DrawableRes int resourceId, int targetWidth, int targetHeight) {
+    public static Bitmap resize(Context context, @DrawableRes int resourceId, int targetWidth, int targetHeight) {
         try {
-            return bitmapToDrawable(context, Picasso.get().load(resourceId).resize(targetWidth, targetHeight).get());
+            return Picasso.get().load(resourceId).resize(targetWidth, targetHeight).get();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Bitmap resize(Context context, String filepath, int targetWidth, int targetHeight) {
+        try {
+            return Picasso.get().load(filepath).resize(targetWidth, targetHeight).get();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Bitmap load(Activity activity, String filepath) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        // following 2 rows just get image size
+        options.inJustDecodeBounds = true;
+        Bitmap bm = BitmapFactory.decodeFile(filepath, options);
+
+        WindowManager windowManager = activity.getWindowManager();
+        Display windowDisplay = windowManager.getDefaultDisplay();
+        int windowWidth = windowDisplay.getWidth();
+        int scale = 1;
+        if(options.outWidth>windowWidth){
+            scale = options.outWidth / windowWidth;
+        }
+        options.inJustDecodeBounds = false;
+        options.inSampleSize = scale;
+        return BitmapFactory.decodeFile(filepath, options);
+    }
+
+
+    public static void loadInto(Uri uri, ImageView imageView) {
+        Picasso.get().load(uri).fit().centerCrop().into(imageView);
+    }
+    public static void loadInto(String imagePath, ImageView imageView) {
+        Picasso.get().load(imagePath).fit().centerCrop().into(imageView);
+    }
+
+    public static Bitmap resize(Context context, Uri uri, int targetWidth, int targetHeight) {
+        try {
+            return Picasso.get().load(uri).resize(targetWidth, targetHeight).get();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

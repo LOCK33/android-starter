@@ -14,8 +14,7 @@ import net.bndy.ad.R;
 import net.bndy.ad.framework.BaseActivity;
 import net.bndy.ad.framework.BaseFragment;
 import net.bndy.ad.framework.CallbackHandler1;
-import net.bndy.ad.framework.CallbackHandler2;
-import net.bndy.ad.framework.system.CameraHelper;
+import net.bndy.ad.framework.helper.ImageHelper;
 
 public class PictureFragment extends BaseFragment {
 
@@ -40,10 +39,10 @@ public class PictureFragment extends BaseFragment {
         layout.findViewById(R.id.sample_picture_choose_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startChoosePhoto(new CallbackHandler2<Uri, Bitmap>() {
+                activity.startChoosePhoto(new CallbackHandler1<Uri>() {
                     @Override
-                    public void callback(Uri arg1, Bitmap arg2) {
-                        mImageView.setImageBitmap(arg2);
+                    public void callback(Uri uri) {
+                        ImageHelper.loadInto(uri, mImageView);
                     }
                 });
             }

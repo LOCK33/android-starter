@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.MenuRes;
@@ -32,6 +31,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import net.bndy.ad.R;
+import net.bndy.ad.framework.helper.ImageHelper;
 import net.bndy.ad.framework.system.CameraHelper;
 import net.bndy.ad.framework.system.GalleryHelper;
 
@@ -61,8 +61,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     // all callback here
     private CallbackHandler1<Bitmap> mTakePhotoCallbackHandler;
+    private CallbackHandler1<Bitmap> mTakePhotoDefaultCallbackHandler;
     private CallbackHandler1<String> mScanCallbackHandler;
-    private CallbackHandler2<Uri, Bitmap> mChoosePhotoCallbackHandler;
+    private CallbackHandler1<Uri> mChoosePhotoCallbackHandler;
 
     private @MenuRes int mMenu;
 
@@ -153,25 +154,12 @@ public abstract class BaseActivity extends AppCompatActivity {
                     Bundle extras = data.getExtras();
                     // default to back thumbnail photo
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    mTakePhotoCallbackHandler.callback(imageBitmap);
+                    mTakePhotoDefaultCallbackHandler.callback(imageBitmap);
                     break;
 
                 case RequestCodes.CAMERA_BACK_ORIGIN:
-                    try {
-                        fis = new FileInputStream(mCameraFilePath);
-                        Bitmap cameraBitmap = BitmapFactory.decodeStream(fis);
-                        mTakePhotoCallbackHandler.callback(cameraBitmap);
-                    } catch (FileNotFoundException ex) {
-                        ex.printStackTrace();
-                    } finally {
-                        if (fis != null) {
-                            try {
-                                fis.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+                    Bitmap cameraBitmap = ImageHelper.load(mThis, mCameraFilePath);
+                    mTakePhotoCallbackHandler.callback(cameraBitmap);
                     break;
 
                 case RequestCodes.BARCODE:
@@ -185,12 +173,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 case RequestCodes.GALLERY:
                     if (data != null) {
                         Uri contentURI = data.getData();
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                            mChoosePhotoCallbackHandler.callback(contentURI, bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        mChoosePhotoCallbackHandler.callback(contentURI);
                     }
                     break;
             }
@@ -299,7 +282,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return utils.checkRequired(val, requiredMessage);
     }
 
-    public void startChoosePhoto(CallbackHandler2<Uri, Bitmap> callback) {
+    public void startChoosePhoto(CallbackHandler1<Uri> callback) {
         mChoosePhotoCallbackHandler = callback;
         GalleryHelper galleryHelper = new GalleryHelper(this);
         galleryHelper.choosePhoto();
