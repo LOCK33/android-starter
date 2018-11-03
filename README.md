@@ -18,6 +18,8 @@
 
 ## Screenshots
 
-![Splash](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/splash.png)
+![Login](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/login.png)
 
 ![Form](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/form.png)
+
+![List](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/list.png)
