@@ -74,6 +74,11 @@ public class SplashActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        oAuthLoginService.dispose();
+        super.onDestroy();
+    }
 
     private void initView() {
         AppUser appUser = oAuthLoginService.getUser();

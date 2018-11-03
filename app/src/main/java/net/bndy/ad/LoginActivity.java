@@ -1,10 +1,10 @@
 package net.bndy.ad;
 
 import android.content.Intent;
-import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.method.LinkMovementMethod;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 
 import net.bndy.ad.framework.BaseActivity;
+import net.bndy.ad.framework.helper.ImageHelper;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.oauth.OAuthLoginService;
@@ -44,6 +45,9 @@ public class LoginActivity extends BaseActivity {
     @ViewInject(R.id.login_sign_in_with_google_btn)
     private TextView mTextViewLoginWithGoogle;
 
+    @ViewInject(R.id.login_layout)
+    private ConstraintLayout mLayout;
+
     @Event(R.id.login_sign_in_btn)
     private void onLogin(View view) {
         if (true) { // checkRequired(R.id.login_username_input, R.string.required) && checkRequired(R.id.login_password_input, R.string.required)) {
@@ -53,6 +57,7 @@ public class LoginActivity extends BaseActivity {
             startActivity(SplashActivity.class);
         }
     }
+
     @Event(R.id.login_sign_in_with_google_btn)
     private void onLoginWithGoogle(View view) {
         showProgressBar();
@@ -67,8 +72,10 @@ public class LoginActivity extends BaseActivity {
         registerProgressBar();
 
         mOAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
-        mTextViewCopyright.setMovementMethod(LinkMovementMethod.getInstance());
-        mTextViewLoginWithGoogle.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        utils.setTextViewAsLink(mTextViewLoginWithGoogle);
+        utils.enableLinksInTextView(mTextViewCopyright);
+
+        mLayout.setBackground(ImageHelper.blur(this, R.drawable.bg_login));
     }
 
     @Override
@@ -87,6 +94,12 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mOAuthLoginService.dispose();
+        super.onDestroy();
     }
 
     private void refreshUI() {

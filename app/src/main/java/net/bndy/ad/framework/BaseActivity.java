@@ -41,8 +41,6 @@ import java.util.Map;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String ACTION_EXIT = "action.exit";
-    private static final int REQUEST_TAKE_PHOTO = 1;
-    private static final int REQUEST_SCAN_CODE = 2;
 
     private BaseActivity mThis;
     private Locale mCurrentLocale;
@@ -141,13 +139,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_TAKE_PHOTO:
+                case RequestCodes.CAMERA:
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     mTakePhotoCallbackHandler.callback(imageBitmap);
                     break;
 
-                case REQUEST_SCAN_CODE:
+                case RequestCodes.BARCODE:
                     IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
                     if (scanResult != null) {
                         String result = scanResult.getContents();
@@ -165,8 +163,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         mViewsMappingWithContextMenu.put(contextMenuInfo.getTargetId(), contextMenuInfo);
         registerForContextMenu(findViewById(contextMenuInfo.getTargetId()));
     }
-
-
 
     public void startActivity(Class<? extends Activity> cls) {
         Intent intent = new Intent(this, cls);
@@ -266,7 +262,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mTakePhotoCallbackHandler = callback;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            startActivityForResult(takePictureIntent, RequestCodes.CAMERA);
         }
     }
 

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -13,10 +14,12 @@ import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.text.Spannable;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -30,6 +33,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import jp.wasabeef.blurry.Blurry;
 
 public class ApplicationUtils {
 
@@ -48,7 +53,6 @@ public class ApplicationUtils {
     public void info(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
-
 
     public AlertDialog.Builder alert(int title, int message, final Action aciton) {
         return alert(mContext.getResources().getString(title), mContext.getResources().getString(message), aciton);
@@ -176,6 +180,7 @@ public class ApplicationUtils {
 
         throw new UnsupportedViewException(mContext.getResources().getResourceName(viewId));
     }
+
     public boolean checkRequired(String val, @StringRes int requiredMessage) {
         if (val == null || val.trim().isEmpty()) {
             info(requiredMessage);
@@ -188,6 +193,39 @@ public class ApplicationUtils {
         return newBarcode(barcodeFormat, width, height);
     }
 
+    public int dip2px(float dpValue) {
+        return ApplicationUtils.dip2px(mContext, dpValue);
+    }
+
+    public int px2dip(float pxValue) {
+        return ApplicationUtils.px2dip(mContext, pxValue);
+    }
+
+    public Spanned fromHtml(String html) {
+        return ApplicationUtils.convertHtml(html);
+    }
+
+    public void setTextViewAsLink(TextView textView) {
+        enableLinksInTextView(textView);
+        textView.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+    }
+
+    public void enableLinksInTextView(TextView textView) {
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public void blurScreen() {
+        blurScreen(25, 1, 500);
+    }
+    public void blurScreen(int radius, int sampling, int animate) {
+        Activity activity = (Activity) mContext;
+        blurScreenTo(activity, null, radius, sampling, animate);
+    }
+
+    public void bringToFront(View view) {
+        view.bringToFront();
+        ((ViewGroup) view.getParent()).invalidate();
+    }
 
     // here to start static methods code
 
@@ -202,7 +240,7 @@ public class ApplicationUtils {
     public static List<ResourceInfo> getResources(Class<?> rClazz, Context context) {
         List<ResourceInfo> resourceInfos = new ArrayList<>();
         Field[] fields = rClazz.getDeclaredFields();
-        for(Field field:fields){
+        for (Field field : fields) {
             int resID = context.getResources().getIdentifier(field.getName(), rClazz.getSimpleName(), context.getPackageName());
             resourceInfos.add(new ResourceInfo(context, resID, field.getName(), rClazz.getSimpleName()));
         }
@@ -232,6 +270,7 @@ public class ApplicationUtils {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
@@ -243,6 +282,25 @@ public class ApplicationUtils {
         } else {
             return Html.fromHtml(html);
         }
+    }
+
+    public static void blurScreenTo(final Activity activity, final ViewGroup target) {
+        blurScreenTo(activity, target, 25, 2, 500);
+    }
+    public static void blurScreenTo(final Activity activity, final ViewGroup target, final int radius, final int sampling, final int animate) {
+        final ViewGroup rootView = (ViewGroup) (activity.getWindow().getDecorView().getRootView());
+        final ViewGroup targetView = target == null ? rootView : target;
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+                Blurry.with(activity)
+                        .radius(radius)
+                        .sampling(sampling)
+                        .async()
+                        .animate(animate)
+                        .onto(targetView);
+            }
+        });
     }
 
     public interface Action {

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "net.bndy.ad"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -47,8 +47,8 @@ dependencies {
     // Json library
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.android:flexbox:1.0.0'
-//    // image loading library
-//    implementation 'com.squareup.picasso:picasso:2.71828'
+    // image loading library
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // scan qrcode
 //    implementation 'com.google.zxing:core:3.3.0'
@@ -63,6 +63,8 @@ dependencies {
 
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    implementation 'jp.wasabeef:blurry:2.1.1'
 
     // annotation for binding activity UI component
 //    implementation 'com.jakewharton:butterknife:9.0.0-rc1'

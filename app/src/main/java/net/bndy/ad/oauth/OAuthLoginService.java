@@ -26,13 +26,11 @@ import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
 
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.HashMap;
 import java.util.Map;
 
 public class OAuthLoginService<TUser extends AppUserInteface> {
 
-    private static AppUser USER;
     private static final String SHARED_PREFERENCES_NAME = "AuthStatePreference";
     private static final String AUTH_STATE = "AUTH_STATE";
     public static final int REQUEST_CODE = 1;
@@ -45,6 +43,8 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
             .setUserInfoEndpoint("https://www.googleapis.com/oauth2/v3/userinfo")
             ;
 
+    private static AppUser sUser;
+    private static AuthorizationService sAuthorizationService;
 
     private String logTag = "OAuth";
     private Activity activity;
@@ -57,23 +57,23 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
     }
 
     public AppUser getUser() {
-        return USER;
+        return sUser;
     }
 
     public void setUser(AppUser user) {
-        USER = user;
+        sUser = user;
     }
 
     public AuthorizationService getAuthorizationService() {
-        return authorizationService;
+        return sAuthorizationService;
     }
-
-    private AuthorizationService authorizationService;
 
     public OAuthLoginService(Activity activity, Class<TUser> userClazz) {
         this.activity = activity;
-        this.authorizationService = new AuthorizationService(this.activity);
         this.userClazz = userClazz;
+        if (sAuthorizationService == null) {
+            sAuthorizationService = new AuthorizationService(this.activity);
+        }
     }
 
     public void doAuth(OAuthConfiguration configuration) {
@@ -84,7 +84,6 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
                 Uri.parse(configuration.getAuthEndpoint()),
                 Uri.parse(configuration.getTokenEndpoint())
         );
-        AuthorizationService authorizationService = new AuthorizationService(this.activity);
         AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(
                 serviceConfiguration,
                 configuration.getClientID(),
@@ -94,13 +93,13 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
         builder.setScopes(configuration.getScopes());
 
         AuthorizationRequest request = builder.build();
-        Intent authIntent = authorizationService.getAuthorizationRequestIntent(request);
+        Intent authIntent = sAuthorizationService.getAuthorizationRequestIntent(request);
         this.activity.startActivityForResult(authIntent, REQUEST_CODE);
     }
 
     public void logout() {
         Log.i(this.logTag, "Logging out...");
-        USER = null;
+        sUser = null;
         this.clearAuthState();
     }
 
@@ -129,8 +128,7 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
         final AuthState authState = new AuthState(response, error);
         if (response != null) {
             Log.i(this.logTag, String.format("Handled Authorization Response %s ", authState.jsonSerializeString()));
-            AuthorizationService service = new AuthorizationService(this.activity);
-            service.performTokenRequest(response.createTokenExchangeRequest(), new AuthorizationService.TokenResponseCallback() {
+            sAuthorizationService.performTokenRequest(response.createTokenExchangeRequest(), new AuthorizationService.TokenResponseCallback() {
                 @Override
                 public void onTokenRequestCompleted(@Nullable TokenResponse tokenResponse, @Nullable AuthorizationException exception) {
                     if (exception != null) {
@@ -166,12 +164,20 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
                 requestService.apiGet(userClazz, configuration.getUserInfoEndpoint(), new HttpResponseSuccessCallback<TUser>() {
                     @Override
                     public void onSuccessResponse(TUser response) {
-                        USER = response.toAppUser();
+                        sUser = response.toAppUser();
                         callback.onSuccessResponse(response);
                     }
                 }, errorCallback);
             }
         });
+    }
+
+    public void dispose() {
+        logout();
+        if (sAuthorizationService != null) {
+            sAuthorizationService.dispose();
+            sAuthorizationService = null;
+        }
     }
 
     private void persistAuthState(@NonNull AuthState authState) {
