@@ -9,13 +9,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 
 import net.bndy.ad.framework.RequestCodes;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CameraHelper extends BaseHelper {
+
+
 
     public CameraHelper(Activity activity) {
         super(activity);
@@ -33,16 +36,28 @@ public class CameraHelper extends BaseHelper {
         return true;
     }
 
-    public void takePhoto(String filename) {
+    public void takePhotoForThumbnail() {
         if (checkPermission()) {
+            Intent intentToTakePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (intentToTakePhoto.resolveActivity(mActivity.getPackageManager()) != null) {
+                mActivity.startActivityForResult(intentToTakePhoto, RequestCodes.CAMERA);
+            }
+        }
+    }
+
+    public String takePhoto() {
+        if (checkPermission()) {
+            String filename = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".png";
             Intent intentToTakePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             String filePath = Environment.getExternalStorageDirectory() + File.separator + filename;
             Uri imageUri = Uri.fromFile(new File(filePath));
-//            imageUri = FileProvider.getUriForFile(mActivity,
-//                    mActivity.getApplicationContext().getPackageName() + ".my.provider",
-//                    new File(filePath));
             intentToTakePhoto.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            mActivity.startActivityForResult(intentToTakePhoto, RequestCodes.GALLERY);
+            if (intentToTakePhoto.resolveActivity(mActivity.getPackageManager()) != null) {
+                mActivity.startActivityForResult(intentToTakePhoto, RequestCodes.CAMERA_BACK_ORIGIN);
+            }
+
+            return filePath;
         }
+        return null;
     }
 }

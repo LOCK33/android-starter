@@ -15,6 +15,7 @@ import net.bndy.ad.framework.BaseActivity;
 import net.bndy.ad.framework.BaseFragment;
 import net.bndy.ad.framework.CallbackHandler1;
 import net.bndy.ad.framework.CallbackHandler2;
+import net.bndy.ad.framework.system.CameraHelper;
 
 public class PictureFragment extends BaseFragment {
 

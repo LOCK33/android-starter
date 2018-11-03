@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,10 +32,13 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import net.bndy.ad.R;
+import net.bndy.ad.framework.system.CameraHelper;
 import net.bndy.ad.framework.system.GalleryHelper;
 
 import org.xutils.x;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -51,6 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Map<Integer, ContextMenuItemInfo> mContextMenuItemsMapping;
     private ProgressBarHandler mProgressBarHandler;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
+    private String mCameraFilePath;
 
     public ApplicationUtils utils;
 
@@ -141,12 +146,32 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        FileInputStream fis = null;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case RequestCodes.CAMERA:
                     Bundle extras = data.getExtras();
+                    // default to back thumbnail photo
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     mTakePhotoCallbackHandler.callback(imageBitmap);
+                    break;
+
+                case RequestCodes.CAMERA_BACK_ORIGIN:
+                    try {
+                        fis = new FileInputStream(mCameraFilePath);
+                        Bitmap cameraBitmap = BitmapFactory.decodeStream(fis);
+                        mTakePhotoCallbackHandler.callback(cameraBitmap);
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    } finally {
+                        if (fis != null) {
+                            try {
+                                fis.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                     break;
 
                 case RequestCodes.BARCODE:
@@ -282,10 +307,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void startTakePhoto(CallbackHandler1<Bitmap> callback) {
         mTakePhotoCallbackHandler = callback;
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, RequestCodes.CAMERA);
-        }
+        mCameraFilePath = new CameraHelper(this).takePhoto();
     }
 
     public void startScan(CallbackHandler1<String> callback) {

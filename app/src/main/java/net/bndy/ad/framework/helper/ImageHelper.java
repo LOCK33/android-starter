@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
+import android.os.Environment;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -15,7 +17,11 @@ import com.squareup.picasso.Picasso;
 import net.bndy.ad.framework.ApplicationUtils;
 import net.bndy.ad.framework.BlurTransformation;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 
 public class ImageHelper {
 
@@ -26,6 +32,38 @@ public class ImageHelper {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    public static String saveImage(Context context, Bitmap myBitmap, String nameWithRelativePath) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.PNG, 90, bytes);
+        String filepath = null;
+        if (nameWithRelativePath == null || nameWithRelativePath.isEmpty()) {
+            filepath = Environment.getExternalStorageDirectory() + File.separator
+                    + Calendar.getInstance().getTimeInMillis() + ".png";
+        } else {
+            filepath = Environment.getExternalStorageDirectory()
+                    + (nameWithRelativePath.startsWith(File.separator) ? File.separator : "")
+                    + nameWithRelativePath;
+        }
+        File file = new File(filepath);
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+        }
+
+        try {
+            file.createNewFile();
+            FileOutputStream fo = new FileOutputStream(file);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(context,
+                    new String[]{file.getPath()},
+                    new String[]{"image/png"}, null);
+            fo.close();
+            return file.getAbsolutePath();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
     }
 
     public static Bitmap blur(Context context, Bitmap bitmap, float radius) {
@@ -49,6 +87,7 @@ public class ImageHelper {
         return blurredBitmap;
     }
 
+
     public static Drawable blur(Context context, Bitmap bitmap) {
         return bitmapToDrawable(context, new BlurTransformation(context, 25).transform(bitmap));
     }
@@ -62,8 +101,9 @@ public class ImageHelper {
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
-        return ((BitmapDrawable)drawable).getBitmap();
+        return ((BitmapDrawable) drawable).getBitmap();
     }
+
     public static Drawable bitmapToDrawable(Context context, Bitmap bitmap) {
         return new BitmapDrawable(context.getResources(), bitmap);
     }

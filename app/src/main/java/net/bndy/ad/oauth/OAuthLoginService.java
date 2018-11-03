@@ -173,7 +173,6 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
     }
 
     public void dispose() {
-        logout();
         if (sAuthorizationService != null) {
             sAuthorizationService.dispose();
             sAuthorizationService = null;
