@@ -33,8 +33,8 @@ import net.bndy.ad.Application;
 import net.bndy.ad.R;
 import net.bndy.ad.framework.helper.ImageHelper;
 import net.bndy.ad.framework.helper.SharedPreferencesHelper;
-import net.bndy.ad.framework.system.CameraHelper;
-import net.bndy.ad.framework.system.GalleryHelper;
+import net.bndy.ad.framework.system.CameraUtils;
+import net.bndy.ad.framework.system.GalleryUtils;
 
 import org.xutils.x;
 
@@ -49,6 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String ACTION_EXIT = "action.exit";
 
     private BaseActivity mThis;
+    private Application mApplication;
     private SharedPreferencesHelper mSharedPreferencesHelper;
     private Locale mCurrentLocale;
     private ExitReceiver mExitReceiver = new ExitReceiver();
@@ -67,15 +68,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private @MenuRes int mMenu;
 
-    public BaseActivity() {
-        super();
-        mThis = this;
-        utils = new ApplicationUtils(mThis);
-        mViewsMappingWithContextMenu = new HashMap<>();
-        mContextMenuItemsMapping = new HashMap<>();
-        mSharedPreferencesHelper = Application.SP;
-    }
-
     public SharedPreferencesHelper getSP() {
         return this.mSharedPreferencesHelper;
     }
@@ -83,6 +75,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.mThis = this;
+        this.utils = new ApplicationUtils(mThis);
+        this.mViewsMappingWithContextMenu = new HashMap<>();
+        this.mContextMenuItemsMapping = new HashMap<>();
+        this.mSharedPreferencesHelper = Application.SP;
+        this.mApplication = (Application) getApplicationContext();
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_EXIT);
@@ -213,10 +212,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void exitApplication() {
+        this.mApplication.enableSplash();
+
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(ACTION_EXIT);
-        getSP().set(Application.KEY_SKIP_SPLASH, false);
         BaseActivity.this.sendBroadcast(intent);
     }
 
@@ -293,13 +293,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void startChoosePhoto(CallbackHandler1<Uri> callback) {
         mChoosePhotoCallbackHandler = callback;
-        GalleryHelper galleryHelper = new GalleryHelper(this);
-        galleryHelper.choosePhoto();
+        GalleryUtils.choosePhoto(this);
     }
 
     public void startTakePhoto(CallbackHandler1<Bitmap> callback) {
         mTakePhotoCallbackHandler = callback;
-        mCameraFilePath = new CameraHelper(this).takePhoto();
+        mCameraFilePath = CameraUtils.takePhoto(this);
     }
 
     public void startScan(CallbackHandler1<String> callback) {

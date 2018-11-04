@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
 
         // go to splash screen
         if (Application.showSplashPage == Application.ShowSplashPage.AlWAYS ||
-                (Application.showSplashPage == Application.ShowSplashPage.ONCE && !getSP().getBoolean(Application.KEY_SKIP_SPLASH, false))) {
+                (Application.showSplashPage == Application.ShowSplashPage.ONCE && !getSP().getBoolean(Application.SP_KEY_SKIP_SPLASH, false))) {
             startActivity(SplashActivity.class);
         }
 

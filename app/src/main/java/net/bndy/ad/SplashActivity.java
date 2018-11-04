@@ -34,7 +34,7 @@ public class SplashActivity extends BaseActivity {
     @Event(R.id.splash_btn_entry)
     private void onEnter(View view) {
         showProgressBar();
-        getSP().set(Application.KEY_SKIP_SPLASH, true);
+        Application.getInstance().disableSplash();
         startActivity(MainActivity.class);
     }
 

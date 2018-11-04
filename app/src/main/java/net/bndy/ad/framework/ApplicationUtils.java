@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
@@ -230,6 +232,15 @@ public class ApplicationUtils {
         ((ViewGroup) view.getParent()).invalidate();
     }
 
+    public String getVersionName() {
+        try {
+            return getVersionName(this.mContext);
+        } catch (PackageManager.NameNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     // here to start static methods code
 
     public static Drawable getDrawable(int id, Context context) {
@@ -305,6 +316,14 @@ public class ApplicationUtils {
             }
         });
     }
+
+    public static String getVersionName(Context context) throws PackageManager.NameNotFoundException {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        String version = packInfo.versionName;
+        return version;
+    }
+
 
     public interface Action {
         void execute(Object... args);

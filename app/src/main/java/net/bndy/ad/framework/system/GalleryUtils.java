@@ -10,17 +10,13 @@ import android.support.v4.content.ContextCompat;
 
 import net.bndy.ad.framework.RequestCodes;
 
-public class GalleryHelper extends BaseHelper {
+public class GalleryUtils {
 
-    public GalleryHelper(Activity activity) {
-        super(activity);
-    }
-
-    public boolean checkPermission() {
-        if (ContextCompat.checkSelfPermission(mActivity,
+    public static boolean checkPermission(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(mActivity,
+            ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     RequestCodes.GALLERY);
             return false;
@@ -28,12 +24,12 @@ public class GalleryHelper extends BaseHelper {
         return true;
     }
 
-    public void choosePhoto() {
-        if (checkPermission()) {
+    public static void choosePhoto(Activity activity) {
+        if (checkPermission(activity)) {
             Intent intentToPickPic = new Intent(Intent.ACTION_PICK, null);
             intentToPickPic.setType("image/*");
             intentToPickPic.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            mActivity.startActivityForResult(intentToPickPic, RequestCodes.GALLERY);
+            activity.startActivityForResult(intentToPickPic, RequestCodes.GALLERY);
         }
     }
 }

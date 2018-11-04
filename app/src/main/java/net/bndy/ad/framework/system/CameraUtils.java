@@ -16,19 +16,12 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CameraHelper extends BaseHelper {
-
-
-
-    public CameraHelper(Activity activity) {
-        super(activity);
-    }
-
-    public boolean checkPermission() {
-        if (ContextCompat.checkSelfPermission(mActivity,
+public class CameraUtils {
+    public static boolean checkPermission(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(mActivity,
+            ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     RequestCodes.CAMERA);
             return false;
@@ -36,24 +29,24 @@ public class CameraHelper extends BaseHelper {
         return true;
     }
 
-    public void takePhotoForThumbnail() {
-        if (checkPermission()) {
+    public static void takePhotoForThumbnail(Activity activity) {
+        if (checkPermission(activity)) {
             Intent intentToTakePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intentToTakePhoto.resolveActivity(mActivity.getPackageManager()) != null) {
-                mActivity.startActivityForResult(intentToTakePhoto, RequestCodes.CAMERA);
+            if (intentToTakePhoto.resolveActivity(activity.getPackageManager()) != null) {
+                activity.startActivityForResult(intentToTakePhoto, RequestCodes.CAMERA);
             }
         }
     }
 
-    public String takePhoto() {
-        if (checkPermission()) {
+    public static String takePhoto(Activity activity) {
+        if (checkPermission(activity)) {
             String filename = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".png";
             Intent intentToTakePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             String filePath = Environment.getExternalStorageDirectory() + File.separator + filename;
             Uri imageUri = Uri.fromFile(new File(filePath));
             intentToTakePhoto.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            if (intentToTakePhoto.resolveActivity(mActivity.getPackageManager()) != null) {
-                mActivity.startActivityForResult(intentToTakePhoto, RequestCodes.CAMERA_BACK_ORIGIN);
+            if (intentToTakePhoto.resolveActivity(activity.getPackageManager()) != null) {
+                activity.startActivityForResult(intentToTakePhoto, RequestCodes.CAMERA_BACK_ORIGIN);
             }
 
             return filePath;
