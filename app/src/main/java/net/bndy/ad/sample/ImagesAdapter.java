@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,28 +16,38 @@ import net.bndy.ad.framework.ResourceInfo;
 
 import java.util.List;
 
-public class ImagesAdapter  extends ArrayAdapter<ResourceInfo> {
+public class ImagesAdapter extends ArrayAdapter<ResourceInfo> {
 
-    private Context mContext;
     private int mItemViewId;
 
     public ImagesAdapter(Context context, @LayoutRes int itemViewId, List<ResourceInfo> resourceInfos) {
         super(context, itemViewId, resourceInfos);
-        mContext = context;
         mItemViewId = itemViewId;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        if (convertView == null) {
+            convertView = View.inflate(getContext(), mItemViewId, null);
+            new ViewHolder(convertView);
+        }
+        ViewHolder holder = (ViewHolder) convertView.getTag();
         ResourceInfo item = getItem(position);
-        View layout = LayoutInflater.from(mContext).inflate(mItemViewId, parent, false);
-        ImageView imageView = layout.findViewById(R.id.sample_images_item_iv);
-        imageView.setImageDrawable((Drawable) item.tryGet());
+        holder.iv_icon.setImageDrawable((Drawable) item.tryGet());
+        holder.tv_name.setText(item.getName());
 
-        TextView textView = layout.findViewById(R.id.sample_images_item_tv);
-        textView.setText(item.getName());
+        return convertView;
+    }
 
-        return layout;
+    class ViewHolder {
+        ImageView iv_icon;
+        TextView tv_name;
+
+        public ViewHolder(View view) {
+            iv_icon = view.findViewById(R.id.sample_images_item_iv);
+            tv_name = view.findViewById(R.id.sample_images_item_tv);
+            view.setTag(this);
+        }
     }
 }

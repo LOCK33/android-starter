@@ -62,10 +62,18 @@ public class ImagesListFragment extends BaseFragment {
                             public void execute(Object... args) {
                                 listViewWithSwipeMenu.smoothCloseMenu();
                                 mDataForList.remove(resourceInfo);
-                                mImagesAdapterForList = new ImagesAdapter(activity, R.layout.item_images_list, mDataForList);
-                                listViewWithSwipeMenu.setAdapter(mImagesAdapterForList);
 
-                                // TODO: fix (following code does not work)
+                                // solution 1
+                                mImagesAdapterForList.notifyDataSetChanged();
+
+                                // solution 2
+//                                mImagesAdapterForList = new ImagesAdapter(activity, R.layout.item_images_list, mDataForList);
+//                                listViewWithSwipeMenu.setAdapter(mImagesAdapterForList);
+
+
+                                // NOTE: following code does not work
+                                // Because mImagesAdapterForList typed ArrayAdapter inject to SwipeMenu as ListAdapter
+                                // which does not have remove method.
 //                                mImagesAdapterForList.remove(resourceInfo);
 //                                mImagesAdapterForList.notifyDataSetChanged();
                             }
