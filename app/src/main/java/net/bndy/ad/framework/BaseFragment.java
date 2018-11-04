@@ -20,11 +20,11 @@ import java.util.Map;
 public abstract class BaseFragment extends Fragment {
 
     private View mLayout;
+    private BaseActivity mActivity;
     private Map<Integer, ContextMenuItemInfo> mContextMenuItemsMapping;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
 
     public ApplicationUtils utils;
-    public BaseActivity activity;
 
     public BaseFragment() {
         mViewsMappingWithContextMenu = new HashMap<>();
@@ -32,14 +32,18 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public SharedPreferencesHelper getSP() {
-        return Application.SP;
+        return Application.getInstance().getSP();
+    }
+
+    public BaseActivity getBaseActivity() {
+        return this.mActivity;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (BaseActivity)this.getActivity();
-        utils = activity.utils;
+        this.mActivity = (BaseActivity) this.getActivity();
+        utils = this.mActivity.utils;
         mLayout = inflater.inflate(getLayout(), container, false);
         return mLayout;
     }

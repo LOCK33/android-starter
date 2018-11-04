@@ -39,7 +39,7 @@ public class PictureFragment extends BaseFragment {
         layout.findViewById(R.id.sample_picture_choose_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startChoosePhoto(new CallbackHandler1<Uri>() {
+                getBaseActivity().startChoosePhoto(new CallbackHandler1<Uri>() {
                     @Override
                     public void callback(Uri uri) {
                         ImageHelper.loadInto(uri, mImageView);

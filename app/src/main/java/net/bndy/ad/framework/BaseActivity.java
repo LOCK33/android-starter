@@ -80,8 +80,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.utils = new ApplicationUtils(mThis);
         this.mViewsMappingWithContextMenu = new HashMap<>();
         this.mContextMenuItemsMapping = new HashMap<>();
-        this.mSharedPreferencesHelper = Application.SP;
         this.mApplication = (Application) getApplicationContext();
+        this.mSharedPreferencesHelper = mApplication.getSP();
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ACTION_EXIT);

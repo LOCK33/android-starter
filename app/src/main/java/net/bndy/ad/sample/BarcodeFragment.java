@@ -14,7 +14,6 @@ import net.bndy.ad.R;
 import net.bndy.ad.framework.BaseFragment;
 import net.bndy.ad.framework.CallbackHandler1;
 
-
 public class BarcodeFragment extends BaseFragment {
 
     @Nullable
@@ -24,13 +23,13 @@ public class BarcodeFragment extends BaseFragment {
         layout.findViewById(R.id.scan_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startScan(new CallbackHandler1<String>() {
+                getBaseActivity().startScan(new CallbackHandler1<String>() {
                     @Override
                     public void callback(String arg) {
                         if (arg != null) {
-                            activity.info(arg);
+                            getBaseActivity().info(arg);
                         } else {
-                            activity.info("No result scanned");
+                            getBaseActivity().info("No result scanned");
                         }
                     }
                 });

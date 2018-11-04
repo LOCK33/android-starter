@@ -232,13 +232,8 @@ public class ApplicationUtils {
         ((ViewGroup) view.getParent()).invalidate();
     }
 
-    public String getVersionName() {
-        try {
-            return getVersionName(this.mContext);
-        } catch (PackageManager.NameNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        return null;
+    public String getAppVerion() {
+        return getAppVersion(this.mContext);
     }
 
     // here to start static methods code
@@ -317,11 +312,16 @@ public class ApplicationUtils {
         });
     }
 
-    public static String getVersionName(Context context) throws PackageManager.NameNotFoundException {
-        PackageManager packageManager = context.getPackageManager();
-        PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-        String version = packInfo.versionName;
-        return version;
+    public static String getAppVersion(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            String version = packInfo.versionName;
+            return version;
+        } catch (PackageManager.NameNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 

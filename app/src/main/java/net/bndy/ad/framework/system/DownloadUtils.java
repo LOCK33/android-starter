@@ -38,7 +38,6 @@ public class DownloadUtils {
 
         request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory().getAbsolutePath(), sApplication.getPackageName());
         long downloadId = sDownloadManager.enqueue(request);
-        Application.SP.set(Application.SP_KEY_UPGRADE_ID, downloadId);
         return downloadId;
     }
 
