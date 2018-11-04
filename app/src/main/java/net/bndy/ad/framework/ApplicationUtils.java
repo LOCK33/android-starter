@@ -75,10 +75,13 @@ public class ApplicationUtils {
         return builder;
     }
 
-    public AlertDialog.Builder confirm(int title, int message, final Action actionYes, final Action actionNo) {
+    public AlertDialog.Builder confirm(int title, int message, Action actionYes, Action actionNo) {
         return confirm(mContext.getResources().getString(title), mContext.getResources().getString(message), actionYes, actionNo);
     }
 
+    public AlertDialog.Builder confirm(String title, String message, Action actionYes) {
+        return confirm(title, message, actionYes, null);
+    }
     public AlertDialog.Builder confirm(String title, String message, final Action actionYes, final Action actionNo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(title);

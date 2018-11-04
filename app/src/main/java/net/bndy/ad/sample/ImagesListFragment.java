@@ -18,16 +18,20 @@ import net.bndy.ad.framework.ui.ListViewWithSwipeMenu;
 import net.bndy.ad.framework.ui.MenuItem;
 import net.bndy.ad.framework.ui.ResStyle;
 
+import java.util.List;
+
 public class ImagesListFragment extends BaseFragment {
 
     private ImagesAdapter mImagesAdapterForList;
+    private List<ResourceInfo> mDataForList;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = super.onCreateView(inflater, container, savedInstanceState);
-        mImagesAdapterForList = new ImagesAdapter(this.getContext(), R.layout.item_images_list,
-                utils.getResources(R.drawable.class));
+        mDataForList = utils.getResources(R.drawable.class);
+        mImagesAdapterForList = new ImagesAdapter(this.getContext(), R.layout.item_images_list, mDataForList);
         final ListViewWithSwipeMenu listViewWithSwipeMenu = layout.findViewById(R.id.sample_images_list);
         listViewWithSwipeMenu.setAdapter(mImagesAdapterForList);
 
@@ -45,7 +49,7 @@ public class ImagesListFragment extends BaseFragment {
         listViewWithSwipeMenu.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                ResourceInfo resourceInfo = mImagesAdapterForList.getItem(position);
+                final ResourceInfo resourceInfo = mImagesAdapterForList.getItem(position);
                 switch (index) {
                     case 0:
                         utils.alert("#" + String.valueOf(resourceInfo.getId()), "R.drawable." + resourceInfo.getName(), null);
@@ -57,8 +61,15 @@ public class ImagesListFragment extends BaseFragment {
                             @Override
                             public void execute(Object... args) {
                                 listViewWithSwipeMenu.smoothCloseMenu();
+                                mDataForList.remove(resourceInfo);
+                                mImagesAdapterForList = new ImagesAdapter(activity, R.layout.item_images_list, mDataForList);
+                                listViewWithSwipeMenu.setAdapter(mImagesAdapterForList);
+
+                                // TODO: fix (following code does not work)
+//                                mImagesAdapterForList.remove(resourceInfo);
+//                                mImagesAdapterForList.notifyDataSetChanged();
                             }
-                        }, null);
+                        });
                         return true;
                 }
                 // false : close the menu; true : not close the menu

@@ -22,8 +22,8 @@ public class ImagesAdapter  extends ArrayAdapter<ResourceInfo> {
     private Context mContext;
     private int mItemViewId;
 
-    public ImagesAdapter(Context context, @LayoutRes int itemViewId, List<ResourceInfo> imageIds) {
-        super(context, itemViewId, imageIds);
+    public ImagesAdapter(Context context, @LayoutRes int itemViewId, List<ResourceInfo> resourceInfos) {
+        super(context, itemViewId, resourceInfos);
         mContext = context;
         mItemViewId = itemViewId;
     }

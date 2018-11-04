@@ -229,6 +229,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void confirm(@StringRes int title, @StringRes int message, ApplicationUtils.Action actionYes, ApplicationUtils.Action actionNo) {
         utils.confirm(title, message, actionYes, actionNo);
     }
+    public void confirm(@StringRes int title, @StringRes int message, ApplicationUtils.Action actionYes) {
+        utils.confirm(title, message, actionYes, null);
+    }
 
     public void registerProgressBar() {
         mProgressBarHandler = new ProgressBarHandler(this);
