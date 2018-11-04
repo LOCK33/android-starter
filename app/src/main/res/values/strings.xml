@@ -33,6 +33,9 @@
 
     <string name="photo">Photo</string>
     <string name="choose_picture">Choose Picture</string>
+
+    <string name="start_to_go">Start</string>
+
     <string-array name="ddl">
         <item>A</item>
         <item>B</item>

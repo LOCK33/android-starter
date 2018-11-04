@@ -53,7 +53,7 @@ public class LoginActivity extends BaseActivity {
             AppUser appUser = new AppUser();
             appUser.setName(mEditTextUsername.getText().toString());
             this.mOAuthLoginService.setUser(appUser);
-            startActivity(SplashActivity.class);
+            startActivity(MainActivity.class);
         }
     }
 
@@ -84,7 +84,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onSuccessResponse(GoogleUser response) {
                     refreshUI();
-                    startActivity(SplashActivity.class);
+                    startActivity(MainActivity.class);
                 }
             }, new HttpResponseErrorCallback() {
                 @Override

@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import net.bndy.ad.Application;
+import net.bndy.ad.framework.helper.SharedPreferencesHelper;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +29,10 @@ public abstract class BaseFragment extends Fragment {
     public BaseFragment() {
         mViewsMappingWithContextMenu = new HashMap<>();
         mContextMenuItemsMapping = new HashMap<>();
+    }
+
+    public SharedPreferencesHelper getSP() {
+        return Application.SP;
     }
 
     @Nullable

@@ -34,4 +34,5 @@
     <string name="grid">表格</string>
     <string name="photo">照片</string>
     <string name="choose_picture">选择图片</string>
+    <string name="start_to_go">立即进入</string>
 </resources>

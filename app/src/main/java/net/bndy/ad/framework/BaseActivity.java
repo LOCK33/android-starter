@@ -29,8 +29,10 @@ import android.widget.TextView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import net.bndy.ad.Application;
 import net.bndy.ad.R;
 import net.bndy.ad.framework.helper.ImageHelper;
+import net.bndy.ad.framework.helper.SharedPreferencesHelper;
 import net.bndy.ad.framework.system.CameraHelper;
 import net.bndy.ad.framework.system.GalleryHelper;
 
@@ -47,6 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static final String ACTION_EXIT = "action.exit";
 
     private BaseActivity mThis;
+    private SharedPreferencesHelper mSharedPreferencesHelper;
     private Locale mCurrentLocale;
     private ExitReceiver mExitReceiver = new ExitReceiver();
     private Map<Integer, ContextMenuItemInfo> mContextMenuItemsMapping;
@@ -70,6 +73,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         utils = new ApplicationUtils(mThis);
         mViewsMappingWithContextMenu = new HashMap<>();
         mContextMenuItemsMapping = new HashMap<>();
+        mSharedPreferencesHelper = Application.SP;
+    }
+
+    public SharedPreferencesHelper getSP() {
+        return this.mSharedPreferencesHelper;
     }
 
     @Override
@@ -208,6 +216,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(ACTION_EXIT);
+        getSP().set(Application.KEY_SKIP_SPLASH, false);
         BaseActivity.this.sendBroadcast(intent);
     }
 

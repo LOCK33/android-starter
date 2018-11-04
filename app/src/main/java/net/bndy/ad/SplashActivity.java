@@ -1,126 +1,118 @@
 package net.bndy.ad;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.MenuItem;
+import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import net.bndy.ad.framework.ApplicationUtils;
 import net.bndy.ad.framework.BaseActivity;
-import net.bndy.ad.framework.ui.TabLayout;
-import net.bndy.ad.model.AppUser;
-import net.bndy.ad.model.GoogleUser;
-import net.bndy.ad.oauth.OAuthLoginService;
-import net.bndy.ad.sample.FormFragment;
-import net.bndy.ad.sample.BarcodeFragment;
-import net.bndy.ad.sample.ImagesFragment;
-import net.bndy.ad.sample.PictureFragment;
 
-import org.xutils.common.Callback;
-import org.xutils.image.ImageOptions;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class SplashActivity extends BaseActivity {
 
-    private OAuthLoginService oAuthLoginService;
-    private Map<Integer, Fragment> mFragmentMap;
+    private final static int[] IMAGES_RES = new int[]{R.drawable.bg_login, R.drawable.google};
+    private ArrayList<ImageView> mImageViews;
+    private ImageView[] mDotViews;
 
-    @ViewInject(R.id.splash_tabs)
-    private TabLayout mTabLayout;
+    @ViewInject(R.id.splash_vp)
+    private ViewPager mViewPager;
+    @ViewInject(R.id.splash_layout_dot)
+    private LinearLayout mDotLayout;
+
+    @ViewInject(R.id.splash_btn_entry)
+    private Button mEntryButton;
+    @Event(R.id.splash_btn_entry)
+    private void onEnter(View view) {
+        showProgressBar();
+        getSP().set(Application.KEY_SKIP_SPLASH, true);
+        startActivity(MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        //utils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
-
         x.view().inject(this);
-        oAuthLoginService = new OAuthLoginService(this, GoogleUser.class).setLogTag(Application.LOG_TAG);
-        setActionMenu(R.menu.main);
         registerProgressBar();
 
-        initView();
-
-        mFragmentMap = new HashMap<>();
-        mFragmentMap.put(R.string.form, new FormFragment());
-        mFragmentMap.put(R.string.image, new ImagesFragment());
-        mFragmentMap.put(R.string.photo, new PictureFragment());
-        mFragmentMap.put(R.string.barcode, new BarcodeFragment());
-        mTabLayout.setItems(R.id.splash_content_container, mFragmentMap, this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initView();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_main_logout:
-                logout();
-                break;
-
-            case R.id.menu_main_exit:
-                exitApplication();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        oAuthLoginService.dispose();
-        super.onDestroy();
-    }
-
-    private void initView() {
-        AppUser appUser = oAuthLoginService.getUser();
-        if (oAuthLoginService.getUser() == null) {
-            startActivity(LoginActivity.class);
-        } else {
-            if (appUser.getAvatar() != null && !appUser.getAvatar().isEmpty()) {
-                x.image().loadDrawable(appUser.getAvatar(), new ImageOptions() {
-                }, new Callback.CommonCallback<Drawable>() {
-                    @Override
-                    public void onSuccess(Drawable result) {
-                        setIcon(result);
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-            }
-            setTitle(" " + oAuthLoginService.getUser().getName());
-        }
-    }
-
-    private void logout() {
-        confirm(R.string.sign_out, R.string.sign_out_confirmation, new ApplicationUtils.Action() {
+        initViews();
+        mViewPager.setAdapter(new SplashPagerAdapter());
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void execute(Object... args) {
-                oAuthLoginService.logout();
-                info(R.string.sign_out_success);
-                startActivity(LoginActivity.class);
+            public void onPageScrolled(int i, float v, int i1) {
             }
-        }, null);
+
+            @Override
+            public void onPageSelected(int i) {
+                mEntryButton.setVisibility( i == mImageViews.size() - 1 ? View.VISIBLE : View.GONE);
+                for(int idx = 0; idx < mImageViews.size(); idx++){
+                    mDotViews[idx].setSelected(idx == i ? true : false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+    }
+
+    private void initViews() {
+        ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams();
+        mImageViews = new ArrayList<>();
+        for (int res : IMAGES_RES) {
+            ImageView iv = new ImageView(this);
+            iv.setLayoutParams(layoutParams);
+            iv.setImageResource(res);
+            iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            mImageViews.add(iv);
+        }
+
+        // init dots
+        LinearLayout.LayoutParams dotViewsLayoutParams = new LinearLayout.LayoutParams(30, 30);
+        dotViewsLayoutParams.setMargins(10, 0, 10, 0);
+        mDotViews = new ImageView[mImageViews.size()];
+        for (int i = 0; i < mImageViews.size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(dotViewsLayoutParams);
+            imageView.setImageResource(R.drawable.selector_dot);
+            imageView.setSelected( i == 0 ? true : false);
+            mDotViews[i] = imageView;
+            mDotLayout.addView(imageView);
+        }
+    }
+
+    class SplashPagerAdapter extends PagerAdapter {
+
+        @Override
+        public int getCount() {
+            return mImageViews.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
+            return view == o;
+        }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            container.removeView(mImageViews.get(position));
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            container.addView(mImageViews.get(position));
+            return mImageViews.get(position);
+        }
     }
 }

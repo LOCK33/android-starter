@@ -1,83 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity">
 
-    <net.bndy.ad.framework.ui.TabLayout
-        android:id="@+id/splash_tabs"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/splash_vp"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:tl_indicator_color="@color/colorAccent"></net.bndy.ad.framework.ui.TabLayout>
-
+        android:layout_height="match_parent">
+        <requestFocus />
+    </android.support.v4.view.ViewPager>
+    <Button
+        style="@style/ButtonPrimary"
+        android:id="@+id/splash_btn_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_to_go"
+        android:gravity="center"
+        android:paddingLeft="@dimen/space_xlg"
+        android:paddingRight="@dimen/space_xlg"
+        android:layout_marginBottom="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        />
     <LinearLayout
-        android:id="@+id/splash_content_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/splash_tabs"></LinearLayout>
-
-    <!--<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--app:flexWrap="wrap"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:padding="@dimen/space_lg"-->
-    <!--&gt;-->
-
-    <!--<Button-->
-    <!--style="@style/ButtonPrimary"-->
-    <!--app:layout_flexGrow="1"-->
-    <!--android:id="@+id/form_btn"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/form" />-->
-
-    <!--<Button-->
-    <!--style="@style/ButtonPrimary"-->
-    <!--app:layout_flexGrow="1"-->
-    <!--android:id="@+id/scan_barcode_btn"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/scan_barcode" />-->
-
-    <!--<Button-->
-    <!--style="@style/ButtonPrimary"-->
-    <!--app:layout_flexGrow="1"-->
-    <!--android:id="@+id/generate_barcode_btn"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/generate_barcode" />-->
-
-    <!--<Button-->
-    <!--style="@style/ButtonPrimary"-->
-    <!--app:layout_flexGrow="1"-->
-    <!--android:id="@+id/show_progress_bar"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/show_progress_bar" />-->
-
-    <!--<Button-->
-    <!--style="@style/ButtonPrimary"-->
-    <!--app:layout_flexGrow="1"-->
-    <!--android:id="@+id/show_drawable"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/show_drawable" />-->
-
-    <!--<Button-->
-    <!--style="@style/ButtonPrimary"-->
-    <!--app:layout_flexGrow="1"-->
-    <!--android:id="@+id/take_photo"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/take_photo" />-->
-
-    <!--</com.google.android.flexbox.FlexboxLayout>-->
-</android.support.constraint.ConstraintLayout>
+        android:id="@+id/splash_layout_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginBottom="45dip"
+        >
+    </LinearLayout>
+</RelativeLayout>
