@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class SplashActivity extends BaseActivity {
 
-    private final static int[] IMAGES_RES = new int[]{R.drawable.bg_login, R.drawable.google};
+    private final static int[] IMAGES_RES = new int[]{R.drawable.splash_1, R.drawable.splash_2};
     private ArrayList<ImageView> mImageViews;
     private ImageView[] mDotViews;
 
