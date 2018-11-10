@@ -1,5 +1,6 @@
 package net.bndy.ad;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.bndy.ad.framework.BaseActivity;
+import net.bndy.ad.framework.helper.ImageHelper;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -20,7 +22,6 @@ import java.util.ArrayList;
 
 public class SplashActivity extends BaseActivity {
 
-    private final static int[] IMAGES_RES = new int[]{R.drawable.splash_1, R.drawable.splash_2};
     private ArrayList<ImageView> mImageViews;
     private ImageView[] mDotViews;
 
@@ -43,9 +44,11 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         x.view().inject(this);
-        registerProgressBar();
 
+        checkRedirect();
+        registerProgressBar();
         initViews();
+
         mViewPager.setAdapter(new SplashPagerAdapter());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -56,7 +59,9 @@ public class SplashActivity extends BaseActivity {
             public void onPageSelected(int i) {
                 mEntryButton.setVisibility( i == mImageViews.size() - 1 ? View.VISIBLE : View.GONE);
                 for(int idx = 0; idx < mImageViews.size(); idx++){
-                    mDotViews[idx].setSelected(idx == i ? true : false);
+                    if (mDotViews != null && mDotViews.length > idx) {
+                        mDotViews[idx].setSelected(idx == i ? true : false);
+                    }
                 }
             }
 
@@ -66,28 +71,53 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideProgressBar();
+        mViewPager.setCurrentItem(0);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        checkRedirect();
+    }
+
+    private void checkRedirect() {
+        // skip and go to main
+        if (Application.SPLASH_MODE == Application.SPLASH_MODE.NEVER ||
+                (Application.SPLASH_MODE == Application.SPLASH_MODE.ONCE && getSP().getBoolean(Application.SP_KEY_SKIP_SPLASH, false))) {
+            startActivity(MainActivity.class);
+        }
+    }
+
     private void initViews() {
         ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams();
         mImageViews = new ArrayList<>();
-        for (int res : IMAGES_RES) {
+        for (int res : Application.SPLASH_IMAGES) {
             ImageView iv = new ImageView(this);
             iv.setLayoutParams(layoutParams);
-            iv.setImageResource(res);
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
+            ImageHelper.loadInto(res, iv);
             mImageViews.add(iv);
         }
 
         // init dots
-        LinearLayout.LayoutParams dotViewsLayoutParams = new LinearLayout.LayoutParams(30, 30);
-        dotViewsLayoutParams.setMargins(10, 0, 10, 0);
-        mDotViews = new ImageView[mImageViews.size()];
-        for (int i = 0; i < mImageViews.size(); i++) {
-            ImageView imageView = new ImageView(this);
-            imageView.setLayoutParams(dotViewsLayoutParams);
-            imageView.setImageResource(R.drawable.selector_dot);
-            imageView.setSelected( i == 0 ? true : false);
-            mDotViews[i] = imageView;
-            mDotLayout.addView(imageView);
+        if (Application.SPLASH_IMAGES.length > 1) {
+            LinearLayout.LayoutParams dotViewsLayoutParams = new LinearLayout.LayoutParams(30, 30);
+            dotViewsLayoutParams.setMargins(10, 0, 10, 0);
+            mDotViews = new ImageView[mImageViews.size()];
+            for (int i = 0; i < mImageViews.size(); i++) {
+                ImageView imageView = new ImageView(this);
+                imageView.setLayoutParams(dotViewsLayoutParams);
+                imageView.setImageResource(R.drawable.selector_dot);
+                imageView.setSelected( i == 0 ? true : false);
+                mDotViews[i] = imageView;
+                mDotLayout.addView(imageView);
+            }
+        } else {
+            mEntryButton.setVisibility(View.VISIBLE);
         }
     }
 

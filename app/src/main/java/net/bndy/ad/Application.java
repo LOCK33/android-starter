@@ -8,11 +8,14 @@ import net.bndy.ad.framework.helper.SharedPreferencesHelper;
 import org.xutils.x;
 
 public class Application extends BaseApplication {
+    // url for upgrade which response {app_name, app_version, description, url} and the url is for downloading apk
+    public static final String URL_UPGRADE_METADATA = "";
+    // determine how to show splash page
+    public static final Application.SPLASH_MODE SPLASH_MODE = Application.SPLASH_MODE.ONCE;
+    // splash page images
+    public static final int[] SPLASH_IMAGES = new int[]{R.drawable.splash_1, R.drawable.splash_2};
 
     public static final String LOG_TAG = "net.bndy.ad";
-    public static final String URL_UPGRADE_METADATA = "";
-    public static final ShowSplashPage showSplashPage = ShowSplashPage.ONCE;
-
     public static final String SP_KEY_SKIP_SPLASH = "splash.skip";
 
     private static SharedPreferencesHelper sSharedPreferencesHelper;
@@ -31,6 +34,7 @@ public class Application extends BaseApplication {
 
         sSharedPreferencesHelper = new SharedPreferencesHelper(getApplicationContext(), getResources().getString(R.string.app_name));
         sApplication = this;
+        this.enableSplash();
     }
 
     public void enableSplash() {
@@ -46,7 +50,7 @@ public class Application extends BaseApplication {
     }
 
 
-    public enum ShowSplashPage {
+    public enum SPLASH_MODE {
         ONCE,
         AlWAYS,
         NEVER,

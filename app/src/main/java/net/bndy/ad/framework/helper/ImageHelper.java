@@ -74,6 +74,9 @@ public class ImageHelper {
     public static void loadInto(String imagePath, ImageView imageView) {
         Picasso.get().load(imagePath).fit().centerCrop().into(imageView);
     }
+    public static void loadInto(@DrawableRes int res, ImageView imageView) {
+        Picasso.get().load(res).fit().centerCrop().into(imageView);
+    }
 
     public static Bitmap resize(Context context, Uri uri, int targetWidth, int targetHeight) {
         try {

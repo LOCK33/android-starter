@@ -26,6 +26,8 @@ import java.util.Map;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String KEY_TAB_CURRENT = "tab.current";
+
     private OAuthLoginService oAuthLoginService;
     private Map<Integer, Fragment> mFragmentMap;
 
@@ -35,22 +37,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         //utils.setLocale(null); //java.util.Locale.CHINA);  // set default locale,  must be before at setContentView method
-
-        // go to splash screen
-        if (Application.showSplashPage == Application.ShowSplashPage.AlWAYS ||
-                (Application.showSplashPage == Application.ShowSplashPage.ONCE && !getSP().getBoolean(Application.SP_KEY_SKIP_SPLASH, false))) {
-            startActivity(SplashActivity.class);
-        }
+        setContentView(R.layout.activity_main);
 
         x.view().inject(this);
 
         setActionMenu(R.menu.main);
         registerProgressBar();
-
-        initView();
 
         mFragmentMap = new HashMap<>();
         mFragmentMap.put(R.string.form, new FormFragment());
@@ -58,12 +52,6 @@ public class MainActivity extends BaseActivity {
         mFragmentMap.put(R.string.photo, new PictureFragment());
         mFragmentMap.put(R.string.barcode, new BarcodeFragment());
         mTabLayout.setItems(R.id.splash_content_container, mFragmentMap, this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initView();
     }
 
     @Override
@@ -84,6 +72,26 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         oAuthLoginService.dispose();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        initView();
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_TAB_CURRENT, mTabLayout.getCurrentTab());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mTabLayout.setCurrentTab(savedInstanceState.getInt(KEY_TAB_CURRENT, 0));
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     private void initView() {
@@ -117,6 +125,8 @@ public class MainActivity extends BaseActivity {
 
                     }
                 });
+            } else {
+                setIcon(null);
             }
             setTitle(" " + oAuthLoginService.getUser().getName());
         }
