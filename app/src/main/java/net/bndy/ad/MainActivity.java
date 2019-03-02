@@ -15,6 +15,7 @@ import net.bndy.ad.sample.FormFragment;
 import net.bndy.ad.sample.BarcodeFragment;
 import net.bndy.ad.sample.ImagesFragment;
 import net.bndy.ad.sample.PictureFragment;
+import net.bndy.ad.sample.TableFragment;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity {
         mFragmentMap.put(R.string.image, new ImagesFragment());
         mFragmentMap.put(R.string.photo, new PictureFragment());
         mFragmentMap.put(R.string.barcode, new BarcodeFragment());
+        mFragmentMap.put(R.string.table, new TableFragment());
         mTabLayout.setItems(R.id.splash_content_container, mFragmentMap, this);
     }
 

@@ -66,6 +66,9 @@ dependencies {
 
     implementation 'jp.wasabeef:blurry:2.1.1'
 
+    // table UI component
+    implementation 'de.codecrafters.tableview:tableview:2.8.0'
+
     // annotation for binding activity UI component
 //    implementation 'com.jakewharton:butterknife:9.0.0-rc1'
 //    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'

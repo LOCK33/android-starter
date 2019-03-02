@@ -32,7 +32,9 @@
     <string name="image">图片</string>
     <string name="list">列表</string>
     <string name="grid">表格</string>
+    <string name="table">数据表</string>
     <string name="photo">照片</string>
     <string name="choose_picture">选择图片</string>
     <string name="start_to_go">立即进入</string>
+    <string name="no_data">没有数据</string>
 </resources>
