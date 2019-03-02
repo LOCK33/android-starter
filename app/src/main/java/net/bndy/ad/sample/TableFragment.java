@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import net.bndy.ad.R;
 import net.bndy.ad.framework.BaseFragment;
+import net.bndy.ad.framework.ui.TableView;
 import net.bndy.ad.framework.ui.table.AdvanceTableAdapter;
 import net.bndy.ad.framework.ui.table.AdvanceTableColumnDefinition;
 import net.bndy.ad.model.AppUser;
@@ -22,13 +23,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import de.codecrafters.tableview.SortableTableView;
-
 public class TableFragment extends BaseFragment {
 
     private boolean selectedAll;
     private Context mContext;
-    private SortableTableView tableView;
+    private TableView tableView;
     final List<AppUser> data = new ArrayList<>();
     private List<String> selectedData = new ArrayList<>();
 
@@ -145,7 +144,7 @@ public class TableFragment extends BaseFragment {
             }
         });
 
-        adapter.adapt(tableView);
+        tableView.setAdapter(adapter);
 
         return layout;
     }

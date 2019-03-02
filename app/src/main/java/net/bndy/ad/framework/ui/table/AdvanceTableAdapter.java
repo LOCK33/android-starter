@@ -22,7 +22,7 @@ import de.codecrafters.tableview.providers.SortStateViewProvider;
 
 public class AdvanceTableAdapter<TRowData> {
 
-    private static final int DEFAULT_COLUMN_WIDTH_IN_DP = 100;
+    private static final int DEFAULT_COLUMN_WIDTH_IN_DP = 200;
 
     private Context context;
     private List<TRowData> data;
