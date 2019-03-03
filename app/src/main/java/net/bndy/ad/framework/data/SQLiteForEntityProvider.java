@@ -2,6 +2,7 @@ package net.bndy.ad.framework.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -129,5 +130,10 @@ public class SQLiteForEntityProvider extends SQLiteProvider {
         int result = db.delete(clazz.getSimpleName(), whereClause, whereArgs);
         db.close();
         return result;
+    }
+
+    public Cursor query(Class<?> clazz, String whereClause, String[] whereArgs, String orderBy) {
+        SQLiteDatabase db= this.getReadableDatabase();
+        return db.query(clazz.getSimpleName(), null, whereClause, whereArgs, null, null, orderBy, null);
     }
 }
