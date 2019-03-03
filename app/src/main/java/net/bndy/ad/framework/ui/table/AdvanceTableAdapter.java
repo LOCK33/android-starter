@@ -3,6 +3,7 @@ package net.bndy.ad.framework.ui.table;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class AdvanceTableAdapter<TRowData> {
         this.data = data;
         this.context = context;
         this.AdvanceTableColumnDefinitions = Arrays.asList(AdvanceTableColumnDefinitions);
-        for(AdvanceTableColumnDefinition c: this.AdvanceTableColumnDefinitions) {
+        for (AdvanceTableColumnDefinition c : this.AdvanceTableColumnDefinitions) {
             c.setContext(this.context);
         }
     }
@@ -100,7 +101,7 @@ public class AdvanceTableAdapter<TRowData> {
                 DEFAULT_COLUMN_WIDTH_IN_DP);
         TableColumnWeightModel columnWeightModel = new TableColumnWeightModel(tableView.getColumnCount());
         final List<String> headerTitles = new ArrayList<>();
-        for(int i = 0; i<this.getAdvanceTableColumnDefinitions().size(); i++) {
+        for (int i = 0; i < this.getAdvanceTableColumnDefinitions().size(); i++) {
             AdvanceTableColumnDefinition c = this.getAdvanceTableColumnDefinitions().get(i);
             headerTitles.add(c.getHeader());
             if (c.isSortable()) {
@@ -182,9 +183,10 @@ public class AdvanceTableAdapter<TRowData> {
     public interface CellFormatter<T> {
         View format(T t);
     }
+
     @FunctionalInterface
     public interface CellTextFormatter<T> {
-        String format(T t);
+        String[] format(T t);
     }
 
     @FunctionalInterface
@@ -211,7 +213,7 @@ public class AdvanceTableAdapter<TRowData> {
             if (c.getHeaderFormatter() == null) {
                 TextView tv = new TextView(this.getContext());
                 tv.setText(headerText);
-                tv.setPadding(0,0,0,0);
+                tv.setPadding(0, 0, 0, 0);
                 headerView = tv;
             } else {
                 headerView = c.getHeaderFormatter().format(headerText);
@@ -250,14 +252,23 @@ public class AdvanceTableAdapter<TRowData> {
         public View getCellView(int rowIndex, int AdvanceTableColumnDefinitionIndex, ViewGroup parentView) {
             TRowData rowData = getData().get(rowIndex);
             AdvanceTableColumnDefinition c = getAdvanceTableColumnDefinitions().get(AdvanceTableColumnDefinitionIndex);
-            if (c.getCellFormatter()!=null) {
+            if (c.getCellFormatter() != null) {
                 return c.getCellFormatter().format(rowData);
-            } else {
-                if (c.getCellTextFormatter() != null) {
-                    TextView tv = new TextView(this.getContext());
-                    tv.setText(c.getCellTextFormatter().format(rowData));
-                    return tv;
+            } else if (c.getCellTextFormatter() != null) {
+                LinearLayout container = new LinearLayout(this.getContext());
+                container.setOrientation(LinearLayout.VERTICAL);
+                ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+                container.setLayoutParams(layoutParams);
+                String[] values = c.getCellTextFormatter().format(rowData);
+                for (String v : values) {
+                    TextView tempTv = new TextView(this.getContext());
+                    tempTv.setSingleLine(false);
+                    tempTv.setText(v);
+                    container.addView(tempTv);
                 }
+                return container;
             }
             return null;
         }

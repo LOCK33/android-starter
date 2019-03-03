@@ -28,8 +28,8 @@ public class TableFragment extends BaseFragment {
     private boolean selectedAll;
     private Context mContext;
     private TableView tableView;
-    final List<AppUser> data = new ArrayList<>();
     private List<String> selectedData = new ArrayList<>();
+    private final List<AppUser> data = new ArrayList<>();
 
 
     @Nullable
@@ -40,16 +40,15 @@ public class TableFragment extends BaseFragment {
         this.mContext = this.getContext();
         this.tableView = layout.findViewById(R.id.tableView);
 
-        for(int i = 1; i< 1000; i++) {
+        for (int i = 1; i < 1000; i++) {
             AppUser u = new AppUser();
             u.setName("Name" + i);
             u.setEmail("name" + i + "@bndy.net");
             data.add(u);
         }
 
-
         final AdvanceTableAdapter<AppUser> adapter = new AdvanceTableAdapter<>(this.mContext, data,
-                new AdvanceTableColumnDefinition().setWidth(60).setHeaderFormatter(new AdvanceTableAdapter.CellFormatter<String>() {
+                new AdvanceTableColumnDefinition().setWidth(40).setHeaderFormatter(new AdvanceTableAdapter.CellFormatter<String>() {
                     @Override
                     public View format(String o) {
                         LinearLayout container = new LinearLayout(mContext);
@@ -63,9 +62,9 @@ public class TableFragment extends BaseFragment {
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                boolean checked = ((CheckBox)v).isChecked();
+                                boolean checked = ((CheckBox) v).isChecked();
                                 if (checked) {
-                                    for(AppUser au: data) {
+                                    for (AppUser au : data) {
                                         if (!selectedData.contains(au.getName())) {
                                             selectedData.add(au.getName());
                                         }
@@ -92,7 +91,7 @@ public class TableFragment extends BaseFragment {
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                CheckBox vv = (CheckBox)v;
+                                CheckBox vv = (CheckBox) v;
                                 if (vv.isChecked()) {
                                     if (!selectedData.contains(o.getName())) {
                                         selectedData.add(o.getName());
@@ -108,7 +107,7 @@ public class TableFragment extends BaseFragment {
                         return cb;
                     }
                 }),
-                new AdvanceTableColumnDefinition<AppUser>().setSortable(true).setWidth(140).setSortComparator(new Comparator<AppUser>() {
+                new AdvanceTableColumnDefinition<AppUser>().setSortable(true).setWidth(80).setSortComparator(new Comparator<AppUser>() {
                     @Override
                     public int compare(AppUser o1, AppUser o2) {
                         return o1.getName().compareTo(o2.getName());
@@ -117,17 +116,24 @@ public class TableFragment extends BaseFragment {
                     @Override
                     public View format(AppUser o) {
                         TextView tv = new TextView(mContext);
-                        tv.setPadding(25, 0, 0, 0);
+                        tv.setPadding(20, 0, 0, 0);
                         tv.setText(o.getName());
                         return tv;
                     }
                 }),
-                new AdvanceTableColumnDefinition<AppUser>().setHeader("Email").setCellTextFormatter(new AdvanceTableAdapter.CellTextFormatter<AppUser>() {
+                new AdvanceTableColumnDefinition<AppUser>().setHeader("Email").setWidth(140).setCellTextFormatter(new AdvanceTableAdapter.CellTextFormatter<AppUser>() {
                     @Override
-                    public String format(AppUser o) {
-                        return o.getEmail();
+                    public String[] format(AppUser o) {
+                        return new String[]{o.getEmail()};
+                    }
+                }),
+                new AdvanceTableColumnDefinition<AppUser>().setHeader("Name & Email").setCellTextFormatter(new AdvanceTableAdapter.CellTextFormatter<AppUser>() {
+                    @Override
+                    public String[] format(AppUser o) {
+                        return new String[]{o.getName(), o.getEmail()};
                     }
                 })
+
         );
 
         adapter.setRowClickListener(new AdvanceTableAdapter.RowClickListener<AppUser>() {
