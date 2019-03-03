@@ -1,6 +1,8 @@
 package net.bndy.ad;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -17,6 +19,7 @@ import net.bndy.ad.framework.helper.ImageHelper;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;
 import net.bndy.ad.oauth.OAuthLoginService;
+import net.bndy.ad.service.DbHelper;
 import net.bndy.ad.service.HttpResponseErrorCallback;
 import net.bndy.ad.service.HttpResponseSuccessCallback;
 import net.openid.appauth.AuthState;
@@ -51,8 +54,12 @@ public class LoginActivity extends BaseActivity {
     private void onLogin(View view) {
         if (true) { // checkRequired(R.id.login_username_input, R.string.required) && checkRequired(R.id.login_password_input, R.string.required)) {
             AppUser appUser = new AppUser();
-            appUser.setName(mEditTextUsername.getText().toString());
+            if (this.mEditTextUsername.getText() != null) {
+                appUser.setName(this.mEditTextUsername.getText().toString());
+            }
             this.mOAuthLoginService.setUser(appUser);
+            DbHelper dbHelper = new DbHelper(this, AppUser.class);
+            dbHelper.insert(appUser);
             startActivity(MainActivity.class);
         }
     }

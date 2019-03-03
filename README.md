@@ -23,3 +23,18 @@
 ![Form](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/form.png)
 
 ![List](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/list.png)
+
+## Debug database with emulator
+
+Run the command in the terminal - `adb forward tcp:8080 tcp:8080` and open http://localhost:8080
+
+Note : If you want use different port other than 8080. In the app build.gradle file under buildTypes do the following change
+
+```
+debug {
+    resValue("string", "PORT_NUMBER", "8081")
+}
+
+```
+
+More information please visit https://github.com/amitshekhariitbhu/Android-Debug-Database#using-android-debug-database-library-in-your-application
