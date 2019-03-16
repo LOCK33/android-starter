@@ -206,8 +206,8 @@ public class AdvanceTableAdapter<TRowData> {
         }
 
         @Override
-        public View getHeaderView(int AdvanceTableColumnDefinitionIndex, ViewGroup parentView) {
-            AdvanceTableColumnDefinition c = getAdvanceTableColumnDefinitions().get(AdvanceTableColumnDefinitionIndex);
+        public View getHeaderView(int columnIndex, ViewGroup parentView) {
+            AdvanceTableColumnDefinition c = getAdvanceTableColumnDefinitions().get(columnIndex);
             String headerText = c.getHeader();
             View headerView;
             if (c.getHeaderFormatter() == null) {
@@ -249,9 +249,9 @@ public class AdvanceTableAdapter<TRowData> {
         }
 
         @Override
-        public View getCellView(int rowIndex, int AdvanceTableColumnDefinitionIndex, ViewGroup parentView) {
+        public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
             TRowData rowData = getData().get(rowIndex);
-            AdvanceTableColumnDefinition c = getAdvanceTableColumnDefinitions().get(AdvanceTableColumnDefinitionIndex);
+            AdvanceTableColumnDefinition c = getAdvanceTableColumnDefinitions().get(columnIndex);
             if (c.getCellFormatter() != null) {
                 return c.getCellFormatter().format(rowData);
             } else if (c.getCellTextFormatter() != null) {
