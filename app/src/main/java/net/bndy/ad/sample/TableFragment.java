@@ -88,6 +88,11 @@ public class TableFragment extends BaseFragment {
                     public View format(final AppUser o) {
                         CheckBox cb = new CheckBox(mContext);
                         cb.setChecked(selectedData.contains(o.getName()));
+
+                        // the item children views can not include any focusable views,
+                        // otherwise the setRowClickListener/setRowLongClickListener events are not triggered
+                        cb.setFocusable(false);
+
                         cb.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

@@ -14,7 +14,6 @@ import de.codecrafters.tableview.SortState;
 import de.codecrafters.tableview.SortableTableView;
 import de.codecrafters.tableview.TableDataAdapter;
 import de.codecrafters.tableview.TableHeaderAdapter;
-import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.listeners.TableDataClickListener;
 import de.codecrafters.tableview.listeners.TableDataLongClickListener;
 import de.codecrafters.tableview.model.TableColumnDpWidthModel;
@@ -149,7 +148,7 @@ public class AdvanceTableAdapter<TRowData> {
         }
 
         // set data
-        tableView.setDataAdapter(new CustomTableDataAdapter(this.context, this.getData(), this, tableView));
+        tableView.setDataAdapter(new CustomTableDataAdapter(this.context, this.getData()));
 
     }
 
@@ -224,28 +223,8 @@ public class AdvanceTableAdapter<TRowData> {
 
     public class CustomTableDataAdapter extends TableDataAdapter<TRowData> {
 
-        private AdvanceTableAdapter advanceTableAdapter;
-
-        public CustomTableDataAdapter(final Context context, final List<TRowData> data, final AdvanceTableAdapter<TRowData> advanceTableAdapter, final TableView<TRowData> tableView) {
+        public CustomTableDataAdapter(final Context context, final List<TRowData> data) {
             super(context, data);
-            this.advanceTableAdapter = advanceTableAdapter;
-            tableView.addDataClickListener(new InternalDataClickListener());
-            tableView.addDataLongClickListener(new InternalDataLongClickListener());
-//            tableView.addDataClickListener(new TableDataClickListener<TRowData>() {
-//                @Override
-//                public void onDataClicked(int rowIndex, TRowData clickedData) {
-//                    advanceTableAdapter.rowClickListener.onRowClick(rowIndex, clickedData);
-//                    tableView.getDataAdapter().notifyDataSetChanged();
-//                }
-//            });
-//            tableView.addDataLongClickListener(new TableDataLongClickListener<TRowData>() {
-//                @Override
-//                public boolean onDataLongClicked(int rowIndex, TRowData clickedData) {
-//                    boolean result = advanceTableAdapter.rowLongClickListener.onRowLongClick(rowIndex, clickedData);
-//                    tableView.getDataAdapter().notifyDataSetChanged();
-//                    return result;
-//                }
-//            });
         }
 
         @Override
@@ -270,24 +249,8 @@ public class AdvanceTableAdapter<TRowData> {
                 }
                 return container;
             }
+
             return null;
-        }
-
-        private class InternalDataLongClickListener implements TableDataLongClickListener<TRowData> {
-
-            @Override
-            public boolean onDataLongClicked(final int rowIndex, final TRowData clickedData) {
-                notifyDataSetChanged();
-                return true;
-            }
-        }
-
-        private class InternalDataClickListener implements TableDataClickListener<TRowData> {
-
-            @Override
-            public void onDataClicked(final int rowIndex, final TRowData clickedData) {
-                notifyDataSetChanged();
-            }
         }
     }
 }
