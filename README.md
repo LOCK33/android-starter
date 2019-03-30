@@ -18,11 +18,14 @@
 
 ## Screenshots
 
+![Welcome](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/welcome.png)
 ![Login](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/login.png)
-
 ![Form](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/form.png)
-
 ![List](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/list.png)
+![Grid](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/grid.png)
+![Table](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/table.png)
+![Photo](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/photo.png)
+![QRCode](https://raw.githubusercontent.com/bndynet/android-starter/master/docs/images/qrcode.png)
 
 ## Debug database with emulator
 
