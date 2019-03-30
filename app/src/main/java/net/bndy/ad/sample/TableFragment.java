@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.BaseFragment;
+import net.bndy.ad.framework.ui.BaseFragment;
 import net.bndy.ad.framework.ui.TableView;
 import net.bndy.ad.framework.ui.table.AdvanceTableAdapter;
 import net.bndy.ad.framework.ui.table.AdvanceTableColumnDefinition;

@@ -1,7 +1,7 @@
-package net.bndy.ad.service;
+package net.bndy.ad.framework.http;
 
 import com.android.volley.VolleyError;
 
-public interface HttpResponseErrorCallback {
+public interface ErrorCallback {
     void onErrorResponse(VolleyError error);
 }

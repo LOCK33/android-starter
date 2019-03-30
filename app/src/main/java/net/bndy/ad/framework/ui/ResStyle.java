@@ -5,7 +5,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 
-import net.bndy.ad.framework.ApplicationUtils;
+import net.bndy.ad.framework.utils.ApplicationUtils;
 
 public class ResStyle extends Style {
 

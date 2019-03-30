@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.google.zxing.BarcodeFormat;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.BaseFragment;
+import net.bndy.ad.framework.ui.BaseFragment;
 import net.bndy.ad.framework.CallbackHandler1;
 
 public class BarcodeFragment extends BaseFragment {

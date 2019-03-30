@@ -1,4 +1,4 @@
-package net.bndy.ad.framework;
+package net.bndy.ad.framework.ui;
 
 import android.support.annotation.IdRes;
 import android.widget.AdapterView;

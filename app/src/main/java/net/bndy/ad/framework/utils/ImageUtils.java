@@ -1,4 +1,4 @@
-package net.bndy.ad.framework.helper;
+package net.bndy.ad.framework.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +20,6 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import net.bndy.ad.framework.ApplicationUtils;
 import net.bndy.ad.framework.BlurTransformation;
 
 import java.io.ByteArrayOutputStream;
@@ -29,7 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class ImageHelper {
+public class ImageUtils {
 
     public static Bitmap resize(Context context, @DrawableRes int resourceId, int targetWidth, int targetHeight) {
         try {

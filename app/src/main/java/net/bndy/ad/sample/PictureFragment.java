@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.BaseActivity;
-import net.bndy.ad.framework.BaseFragment;
+import net.bndy.ad.framework.ui.BaseActivity;
+import net.bndy.ad.framework.ui.BaseFragment;
 import net.bndy.ad.framework.CallbackHandler1;
-import net.bndy.ad.framework.helper.ImageHelper;
+import net.bndy.ad.framework.utils.ImageUtils;
 
 public class PictureFragment extends BaseFragment {
 
@@ -42,7 +42,7 @@ public class PictureFragment extends BaseFragment {
                 getBaseActivity().startChoosePhoto(new CallbackHandler1<Uri>() {
                     @Override
                     public void callback(Uri uri) {
-                        ImageHelper.loadInto(uri, mImageView);
+                        ImageUtils.loadInto(uri, mImageView);
                     }
                 });
             }

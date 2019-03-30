@@ -1,4 +1,4 @@
-package net.bndy.ad.framework.helper;
+package net.bndy.ad.framework.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-public class IOHelper {
+public class IOUtils {
 
     public static String getFilePath(final Context context, final Uri uri) {
         if (null == uri) return null;

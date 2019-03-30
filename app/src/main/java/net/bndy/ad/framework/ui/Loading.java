@@ -1,4 +1,4 @@
-package net.bndy.ad.framework;
+package net.bndy.ad.framework.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,13 +10,13 @@ import android.widget.RelativeLayout;
 
 import net.bndy.ad.R;
 
-public class ProgressBarHandler {
+public class Loading {
 
     private Context mContext;
     private ProgressBar mProgressBar;
     private RelativeLayout mRelativeLayout;
 
-    public ProgressBarHandler(Context context) {
+    public Loading(Context context) {
         mContext = context;
 
         ViewGroup layout = (ViewGroup) ((Activity) context).findViewById(android.R.id.content).getRootView();

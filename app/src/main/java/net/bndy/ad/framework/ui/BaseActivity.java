@@ -1,4 +1,4 @@
-package net.bndy.ad.framework;
+package net.bndy.ad.framework.ui;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -31,8 +31,11 @@ import com.google.zxing.integration.android.IntentResult;
 
 import net.bndy.ad.Application;
 import net.bndy.ad.R;
-import net.bndy.ad.framework.helper.ImageHelper;
-import net.bndy.ad.framework.helper.SharedPreferencesHelper;
+import net.bndy.ad.framework.CallbackHandler1;
+import net.bndy.ad.framework.RequestCodes;
+import net.bndy.ad.framework.utils.ApplicationUtils;
+import net.bndy.ad.framework.utils.ImageUtils;
+import net.bndy.ad.framework.utils.SharedPreferencesHelper;
 import net.bndy.ad.framework.system.CameraUtils;
 import net.bndy.ad.framework.system.GalleryUtils;
 
@@ -54,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Locale mCurrentLocale;
     private ExitReceiver mExitReceiver = new ExitReceiver();
     private Map<Integer, ContextMenuItemInfo> mContextMenuItemsMapping;
-    private ProgressBarHandler mProgressBarHandler;
+    private Loading mLoading;
     protected Map<Integer, ContextMenuInfo> mViewsMappingWithContextMenu;
     private String mCameraFilePath;
 
@@ -162,7 +165,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     break;
 
                 case RequestCodes.CAMERA_BACK_ORIGIN:
-                    Bitmap cameraBitmap = ImageHelper.load(mThis, mCameraFilePath);
+                    Bitmap cameraBitmap = ImageUtils.load(mThis, mCameraFilePath);
                     mTakePhotoCallbackHandler.callback(cameraBitmap);
                     break;
 
@@ -238,13 +241,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void registerProgressBar() {
-        mProgressBarHandler = new ProgressBarHandler(this);
+        mLoading = new Loading(this);
     }
     public void showProgressBar() {
-        mProgressBarHandler.show();
+        mLoading.show();
     }
     public void hideProgressBar() {
-        mProgressBarHandler.hide();
+        mLoading.hide();
     }
 
     public void bindObjectToView(Object data) {

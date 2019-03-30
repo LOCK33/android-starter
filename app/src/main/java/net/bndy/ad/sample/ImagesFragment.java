@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.BaseFragment;
+import net.bndy.ad.framework.ui.BaseFragment;
 import net.bndy.ad.framework.ui.TabLayout;
 
 import java.util.HashMap;

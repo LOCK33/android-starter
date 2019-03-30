@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.BaseFragment;
+import net.bndy.ad.framework.ui.BaseFragment;
 
 public class FormFragment extends BaseFragment {
 

@@ -1,8 +1,10 @@
-package net.bndy.ad.framework;
+package net.bndy.ad.framework.ui;
 
 import android.app.Application;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+
+import net.bndy.ad.framework.utils.ApplicationUtils;
 
 public abstract class BaseApplication extends Application {
 

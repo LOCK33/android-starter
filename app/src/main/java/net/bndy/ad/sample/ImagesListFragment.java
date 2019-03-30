@@ -11,8 +11,8 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.ApplicationUtils;
-import net.bndy.ad.framework.BaseFragment;
+import net.bndy.ad.framework.utils.ApplicationUtils;
+import net.bndy.ad.framework.ui.BaseFragment;
 import net.bndy.ad.framework.ResourceInfo;
 import net.bndy.ad.framework.ui.ListViewWithSwipeMenu;
 import net.bndy.ad.framework.ui.MenuItem;

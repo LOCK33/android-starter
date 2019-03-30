@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
-import net.bndy.ad.framework.ApplicationUtils;
-import net.bndy.ad.framework.BaseActivity;
+import net.bndy.ad.framework.utils.ApplicationUtils;
+import net.bndy.ad.framework.ui.BaseActivity;
 import net.bndy.ad.framework.ui.TabLayout;
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.GoogleUser;

@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 
-import net.bndy.ad.R;
 import net.bndy.ad.framework.exception.UnsupportedResourceTypeException;
+import net.bndy.ad.framework.utils.ApplicationUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 
-import net.bndy.ad.framework.ApplicationUtils;
+import net.bndy.ad.framework.utils.ApplicationUtils;
 
 public class MenuItem {
 

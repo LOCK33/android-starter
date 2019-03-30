@@ -1,4 +1,4 @@
-package net.bndy.ad.framework;
+package net.bndy.ad.framework.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import net.bndy.ad.R;
+import net.bndy.ad.framework.ui.BaseActivity;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;

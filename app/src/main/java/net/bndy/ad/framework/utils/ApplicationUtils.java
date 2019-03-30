@@ -1,4 +1,4 @@
-package net.bndy.ad.framework;
+package net.bndy.ad.framework.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,6 +29,7 @@ import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import net.bndy.ad.R;
+import net.bndy.ad.framework.ResourceInfo;
 import net.bndy.ad.framework.exception.UnsupportedViewException;
 
 import java.lang.reflect.Field;

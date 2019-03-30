@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 
 import com.squareup.picasso.Transformation;
 
-import net.bndy.ad.framework.helper.ImageHelper;
+import net.bndy.ad.framework.utils.ImageUtils;
 
 public class BlurTransformation implements Transformation {
 
@@ -19,7 +19,7 @@ public class BlurTransformation implements Transformation {
 
     @Override
     public Bitmap transform(Bitmap bitmap) {
-        return ImageHelper.blur(mContext, bitmap, mRadius);
+        return ImageUtils.blur(mContext, bitmap, mRadius);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.bndy.ad.framework;
+package net.bndy.ad.framework.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import net.bndy.ad.Application;
-import net.bndy.ad.framework.helper.SharedPreferencesHelper;
+import net.bndy.ad.framework.utils.ApplicationUtils;
+import net.bndy.ad.framework.utils.SharedPreferencesHelper;
 
 import java.util.HashMap;
 import java.util.Map;

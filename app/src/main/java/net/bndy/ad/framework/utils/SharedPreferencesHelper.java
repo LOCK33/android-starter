@@ -1,4 +1,4 @@
-package net.bndy.ad.framework.helper;
+package net.bndy.ad.framework.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

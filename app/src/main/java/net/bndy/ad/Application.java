@@ -2,8 +2,8 @@ package net.bndy.ad;
 
 import android.support.v7.app.AppCompatDelegate;
 
-import net.bndy.ad.framework.BaseApplication;
-import net.bndy.ad.framework.helper.SharedPreferencesHelper;
+import net.bndy.ad.framework.ui.BaseApplication;
+import net.bndy.ad.framework.utils.SharedPreferencesHelper;
 
 import org.xutils.x;
 

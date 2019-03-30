@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".framework.CaptureActivity"
+            android:name=".framework.ui.CaptureActivity"
             android:label="@string/title_activity_capture"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"

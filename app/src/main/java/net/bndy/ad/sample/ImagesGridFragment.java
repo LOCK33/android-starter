@@ -10,9 +10,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import net.bndy.ad.R;
-import net.bndy.ad.framework.BaseFragment;
-import net.bndy.ad.framework.ContextMenuInfo;
-import net.bndy.ad.framework.ContextMenuItemInfo;
+import net.bndy.ad.framework.ui.BaseFragment;
+import net.bndy.ad.framework.ui.ContextMenuInfo;
+import net.bndy.ad.framework.ui.ContextMenuItemInfo;
 import net.bndy.ad.framework.ResourceInfo;
 
 public class ImagesGridFragment extends BaseFragment {

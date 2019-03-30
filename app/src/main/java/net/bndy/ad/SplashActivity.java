@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import net.bndy.ad.framework.BaseActivity;
-import net.bndy.ad.framework.helper.ImageHelper;
+import net.bndy.ad.framework.ui.BaseActivity;
+import net.bndy.ad.framework.utils.ImageUtils;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -99,7 +99,7 @@ public class SplashActivity extends BaseActivity {
             ImageView iv = new ImageView(this);
             iv.setLayoutParams(layoutParams);
             iv.setScaleType(ImageView.ScaleType.FIT_XY);
-            ImageHelper.loadInto(res, iv);
+            ImageUtils.loadInto(res, iv);
             mImageViews.add(iv);
         }
 

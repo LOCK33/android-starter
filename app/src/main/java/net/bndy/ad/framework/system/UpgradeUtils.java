@@ -13,9 +13,9 @@ import com.google.gson.annotations.SerializedName;
 
 import net.bndy.ad.Application;
 import net.bndy.ad.R;
-import net.bndy.ad.framework.ApplicationUtils;
+import net.bndy.ad.framework.utils.ApplicationUtils;
 import net.bndy.ad.framework.CallbackHandler1;
-import net.bndy.ad.service.ApiRequest;
+import net.bndy.ad.framework.http.ApiRequest;
 
 import java.io.File;
 

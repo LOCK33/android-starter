@@ -11,10 +11,10 @@ import android.util.Log;
 
 import net.bndy.ad.model.AppUser;
 import net.bndy.ad.model.AppUserInteface;
-import net.bndy.ad.service.HttpRequestOptions;
-import net.bndy.ad.service.HttpRequestService;
-import net.bndy.ad.service.HttpResponseErrorCallback;
-import net.bndy.ad.service.HttpResponseSuccessCallback;
+import net.bndy.ad.framework.http.RequestOptions;
+import net.bndy.ad.framework.http.Caller;
+import net.bndy.ad.framework.http.ErrorCallback;
+import net.bndy.ad.framework.http.SuccessCallback;
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
@@ -122,7 +122,7 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
      *
      * @param intent represents the {@link Intent} from the Custom Tabs or the System Browser.
      */
-    public void handleAuthorizationResponse(@NonNull Intent intent, final HttpResponseSuccessCallback<TUser> callback, final HttpResponseErrorCallback errorCallback) {
+    public void handleAuthorizationResponse(@NonNull Intent intent, final SuccessCallback<TUser> callback, final ErrorCallback errorCallback) {
         AuthorizationResponse response = AuthorizationResponse.fromIntent(intent);
         AuthorizationException error = AuthorizationException.fromIntent(intent);
         final AuthState authState = new AuthState(response, error);
@@ -146,12 +146,12 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
         }
     }
 
-    public void getUserInfo(final HttpResponseSuccessCallback<TUser> callback, final HttpResponseErrorCallback errorCallback) {
+    public void getUserInfo(final SuccessCallback<TUser> callback, final ErrorCallback errorCallback) {
         Log.i(logTag, String.format("Getting user info from %s...", configuration.getUserInfoEndpoint()));
         this.getAuthState().performActionWithFreshTokens(this.getAuthorizationService(), new AuthState.AuthStateAction() {
             @Override
             public void execute(@Nullable final String accessToken, @Nullable String idToken, @Nullable AuthorizationException ex) {
-                HttpRequestService requestService = new HttpRequestService(activity, new HttpRequestOptions(){
+                Caller requestService = new Caller(activity, new RequestOptions(){
                     @Override
                     public Map<String, String> getHeaders() {
                         Log.i(logTag, String.format("Setting header Authorization: Bearer %s...", accessToken));
@@ -161,7 +161,7 @@ public class OAuthLoginService<TUser extends AppUserInteface> {
                         return headers;
                     }
                 });
-                requestService.apiGet(userClazz, configuration.getUserInfoEndpoint(), new HttpResponseSuccessCallback<TUser>() {
+                requestService.apiGet(userClazz, configuration.getUserInfoEndpoint(), new SuccessCallback<TUser>() {
                     @Override
                     public void onSuccessResponse(TUser response) {
                         sUser = response.toAppUser();
