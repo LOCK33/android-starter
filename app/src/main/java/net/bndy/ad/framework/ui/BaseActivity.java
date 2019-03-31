@@ -26,11 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
 import net.bndy.ad.Application;
-import net.bndy.ad.R;
 import net.bndy.ad.framework.CallbackHandler1;
 import net.bndy.ad.framework.RequestCodes;
 import net.bndy.ad.framework.utils.ApplicationUtils;
@@ -66,7 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     // all callback here
     private CallbackHandler1<Bitmap> mTakePhotoCallbackHandler;
     private CallbackHandler1<Bitmap> mTakePhotoDefaultCallbackHandler;
-    private CallbackHandler1<String> mScanCallbackHandler;
     private CallbackHandler1<Uri> mChoosePhotoCallbackHandler;
 
     private @MenuRes int mMenu;
@@ -154,6 +149,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        CameraUtils.handleScanCodeResult(requestCode, resultCode, data);
+
         FileInputStream fis = null;
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
@@ -167,14 +165,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 case RequestCodes.CAMERA_BACK_ORIGIN:
                     Bitmap cameraBitmap = ImageUtils.load(mThis, mCameraFilePath);
                     mTakePhotoCallbackHandler.callback(cameraBitmap);
-                    break;
-
-                case RequestCodes.BARCODE:
-                    IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-                    if (scanResult != null) {
-                        String result = scanResult.getContents();
-                        mScanCallbackHandler.callback(result);
-                    }
                     break;
 
                 case RequestCodes.GALLERY:
@@ -299,18 +289,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void startTakePhoto(CallbackHandler1<Bitmap> callback) {
         mTakePhotoCallbackHandler = callback;
-        mCameraFilePath = CameraUtils.takePhoto(this);
+        mCameraFilePath = CameraUtils.takePhoto(this, false);
+    }
+
+    public void startTakeThumbnailPhoto(CallbackHandler1<Bitmap> callback) {
+        mTakePhotoDefaultCallbackHandler = callback;
+        mCameraFilePath = CameraUtils.takePhoto(this, true);
     }
 
     public void startScan(CallbackHandler1<String> callback) {
-        mScanCallbackHandler = callback;
-        IntentIntegrator integrator = new IntentIntegrator(this)
-                .setCaptureActivity(CaptureActivity.class)
-                .setPrompt(getResources().getString(R.string.hint_for_scan_code))
-                .setCameraId(0)
-                .setBeepEnabled(false)
-                .setBarcodeImageEnabled(true);
-        integrator.initiateScan();
+        CameraUtils.scanCode(this, "default", callback);
+    }
+
+    public void startScan(String requestCode, CallbackHandler1<String> callback) {
+        CameraUtils.scanCode(this, requestCode, callback);
     }
 
     class ExitReceiver extends BroadcastReceiver {
